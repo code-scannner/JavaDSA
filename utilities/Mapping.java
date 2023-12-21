@@ -1,7 +1,9 @@
+package utilities;
 import java.util.*;
 
 public class Mapping {
     public static void main(String[] args) {
+        
         Map<Integer, Integer> map = new HashMap<>();
 
         // putting value
@@ -14,7 +16,14 @@ public class Mapping {
         }
         
         // return list of values
-        System.out.println(map.values());
+        System.out.println(map.get(56));
+        
+
+
+        //creating map with complex classes
+
+
+        
         
     }
 }

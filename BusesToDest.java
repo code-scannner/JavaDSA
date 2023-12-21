@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class q815 {
+public class BusesToDest {
     public static int numBusesToDestination(int[][] routes, int src, int tar) {
 
         boolean vis_rout[] = new boolean[routes.length];
