@@ -2,6 +2,7 @@ package arrays;
 import java.util.*;
 
 public class KandaneAlgo {
+    // Maximum subarray sum;
     public static int[] maxSubArray(int[] nums) {
         int max = nums[0], sum = 0;
         int i = 0, j = 0;
