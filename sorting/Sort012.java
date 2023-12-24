@@ -1,4 +1,4 @@
-package arrays;
+package sorting;
 import java.util.*;
 
 // Dutch National Flag Algorithm

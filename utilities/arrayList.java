@@ -8,19 +8,23 @@ public class arrayList {
         list.add(5);
 
         // list to array for premitive data type
-        int array[] = list.stream().mapToInt(Integer::intValue).toArray();
+        // int array[] = list.stream().mapToInt(Integer::intValue).toArray();
 
+
+        // array to list 
+        List<Integer> listing = Arrays.asList(1,2,3,4);
+        System.out.println(listing);
 
         // creating a 2dlist 
         List<int []> twodList = new ArrayList<int []>();
         twodList.add(new int[]{1,2});
         twodList.add(new int[]{4,5});
 
-        int toarray[][] = twodList.toArray(new int [0][0]);
+        // int toarray[][] = twodList.toArray(new int [0][0]);
 
-        for (int[] i : toarray) {
-            System.out.println(Arrays.toString(i));
-        }
+        // for (int[] i : toarray) {
+            // System.out.println(Arrays.toString(i));
+        // }
 
     }
 }

@@ -1,3 +1,4 @@
+package gfg;
 import java.util.*;
 
 public class gfg_findstring {
