@@ -33,10 +33,11 @@ class CCL{
         str.append("[ ");
         do{
             str.append(node.data);
-            str.append(',');
+            str.append(", ");
             node = node.next;
         }while(node != head);
-
+        
+        str.deleteCharAt(str.length() - 1);
         str.deleteCharAt(str.length() - 1);
         str.append(" ]");
 
