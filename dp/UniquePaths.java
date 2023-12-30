@@ -15,6 +15,8 @@ public class UniquePaths {
 
     public static int uniquePathsObstacles(int grid[][]) {
         int m = grid.length, n = grid[0].length;
+        if (grid[m - 1][n - 1] == -1)
+            return 0;
         int dp[] = new int[n];
         for (int j = 0; j < n; j++) {
             if (grid[0][j] == -1)
@@ -23,7 +25,7 @@ public class UniquePaths {
         }
         for (int i = 1; i < m; i++) {
             int curr[] = new int[n];
-            curr[0] = dp[0];
+            curr[0] = grid[i][0] == -1 ? 0 : dp[0];
             for (int j = 1; j < n; j++) {
                 if (grid[i][j] != -1) {
                     curr[j] = curr[j - 1] + dp[j];

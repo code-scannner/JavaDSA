@@ -10,6 +10,9 @@ public class arrayList {
         // list to array for premitive data type
         // int array[] = list.stream().mapToInt(Integer::intValue).toArray();
 
+        // to reverse the list;
+        // Collections.reverse(list);
+
 
         // array to list 
         List<Integer> listing = Arrays.asList(1,2,3,4);
@@ -25,6 +28,18 @@ public class arrayList {
         // for (int[] i : toarray) {
             // System.out.println(Arrays.toString(i));
         // }
+
+
+        // copy a list
+        // List<Integer> cloned = new ArrayList<>(listing);
+        // cloned.add(5);
+        // System.out.println(cloned);
+
+        // remove element
+        // System.out.println(list);
+        // list.remove(list.size() - 1);
+        // System.out.println(list);
+
 
     }
 }
