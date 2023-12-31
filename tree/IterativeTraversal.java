@@ -2,16 +2,6 @@ package tree;
 
 import java.util.*;
 
-class Pair {
-    Node node;
-    Integer order;
-
-    Pair(Node n, Integer o) {
-        node = n;
-        order = o;
-    }
-}
-
 public class IterativeTraversal {
     public static List<Integer> preOrder(Node root) {
         List<Integer> list = new ArrayList<>();
@@ -131,24 +121,24 @@ public class IterativeTraversal {
         List<Integer> in = new ArrayList<>();
         List<Integer> post = new ArrayList<>();
 
-        Stack<Pair> stk = new Stack<>();
-        stk.push(new Pair(root, 1));
+        Stack<Pair<Node, Integer>> stk = new Stack<>();
+        stk.push(new Pair<>(root, 1));
 
         while (!stk.empty()) {
-            Pair pair = stk.pop();
-            int value = pair.node.val;
-            if (pair.order == 1) {
+            Pair<Node, Integer> pair = stk.pop();
+            int value = pair.first.val;
+            if (pair.second == 1) {
                 pre.add(value);
-                pair.order++;
+                pair.second++;
                 stk.push(pair);
-                if (pair.node.left != null)
-                    stk.push(new Pair(pair.node.left, 1));
-            } else if (pair.order == 2) {
+                if (pair.first.left != null)
+                    stk.push(new Pair<>(pair.first.left, 1));
+            } else if (pair.second == 2) {
                 in.add(value);
-                pair.order++;
+                pair.second++;
                 stk.push(pair);
-                if (pair.node.right != null)
-                    stk.push(new Pair(pair.node.right, 1));
+                if (pair.first.right != null)
+                    stk.push(new Pair<>(pair.first.right, 1));
             } else {
                 post.add(value);
             }
@@ -161,7 +151,7 @@ public class IterativeTraversal {
 
     }
 
-    public static List<Integer> zigZag(Node root) {
+    public static List<Integer> zigZagTraversal(Node root) {
         List<Integer> ans = new ArrayList<>();
 
         Deque<Node> dq = new LinkedList<>();
@@ -213,7 +203,7 @@ public class IterativeTraversal {
 
         // System.out.println(allTraversals(root));
 
-        System.out.println(zigZag(root));
+        System.out.println(zigZagTraversal(root));
 
     }
 }
