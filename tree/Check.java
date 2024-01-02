@@ -24,6 +24,17 @@ public class Check {
                 && identicalTrees(root1.right, root2.right);
     }
 
+    public static boolean symmetric(Node root1, Node root2) {
+        if (root1 == null || root2 == null) {
+            return root1 == root2;
+        }
+
+        return root1.val == root2.val &&
+                symmetric(root1.left, root2.right) &&
+                symmetric(root1.right, root2.left);
+
+    }
+
     public static void main(String[] args) {
 
         Node root = Node.Tree(new Integer[] {
@@ -43,6 +54,13 @@ public class Check {
         });
         System.out.println(identicalTrees(root, root2));
         System.out.println(identicalTrees(root3, root2));
+        System.out.println();
+
+        Node sroot =  Node.Tree(new Integer[]{
+            1,2,2,null,3,3,null
+        });
+
+        System.out.println(symmetric(sroot.left, sroot.right));
 
     }
 }

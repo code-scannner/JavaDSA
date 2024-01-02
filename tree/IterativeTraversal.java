@@ -183,6 +183,28 @@ public class IterativeTraversal {
 
         return ans;
     }
+    
+    public static List<List<Integer>> levelOrder(Node root) {
+        List<List<Integer>> result = new ArrayList<>();
+
+        Queue<Node> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            List<Integer> list = new ArrayList<>();
+            while(size > 0){
+                Node node = q.poll();
+                list.add(node.val);
+                if(node.left != null) q.offer(node.left);
+                if(node.right != null) q.offer(node.right);
+                size--;
+            }
+            result.add(list);
+            
+        }
+
+        return result;
+    }
 
     public static void main(String[] args) {
         Integer tree[] = { 1, 2, 7, 3, 4, null, null, null, null, 5, 6 };
@@ -202,6 +224,9 @@ public class IterativeTraversal {
         System.out.println();
 
         // System.out.println(allTraversals(root));
+
+        System.out.println(levelOrder(root));
+        System.out.println();
 
         System.out.println(zigZagTraversal(root));
 
