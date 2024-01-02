@@ -115,19 +115,25 @@ public class Node {
         return result;
     }
 
-    public static List<Integer> BFStraversal(Node root) {
-        List<Integer> list = new ArrayList<>();
+    public static List<List<Integer>> BFStraversal(Node root) {
+        List<List<Integer>> result = new ArrayList<>();
         Queue<Node> q = new LinkedList<>();
         q.offer(root);
         while (!q.isEmpty()) {
-            Node node = q.poll();
-            list.add(node.val);
-            if (node.left != null)
-                q.offer(node.left);
-            if (node.right != null)
-                q.offer(node.right);
+            int size = q.size();
+            List<Integer> list = new ArrayList<>();
+            while (size > 0) {
+                Node node = q.poll();
+                list.add(node.val);
+                if (node.left != null)
+                    q.offer(node.left);
+                if (node.right != null)
+                    q.offer(node.right);
+                size--;
+            }
+            result.add(list);
         }
-        return list;
+        return result;
     }
 
     public static List<List<Integer>> verticalTraversal(Node root) {
@@ -161,32 +167,31 @@ public class Node {
         TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> map = new TreeMap<>();
         Queue<Triplet> q = new LinkedList<>();
 
-
         q.offer(new Triplet(root, 0, 0));
         while (!q.isEmpty()) {
             Triplet t = q.poll();
             Node node = t.node;
             int x = t.x;
             int y = t.y;
-            if(!map.containsKey(y)){
-                map.put(y,new TreeMap<>());
+            if (!map.containsKey(y)) {
+                map.put(y, new TreeMap<>());
             }
-            if(!map.get(y).containsKey(x)){
+            if (!map.get(y).containsKey(x)) {
                 map.get(y).put(x, new PriorityQueue<>());
             }
 
             map.get(y).get(x).offer(node.val);
 
-            if(node.left != null){
+            if (node.left != null) {
                 q.offer(new Triplet(node.left, x + 1, y - 1));
             }
-            
-            if(node.right != null){
+
+            if (node.right != null) {
                 q.offer(new Triplet(node.right, x + 1, y + 1));
             }
         }
 
-        for(TreeMap<Integer, PriorityQueue<Integer>> vmap : map.values()){
+        for (TreeMap<Integer, PriorityQueue<Integer>> vmap : map.values()) {
             List<Integer> list = new ArrayList<>();
             for (PriorityQueue<Integer> nodes : vmap.values()) {
                 for (Integer nodeval : nodes) {
