@@ -49,6 +49,68 @@ public class Node {
         return String.valueOf(val);
     }
 
+    public static String Serialize(Node root) {
+
+        if (root == null)
+            return "";
+
+        StringBuilder str = new StringBuilder();
+        Queue<Node> q = new LinkedList<>();
+        q.offer(root);
+        str.append(root.val);
+
+        while (!q.isEmpty()) {
+            Node node = q.poll();
+
+            if (node.left != null) {
+                q.offer(node.left);
+                str.append(" " + node.left);
+            } else {
+                str.append(" #");
+            }
+
+            if (node.right != null) {
+                q.offer(node.right);
+                str.append(" " + node.right);
+            } else {
+                str.append(" #");
+            }
+        }
+
+        return str.toString();
+    }
+
+    public static Node deSerialize(String str) {
+
+        String[] nodes = str.split(" ");
+
+        if (nodes.length == 0)
+            return null;
+
+        Node root = new Node(Integer.valueOf(nodes[0]));
+
+        Queue<Node> q = new LinkedList<>();
+        q.offer(root);
+
+        int i = 1;
+
+        while (!q.isEmpty()) {
+            Node node = q.poll();
+            if (nodes[i].compareTo("#") != 0) {
+                node.left = new Node(Integer.valueOf(nodes[i]));
+                q.offer(node.left);
+            }
+            i++;
+            if (nodes[i].compareTo("#") != 0) {
+                node.right = new Node(Integer.valueOf(nodes[i]));
+                q.offer(node.right);
+            }
+            i++;
+        }
+
+        return root;
+    }
+
     public static Node Tree(Integer arr[]) {
         int n = arr.length;
         if (n == 0)

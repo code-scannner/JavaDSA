@@ -183,7 +183,7 @@ public class IterativeTraversal {
 
         return ans;
     }
-    
+
     public static List<List<Integer>> levelOrder(Node root) {
         List<List<Integer>> result = new ArrayList<>();
 
@@ -192,15 +192,17 @@ public class IterativeTraversal {
         while (!q.isEmpty()) {
             int size = q.size();
             List<Integer> list = new ArrayList<>();
-            while(size > 0){
+            while (size > 0) {
                 Node node = q.poll();
                 list.add(node.val);
-                if(node.left != null) q.offer(node.left);
-                if(node.right != null) q.offer(node.right);
+                if (node.left != null)
+                    q.offer(node.left);
+                if (node.right != null)
+                    q.offer(node.right);
                 size--;
             }
             result.add(list);
-            
+
         }
 
         return result;
@@ -229,6 +231,13 @@ public class IterativeTraversal {
         System.out.println();
 
         System.out.println(zigZagTraversal(root));
+        System.out.println();
+
+        String serialized = Node.Serialize(root);
+        System.out.println(serialized);
+        Node deserialized = Node.deSerialize(serialized);
+        System.out.println(Node.BFStraversal(deserialized));
+        System.out.println();
 
     }
 }
