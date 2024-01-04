@@ -4,7 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class nCr {
+    static int mod = (int)1e9 + 7;
+    public static int combination(int n , int r, int range){
+        double res = 1;
+        int ren = r;
+        for(int i= 0; i<r; i++){
+            res = ((res * (n--)) / (ren--))% mod;
+        }
+        return (int)Math.round(res);
+    }
     public static int combination(int n , int r) {
+        
         int res = 1;
         for(int i= 0; i<r; i++){
             res*=(n--);
@@ -26,7 +36,7 @@ public class nCr {
 
     }
     public static void main(String[] args) {
-        System.out.println(combination(7,3));
-        System.out.println(generate_pascal_row(10));
+        System.out.println(combination(8,3));
+        // System.out.println(generate_pascal_row(10));
     }
 }

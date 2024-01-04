@@ -11,10 +11,9 @@ public class Bound {
             if (arr[mid] > target) {
                 ans = mid;
                 right = mid - 1;
-            }
-            else{
+            } else {
                 left = mid + 1;
-            } 
+            }
         }
 
         return ans;
@@ -38,16 +37,15 @@ public class Bound {
     }
 
     public static void main(String[] args) {
-        // indexed -  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12
+        // indexed - 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12
         int arr[] = { 1, 1, 1, 2, 2, 3, 4, 5, 6, 6, 6, 8, 9 };
 
-
-        int targets [] = {6,7,0,10};
+        int targets[] = { 6, 7, 0, 10 };
         for (int target : targets) {
-            System.out.println("searching "+target);
+            System.out.println("searching " + target);
             System.out.println("lower bound = " + lowerBound(arr, target));
             System.out.println("upper bound = " + upperBound(arr, target));
-            
+            System.out.println();
         }
     }
 }
