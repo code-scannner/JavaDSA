@@ -52,6 +52,32 @@ public class LongestIncreasingSubsequence {
         return maxL;
     }
 
+    public static int binarySearch(int arr[], int target, int left, int right) {
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (arr[mid] <= target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return left;
+    }
+
+    // time complexity of O(nlogn)
+    public static int usingBinarySearch(int arr[]) {
+        int n = arr.length;
+        int store[] = new int[n];
+        int k = 0;
+        for (int i = 0; i < n; i++) {
+            int idx = binarySearch(store, arr[i], 0, k - 1);
+            store[idx] = arr[i];
+            k = Math.max(idx + 1, k);
+        }
+        return k;
+    }
+
     public static List<Integer> printLIS(int arr[]) {
         int n = arr.length;
         int dp[] = new int[n];
@@ -122,8 +148,12 @@ public class LongestIncreasingSubsequence {
 
         System.out.println(tabulation(nums));
 
+        System.out.println(usingBinarySearch(nums));
+        
         System.out.println(printLIS(nums));
 
         System.out.println(countLIS(nums));
+
+
     }
 }
