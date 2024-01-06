@@ -1,16 +1,16 @@
 package dp;
 
 public class LongestCommonSubsequence {
-    public static int LCSmemo(int dp[][], String str1, String str2, int i, int j) {
+    public static int LCSrecursion(int dp[][], String str1, String str2, int i, int j) {
         if (i < 0 || j < 0) {
             return 0;
         }
         if (str1.charAt(i) == str2.charAt(j)) {
-            return 1 + LCSmemo(dp, str1, str2, i - 1, j - 1);
+            return 1 + LCSrecursion(dp, str1, str2, i - 1, j - 1);
         } else {
             return Math.max(
-                    LCSmemo(dp, str1, str2, i - 1, j),
-                    LCSmemo(dp, str1, str2, i, j - 1));
+                    LCSrecursion(dp, str1, str2, i - 1, j),
+                    LCSrecursion(dp, str1, str2, i, j - 1));
         }
     }
 
@@ -60,7 +60,7 @@ public class LongestCommonSubsequence {
         String str1 = "abced";
         String str2 = "acbde";
         int dp[][] = new int[str1.length()][str2.length()];
-        System.out.println(LCSmemo(dp, str1, str2, dp.length - 1, dp[0].length - 1));
+        System.out.println(LCSrecursion(dp, str1, str2, dp.length - 1, dp[0].length - 1));
         System.out.println(LCStabulation(str1, str2));
         System.out.println();
 

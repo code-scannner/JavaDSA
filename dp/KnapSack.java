@@ -34,8 +34,8 @@ public class KnapSack {
         if (i == 0) {
             dp[0][bag] = wt[0] <= bag ? val[0] : Integer.MIN_VALUE;
         } else {
-            int keep = recursion(wt, val, i - 1, bag - wt[i]) + val[i];
-            int leave = recursion(wt, val, i - 1, bag);
+            int keep = memorization(wt, val,dp, i - 1, bag - wt[i]) + val[i];
+            int leave = memorization(wt, val,dp, i - 1, bag);
             dp[i][bag] = Math.max(keep, leave);
 
         }
@@ -91,6 +91,10 @@ public class KnapSack {
             Arrays.fill(is, -1);
         }
         System.out.println(memorization(wt, val, dp, wt.length - 1, 9));
+        for(int [] is : dp){
+            System.out.println(Arrays.toString(is));
+        }
+
         System.out.println(tabulation(wt, val, bag));
         System.out.println(space_optimized(wt, val, bag));
 
