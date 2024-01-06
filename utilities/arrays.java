@@ -9,6 +9,7 @@ public class arrays {
         System.out.println(Arrays.toString(copy));
         System.out.println(Arrays.stream(arr).max().getAsInt());
         System.out.println(Arrays.stream(copy).min().getAsInt());
+        System.out.println( Arrays.binarySearch(arr, 2));
 
     }
 }
