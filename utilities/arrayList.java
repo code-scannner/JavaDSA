@@ -6,6 +6,7 @@ public class arrayList {
         List<Integer> list = new ArrayList<>();
         list.add(4);
         list.add(5);
+        System.out.println(list);
 
         // list to array for premitive data type
         // int array[] = list.stream().mapToInt(Integer::intValue).toArray();
@@ -15,13 +16,14 @@ public class arrayList {
 
 
         // array to list 
-        List<Integer> listing = Arrays.asList(1,2,3,4);
-        System.out.println(listing);
+        // this has lesser number of functions
+        // List<Integer> listing = Arrays.asList(1,2,3,4);
+        // System.out.println(listing);
 
         // creating a 2dlist 
-        List<int []> twodList = new ArrayList<int []>();
-        twodList.add(new int[]{1,2});
-        twodList.add(new int[]{4,5});
+        // List<int []> twodList = new ArrayList<int []>();
+        // twodList.add(new int[]{1,2});
+        // twodList.add(new int[]{4,5});
 
         // int toarray[][] = twodList.toArray(new int [0][0]);
 

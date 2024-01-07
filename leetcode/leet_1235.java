@@ -2,8 +2,8 @@ package leetcode;
 
 import java.util.*;
 
-class Solution {
-    public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
+public class leet_1235 {
+    public static int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
 
         int[][] multidim = new int[startTime.length][3];
         for (int i = 0; i < multidim.length; i++) {
@@ -34,15 +34,11 @@ class Solution {
 
         return dp[i + 1];
     }
-}
-
-public class leet_1235 {
     public static void main(String[] args) {
-        Solution sol = new Solution();
         // int[] startTime = { 1, 2, 3, 3 }, endTime = { 3, 4, 5, 6 }, profit = { 50,
         // 10, 40, 70 };
         int[] startTime = { 1, 2, 3, 4, 6 }, endTime = { 3, 5, 10, 6, 9 }, profit = { 20, 20, 100, 70, 60 };
-        int result = sol.jobScheduling(startTime, endTime, profit);
+        int result = jobScheduling(startTime, endTime, profit);
         System.out.println(result);
     }
 }
