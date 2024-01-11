@@ -1,7 +1,6 @@
 package leetcode;
 
 import tree.Node;
-import java.util.*;
 
 public class leet_1026 {
     static int ans = 0;
