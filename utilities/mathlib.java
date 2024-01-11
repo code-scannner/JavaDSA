@@ -1,7 +1,5 @@
 package utilities;
 
-import java.util.Arrays;
-
 public class mathlib {
     public static double precision(double num, int places) {
         double precision = Math.pow(10, places);
@@ -12,7 +10,8 @@ public class mathlib {
 
         System.out.println((int)(3.4444455 * 1000000d) / 1000000d);
 
-        
+        int num = -5, m = 5;
+        System.out.println((m + num%m)%m);
 
     }
 }

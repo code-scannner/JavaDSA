@@ -41,6 +41,12 @@ public class Priorityq {
         }
         pq.remove(new Food("dfd",45));
 
+
+        // Creating max heap
+        // PriorityQueue<Integer> pQueue
+        //     = new PriorityQueue<Integer>(Collections.reverseOrder());
+
+
         System.out.println(pq);
         System.out.println(pq.remove());
         System.out.println(pq.remove());

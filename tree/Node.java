@@ -34,9 +34,9 @@ class Triplet {
 }
 
 public class Node {
-    Node left;
-    Node right;
-    int val;
+    public Node left;
+    public Node right;
+    public int val;
 
     Node(int data) {
         left = null;

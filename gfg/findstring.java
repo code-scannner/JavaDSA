@@ -1,7 +1,7 @@
 package gfg;
 import java.util.*;
 
-public class findstring {
+public class Findstring {
     public static String findString(int n, int k) {
         // 0 0 1 0 2 1 1 2 2 0
         int total = n - 1 + (int) Math.pow(k, n);
