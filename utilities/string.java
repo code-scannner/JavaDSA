@@ -12,5 +12,7 @@ public class string {
         );
 
         System.out.println(x == y);
+
+        System.out.println("applebanana".substring(1,3));
     }
 }
