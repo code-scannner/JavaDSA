@@ -1,5 +1,7 @@
 package binarysearch;
 
+import java.util.*;
+
 public class PeakElement {
 
     public static int peek(int arr[]) {
@@ -21,16 +23,17 @@ public class PeakElement {
         return low;
     }
 
-
     public static int[] peakElementII(int mat[][]) {
         int m = mat.length, n = mat[0].length;
         int low = 0, high = m - 1;
+        int maxidx = -1;
         while (low <= high) {
             int mid = low + (high - low) / 2;
+
             int max = Integer.MIN_VALUE;
-            int maxidx = -1;
+            maxidx = -1;
             for (int j = 0; j < n; j++) {
-                if(mat[mid][j] > max){
+                if (mat[mid][j] > max) {
                     max = mat[mid][j];
                     maxidx = j;
                 }
@@ -38,15 +41,26 @@ public class PeakElement {
 
             int maxitem = mat[mid][maxidx];
 
+            int top = mid == 0 ? -1 : mat[mid - 1][maxidx];
+            int bottom = mid == mat.length - 1 ? -1 : mat[mid + 1][maxidx];
+
+            System.out.printf("mid = %d, maxidx = %d, low = %d, high = %d\n", mid, maxidx, low, high);
+
+            if (maxitem > top && maxitem > bottom)
+                return new int[] { mid, maxidx };
+            else if (maxitem > top)
+                low = mid + 1;
+            else
+                high = mid - 1;
 
         }
 
-        return new int[]{};
+        return new int[] { low, maxidx };
 
     }
 
     public static void main(String[] args) {
-        // ----------- 0, 1, 2, 3, 4, 5 ,6, 7, 8, 9
+        // -------------- 0, 1, 2, 3, 4, 5 ,6, 7, 8, 9
         // int arr1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 5, 2 };
         // int arr2[] = { 1, 2, 3, 4, 5, 6 };
         // int arr3[] = { 6, 5, 4, 3, 2, 1 };
@@ -57,14 +71,18 @@ public class PeakElement {
         // System.out.println(peek(arr3));
         // System.out.println(peek(arr4));
 
+        // int mat[][] = {
+        // { 1, 2, 3, 4, 5, 6, 7, 8 },
+        // { 2, 3, 4, 5, 6, 7, 8, 9 },
+        // { 3, 4, 5, 6, 7, 8, 9, 10 },
+        // { 4, 5, 6, 7, 8, 9, 10, 11 }
+        // };
         int mat[][] = {
-                { 4, 2, 5, 1, 4, 5 },
-                { 2, 9, 3, 2, 3, 2 },
-                { 1, 7, 6, 0, 1, 3 },
-                { 3, 6, 2, 3, 7, 2 }
+                { 10, 30, 40, 50, 20 },
+                { 1, 3, 2, 500, 4 }
         };
 
-        System.out.println(peakElementII(mat));
+        System.out.println(Arrays.toString(peakElementII(mat)));
 
     }
 }
