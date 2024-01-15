@@ -20,6 +20,16 @@ public class Node {
         return head.next;
     }
 
+    public Node find(int target){
+        Node head = this;
+        while(head != null){
+            if(head.val == target) return head;
+            head = head.next;
+        }
+
+        return null;
+    }
+
     @Override
     public String toString() {
 

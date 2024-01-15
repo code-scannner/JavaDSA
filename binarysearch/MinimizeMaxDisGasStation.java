@@ -18,43 +18,30 @@ public class MinimizeMaxDisGasStation {
 
     public static double minimizeDis(int stations[], int k) {
         Arrays.sort(stations);
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
-        for (int station : stations) {
-            if (station > max)
-                max = station;
-            if (station < min)
-                min = station;
-        }
 
         double left = 0;
-        double right = (double) (max - min);
-        double prev = left;
+        double right = (double) (stations[stations.length - 1] - stations[0]);
 
-        while (left <= right) {
-            double mid = (left + (right - left) / 2);
-            mid = (int) (mid * 10000000d) / 10000000d;
-            if (mid == prev)
-                break;
+        double diff = (int) 1e-6;
+        while (right - left > diff) {
+            double mid = (left + (right - left) / 2.0);
 
             int ans = gas_stations(stations, mid);
 
             if (ans > k) {
-                left = mid + 0.0000001;
+                left = mid;
             } else {
-                right = mid - 0.0000001;
+                right = mid;
             }
-
-            prev = mid;
         }
 
         return left;
     }
 
     public static void main(String[] args) {
-        int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-
-        System.out.println(minimizeDis(arr, 1));
+        // int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        int arr[] = { 1, 2, 3, 4, 5 };
+        System.out.println(minimizeDis(arr, 4));
 
     }
 }
