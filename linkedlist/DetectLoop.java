@@ -24,7 +24,8 @@ public class DetectLoop {
         while (fast.next != null && fast.next.next != null) {
             slow = slow.next;
             fast = fast.next.next;
-            if(slow == fast) break;
+            if (slow == fast)
+                break;
         }
         if (slow != fast)
             return null;
@@ -36,6 +37,20 @@ public class DetectLoop {
         return entry;
     }
 
+    public static int loopLength(Node head) {
+        Node beginNode = cycleBeginNode(head);
+        if (beginNode == null)
+            return 0;
+        Node next = beginNode.next;
+        int n = 1;
+        while (next != beginNode) {
+            n++;
+            next = next.next;
+        }
+
+        return n;
+    }
+
     public static void main(String[] args) {
         Node list = Node.LList(new int[] {
                 3, 0, 2, 4
@@ -43,5 +58,6 @@ public class DetectLoop {
         list.find(4).next = list.find(0);
         // System.out.println(hasCycle(list));
         System.out.println(cycleBeginNode(list));
+        System.out.println(loopLength(list));
     }
 }
