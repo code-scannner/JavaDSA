@@ -9,20 +9,28 @@ class MedianFinder {
     public MedianFinder() {
         max = new PriorityQueue<>(Collections.reverseOrder());
         min = new PriorityQueue<>();
+        // Numbers from 1 to 100
+        max.add(Integer.MIN_VALUE);
+        min.add(Integer.MAX_VALUE);
     }
 
     public void addNum(int num) {
         
-        max.add(num);
+        if(num > min.peek())
+            min.add(num);
+        else
+            max.add(num);
 
-        while (max.size() > min.size()) {
+        if(max.size() < min.size()){
+            max.add(min.poll());
+        }
+        else if(max.size() - min.size() > 1){
             min.add(max.poll());
         }
+
     }
 
     public double findMedian() {
-        System.out.println(max);
-        System.out.println(min);
         if((max.size() + min.size())%2 != 0){
             return (double)max.peek();
         }
@@ -41,8 +49,6 @@ public class leet_295 {
         System.out.println(median.findMedian());
         median.addNum(4);
         median.addNum(3);
-        median.addNum(5);
-        median.addNum(6);
         System.out.println(median.findMedian());
     }
 }
