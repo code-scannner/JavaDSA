@@ -1,4 +1,5 @@
 package utilities;
+
 import java.util.*;
 
 class Food {
@@ -19,6 +20,7 @@ class Food {
 public class Priorityq {
 
     public static void main(String[] args) {
+
         PriorityQueue<Food> pq = new PriorityQueue<>(
                 new Comparator<Food>() {
                     @Override
@@ -30,25 +32,30 @@ public class Priorityq {
                         return -1;
                     }
                 });
-        pq.add(new Food("miso", 12));
+        Food fd = new Food("miso", 2);
+        pq.add(fd);
+        
         pq.add(new Food("sushi", 8));
         pq.add(new Food("ramen", 14));
-        // pq.add(new Food("kimchi",9));
-        // pq.add(new Food("bulgogi", 7));
-        Iterator<Food> it = pq.iterator();
-        while(it.hasNext()){
-            System.out.println(it.next());
-        }
-        pq.remove(new Food("dfd",45));
+        pq.add(new Food("kimchi",9));
+        pq.add(new Food("bulgogi", 7));
+        
+        // the values changed at runtime in classes inside priorityqueue
+        // does not rearrange the priority queue
+        fd.rating = 23;
 
+        System.out.println(pq);
+
+
+        // Iterator<Food> it = pq.iterator();
+        // while(it.hasNext()){
+        // System.out.println(it.next());
+        // }
+        // pq.remove(new Food("dfd",45));
 
         // Creating max heap
         // PriorityQueue<Integer> pQueue
-        //     = new PriorityQueue<Integer>(Collections.reverseOrder());
+        // = new PriorityQueue<Integer>(Collections.reverseOrder());
 
-
-        System.out.println(pq);
-        System.out.println(pq.remove());
-        System.out.println(pq.remove());
     }
 }
