@@ -43,6 +43,11 @@ public class Node {
         right = null;
         val = data;
     }
+    Node(int data, Node _l, Node _r) {
+        left = _l;
+        right = _r;
+        val = data;
+    }
 
     @Override
     public String toString() {
