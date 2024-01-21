@@ -9,6 +9,17 @@ public class Node {
         next = null;
     }
 
+    public int size() {
+        Node curr = this;
+        int cnt = 0;
+        while(curr != null) {
+            cnt++;
+            curr = curr.next;
+        }
+
+        return cnt;
+    }
+
     public static Node LList(int[] list) {
         Node head = new Node(0);
         Node curr = head;
