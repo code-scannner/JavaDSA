@@ -14,10 +14,6 @@ public class LongestCommonSubsequence {
         }
     }
 
-    public static void name() {
-
-    }
-
     public static int LCStabulation(String str1, String str2) {
         int m = str1.length(), n = str2.length();
         int dp[] = new int[n + 1];
@@ -38,6 +34,7 @@ public class LongestCommonSubsequence {
     }
 
     public static String getLCS(String str1, String str2) {
+
         int m = str1.length(), n = str2.length();
         int dp[][] = new int[m + 1][n + 1];
         for (int i = 0; i < m; i++) {
@@ -72,7 +69,7 @@ public class LongestCommonSubsequence {
         int dp[][] = new int[str1.length()][str2.length()];
         System.out.println(LCSrecursion(dp, str1, str2, dp.length - 1, dp[0].length - 1));
         System.out.println(LCStabulation(str1, str2));
-        
+
         System.out.println(getLCS(str1, str2));
     }
 }
