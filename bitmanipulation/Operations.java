@@ -1,6 +1,21 @@
 package bitmanipulation;
 
 public class Operations {
+    public static void main(String[] args) {
+        System.out.println(reverseBits(6));
+        System.out.println(complementBits(8));
+        System.out.println(countBits(31));
+    }
+
+    public static int countBits(int num) {
+        int count = 0;
+        while (num != 0) {
+            if ((num & 1) == 1)
+                count++;
+            num = num >> 1;
+        }
+        return count;
+    }
     // n is positive
     public static int reverseBits(int n) {
         int reversed = 0;
@@ -24,8 +39,5 @@ public class Operations {
         return complemented;
     }
 
-    public static void main(String[] args) {
-        System.out.println(reverseBits(6));
-        System.out.println(complementBits(8));
-    }
+    
 }
