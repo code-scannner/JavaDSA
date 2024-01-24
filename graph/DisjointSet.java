@@ -24,7 +24,7 @@ public class DisjointSet {
             if (set[x] < set[y]) {
                 set[x] += set[y];
                 set[y] = x;
-            } else if (set[x] > set[y]) {
+            } else {
                 set[y] += set[x];
                 set[x] = y;
             }
