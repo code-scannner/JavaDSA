@@ -9,6 +9,13 @@ public class WildCardMatching {
             return j == -1;
         }
 
+        if (j == -1) {
+            while (i >= 0)
+                if (patt.charAt(i--) != '*')
+                    return false;
+            return true;
+        }
+
         if (patt.charAt(i) == '?' || patt.charAt(i) == text.charAt(j)) {
             return recursion(patt, text, i - 1, j - 1);
         } else if (patt.charAt(i) == '*') {
@@ -24,7 +31,7 @@ public class WildCardMatching {
         }
         if (j == -1) {
             while (i >= 0)
-                if (patt.charAt(i) != '*')
+                if (patt.charAt(i--) != '*')
                     return 0;
             return 1;
         }
