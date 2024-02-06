@@ -54,11 +54,7 @@ public class WildCardMatching {
 
     public static boolean memoization(String patt, String text) {
         int pattn = patt.length(), textn = text.length();
-        if (pattn == 0 ^ textn == 0)
-            return false;
-        if (pattn == 0 && textn == 0)
-            return true;
-        int dp[][] = new int[pattn][textn];
+        int dp[][] = new int[pattn + 1][textn + 1];
         for (int arr[] : dp)
             Arrays.fill(arr, -1);
         return memo(dp, patt, text, pattn - 1, textn - 1) != 0;
@@ -67,10 +63,6 @@ public class WildCardMatching {
     public static boolean tabulation(String patt, String text) {
 
         int pattn = patt.length(), textn = text.length();
-        if (pattn == 0 ^ textn == 0)
-            return false;
-        if (pattn == 0 && textn == 0)
-            return true;
 
         boolean dp[] = new boolean[textn + 1];
         dp[0] = true;
