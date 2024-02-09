@@ -270,6 +270,27 @@ public class Node {
         return result;
     }
 
+    // public static void prettyPrintTree(Node node, String prefix, boolean isLeft) {
+    //     if (node == null) {
+    //         System.out.println("Empty tree");
+    //         return;
+    //     }
+    
+    //     if (node.right != null) {
+    //         prettyPrintTree(node.right, prefix + (isLeft ? "│   " : "    "), false);
+    //     }
+    
+    //     System.out.println(prefix + (isLeft ? "└── " : "┌── ") + node.val);
+    
+    //     if (node.left != null) {
+    //         prettyPrintTree(node.left, prefix + (isLeft ? "    " : "│   "), true);
+    //     }
+    // }
+    
+    // public static void prettyPrintTree(Node node) {
+    //     prettyPrintTree(node,  "", true);
+    // }
+
     private static int leftIndent(Node root, int idx) {
         if (root == null)
             return idx - 1;
