@@ -17,10 +17,10 @@ public class EditDistance {
         if (str1.charAt(i) == str2.charAt(j)) {
             return recursion(str1, str2, i - 1, j - 1);
         } else {
-            return 1 + Math.min(
-                    recursion(str1, str2, i - 1, j), // if deleting the char in string
-                    recursion(str1, str2, i - 1, j - 1) // if replacing the char in string
-            );
+            int replace = recursion(str1, str2, i - 1, j - 1);
+            int delete = recursion(str1, str2, i - 1, j);
+            int insert = recursion(str1, str2, i, j - 1);
+            return 1 + Math.min(replace, Math.min(delete, insert));
         }
     }
 
@@ -48,16 +48,15 @@ public class EditDistance {
         if (str1.charAt(i) == str2.charAt(j)) {
             dp[i][j] = memo(dp, str1, str2, i - 1, j - 1);
         } else {
-            dp[i][j] = 1 + Math.min(
-                    memo(dp, str1, str2, i - 1, j),
-                    memo(dp, str1, str2, i - 1, j - 1));
+            int replace = memo(dp, str1, str2, i - 1, j - 1);
+            int delete = memo(dp, str1, str2, i - 1, j);
+            int insert = memo(dp, str1, str2, i, j - 1);
+            dp[i][j] = 1 + Math.min(replace, Math.min(delete, insert));
         }
 
         return dp[i][j];
     }
 
-
-    // TODO: Wrong answer
     public static int tabulation(String str1, String str2) {
         int m = str1.length(), n = str2.length();
         int dp[] = new int[n + 1];
@@ -71,7 +70,10 @@ public class EditDistance {
                     curr[j] = dp[j - 1];
                 } else {
                     curr[j] = 1 + Math.min(
-                            dp[j - 1], // for replacing
+                            Math.min(
+                                    dp[j - 1], // for replacing
+                                    dp[j] // inserting chars
+                                    ),
                             curr[j - 1] // for deleting chars
                     );
                 }
