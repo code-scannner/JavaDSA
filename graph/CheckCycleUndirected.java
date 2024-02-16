@@ -14,10 +14,10 @@ class Pair {
 
 public class CheckCycleUndirected {
 
-    public static boolean bfs(int graph[][], int V) {
+    public static boolean bfs(List<List<Integer>> adj, int V) {
         boolean visited[] = new boolean[V];
         for (int i = 0; i < V; i++) {
-            if (!visited[i] && _bfs(graph, V, visited)) {
+            if (!visited[i] && _bfs(adj, i, V, visited)) {
                 return true;
             }
         }
@@ -25,19 +25,24 @@ public class CheckCycleUndirected {
         return false;
     }
 
-    public static boolean _bfs(int graph[][], int V, boolean visited[]) {
+    public static boolean _bfs(List<List<Integer>> adj, int node, int V, boolean visited[]) {
         Queue<Pair> q = new LinkedList<>();
-        q.offer(new Pair(0, 0));
+        visited[node] = true;
+        q.offer(new Pair(node, -1));
+
         while (!q.isEmpty()) {
             Pair pair = q.poll();
-            int node = pair.node;
-            visited[node] = true;
-            for (int n : graph[node]) {
-                if (n != pair.parent) {
+            int curr = pair.node;
+            int parent = pair.parent;
+
+            for (int n : adj.get(curr)) {
+                if (n != parent) {
                     if (visited[n])
                         return true;
-                    else
-                        q.offer(new Pair(n, node));
+                    else {
+                        visited[n] = true;
+                        q.offer(new Pair(n, curr));
+                    }
                 }
             }
         }
@@ -45,28 +50,28 @@ public class CheckCycleUndirected {
         return false;
     }
 
-    public static boolean _dfs(int graph[][], boolean[] visited, int node, int parent) {
+    public static boolean _dfs(List<List<Integer>> adj, boolean[] visited, int node, int parent) {
 
-        if (visited[node]) {
-            return false;
-        }
-
-        visited[node] = true;
-
-        for (int i : graph[node]) {
-            if (i != parent && _dfs(graph, visited, i, node)) {
-                return true;
+        for (int i : adj.get(node)) {
+            if (i != parent) {
+                if (visited[i])
+                    return true;
+                visited[i] = true;
+                if (_dfs(adj, visited, i, node))
+                    return true;
             }
         }
 
         return false;
     }
 
-    public static boolean dfs(int graph[][], int V) {
+    public static boolean dfs(List<List<Integer>> adj, int V) {
         boolean[] visited = new boolean[V];
         for (int i = 0; i < V; i++) {
-            if (!visited[i] && _dfs(graph, visited, 0, 0)) {
-                return true;
+            if (!visited[i]) {
+                visited[i] = true;
+                if (_dfs(adj, visited, i, i))
+                    return true;
             }
         }
 
@@ -84,9 +89,10 @@ public class CheckCycleUndirected {
                 { 3, 7 },
                 { 5, 6 }
         };
+        List<List<Integer>> adjList = Graph.arrayToAdjList(graph, graph.length);
 
-        System.out.println(bfs(graph, 8));
-        System.out.println(dfs(graph, 8));
+        System.out.println(bfs(adjList, adjList.size()));
+        System.out.println(dfs(adjList, adjList.size()));
 
     }
 }
