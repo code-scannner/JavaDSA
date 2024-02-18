@@ -2,6 +2,17 @@ package maths;
 import java.util.*;
 
 public class Prime {
+    public static boolean checkPrime(int n) {
+        if(n == 1) return false;
+        int sqrt = (int)Math.sqrt(n);
+        for(int i = 2; i<=sqrt; i++){
+            if(n%i == 0) return false;
+        }
+        return true;
+
+
+        // return !sieveOfEratosthenes(n)[n];
+    }
     public static boolean[] sieveOfEratosthenes(int n) {
         boolean seive[] = new boolean[n + 1];
         seive[0] = true;
@@ -65,7 +76,11 @@ public class Prime {
         // System.out.println(countPrimes(10));
         // System.out.println(countPrimes(20));
         // System.out.println(countPrimes(12,17));
-        System.out.println(countPowers(12));
+        // System.out.println(countPowers(12));
+        System.out.println(checkPrime(19));
+        System.out.println(checkPrime(1));
+        System.out.println(checkPrime(191));
+
         
 
     }
