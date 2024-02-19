@@ -32,17 +32,7 @@ public class BuySellStocks {
         return buyfirst[0];
     }
 
-    static class Interval {
-        int x;
-        int y;
-
-        Interval(int _x, int _y) {
-            x = _x;
-            y = _y;
-        }
-    }
-
-    public static int memo(int dp[][][], int prices[], int i, int buy, int k) {
+    public static int memoIV(int dp[][][], int prices[], int i, int buy, int k) {
         if (i == prices.length)
             return 0;
         if (k == 0)
@@ -50,10 +40,11 @@ public class BuySellStocks {
         if (dp[i][buy][k] != -1)
             return dp[i][buy][k];
         if (buy == 1) {
-            dp[i][buy][k] = Math.max(-prices[i] + memo(dp, prices, i + 1, 1 - buy, k), memo(dp, prices, i + 1, buy, k));
+            dp[i][buy][k] = Math.max(-prices[i] + memoIV(dp, prices, i + 1, 1 - buy, k),
+                    memoIV(dp, prices, i + 1, buy, k));
         } else {
-            dp[i][buy][k] = Math.max(prices[i] + memo(dp, prices, i + 1, 1 - buy, k - 1),
-                    memo(dp, prices, i + 1, buy, k));
+            dp[i][buy][k] = Math.max(prices[i] + memoIV(dp, prices, i + 1, 1 - buy, k - 1),
+                    memoIV(dp, prices, i + 1, buy, k));
         }
         return dp[i][buy][k];
     }
@@ -63,7 +54,22 @@ public class BuySellStocks {
         for (int[][] matrix : dp)
             for (int[] arr : matrix)
                 Arrays.fill(arr, -1);
-        return memo(dp, prices, 0, 1, k);
+        return memoIV(dp, prices, 0, 1, k);
+    }
+
+    public static int buySellStocksWithCoolDown(int prices[]) {
+        // cooldown should be of one day min if you are selling
+        int n = prices.length;
+        int buy[] = new int[n];
+        int sell[] = new int[n];
+        sell[n - 1] = prices[n - 1];
+
+        for (int i = prices.length - 2; i >= 0; i--) {
+            buy[i] = Math.max(buy[i + 1], -prices[i] + sell[i + 1]);
+            sell[i] = Math.max(sell[i + 1], prices[i] + (i + 2 < prices.length ? buy[i + 2] : 0));
+        }
+
+        return buy[0];
     }
 
     public static void main(String[] args) {
@@ -73,5 +79,7 @@ public class BuySellStocks {
         System.out.println(buySellStocksIII(pricesIII));
         int pricesIV[] = { 3, 2, 6, 5, 0, 3 };
         System.out.println(buySellStocksIV(pricesIV, 2));
+        int pricesCoolDown[] = { 1, 2, 3, 0, 2 };
+        System.out.println(buySellStocksWithCoolDown(pricesCoolDown));
     }
 }
