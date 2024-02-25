@@ -77,9 +77,13 @@ public class Prime {
         // System.out.println(countPrimes(20));
         // System.out.println(countPrimes(12,17));
         // System.out.println(countPowers(12));
-        System.out.println(checkPrime(19));
-        System.out.println(checkPrime(1));
-        System.out.println(checkPrime(191));
+        // System.out.println(checkPrime(19));
+        // System.out.println(checkPrime(1));
+        // System.out.println(checkPrime(191));
+        boolean primes[] = sieveOfEratosthenes(10000);
+        for(int i = 0; i<primes.length; i++){
+            if(!primes[i]) System.out.print(i + ",");
+        }
 
         
 

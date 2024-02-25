@@ -14,6 +14,16 @@ public class Graph {
         return result;
     }
 
+    public static List<List<List<Integer>>> edgesToWeightAdjList(int[][] edges, int V) {
+        List<List<List<Integer>>> result = new ArrayList<>();
+        for (int i = 0; i < V; i++)
+            result.add(new ArrayList<>());
+        for (int edge[] : edges) {
+            result.get(edge[0]).add(Arrays.asList(edge[1], edge[2]));
+        }
+        return result;
+    }
+
     public static List<List<Integer>> arrayToAdjList(int[][] edges, int V) {
         List<List<Integer>> result = new ArrayList<>();
         for (int i = 0; i < V; i++) {
