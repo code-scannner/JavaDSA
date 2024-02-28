@@ -56,63 +56,55 @@ public class Node {
 
     public static String Serialize(Node root) {
 
-        if (root == null)
-            return "";
-
-        StringBuilder str = new StringBuilder();
+        if(root == null) return "";
         Queue<Node> q = new LinkedList<>();
         q.offer(root);
+        StringBuilder str = new StringBuilder();
         str.append(root.val);
-
-        while (!q.isEmpty()) {
+        while(!q.isEmpty()){
             Node node = q.poll();
-
-            if (node.left != null) {
-                q.offer(node.left);
-                str.append(" " + node.left);
-            } else {
+            if(node.left == null){
                 str.append(" #");
             }
-
-            if (node.right != null) {
-                q.offer(node.right);
-                str.append(" " + node.right);
-            } else {
+            else {
+                str.append(" ");
+                str.append(node.left.val);
+                q.offer(node.left);
+            }
+            if(node.right == null){
                 str.append(" #");
+            }
+            else {
+                str.append(" ");
+                str.append(node.right.val);
+                q.offer(node.right);
             }
         }
 
         return str.toString();
     }
 
-    public static Node deSerialize(String str) {
+    public static Node deSerialize(String data) {
 
-        String[] nodes = str.split(" ");
-
-        if (nodes.length == 0)
-            return null;
-
-        Node root = new Node(Integer.valueOf(nodes[0]));
-
+        if(data.length() == 0) return null;
+        String nodes [] = data.split(" ");
         Queue<Node> q = new LinkedList<>();
+        Node root = new Node(Integer.parseInt(nodes[0]));
         q.offer(root);
-
-        int i = 1;
-
-        while (!q.isEmpty()) {
+        int j = 1;
+        while(!q.isEmpty()){
             Node node = q.poll();
-            if (nodes[i].compareTo("#") != 0) {
-                node.left = new Node(Integer.valueOf(nodes[i]));
+            if(nodes[j].charAt(0) != '#'){
+                node.left = new Node(Integer.parseInt(nodes[j]));
                 q.offer(node.left);
             }
-            i++;
-            if (nodes[i].compareTo("#") != 0) {
-                node.right = new Node(Integer.valueOf(nodes[i]));
+            j++;
+            if(nodes[j].charAt(0) != '#'){
+                node.right = new Node(Integer.parseInt(nodes[j]));
                 q.offer(node.right);
             }
-            i++;
+            j++;
         }
-
         return root;
     }
 
