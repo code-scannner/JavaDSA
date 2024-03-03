@@ -3,6 +3,24 @@ package tree;
 public class Traversal2Tree {
     static int steps = 0;
 
+    public static Node prePostOrder(int[] preorder, int[] postorder, int i, int j, int n) {
+        if(n <= 0) return null;
+        if (n == 1)
+            return new Node(preorder[i]);
+        Node root = new Node(preorder[i]);
+        int cnt = 0;
+        for (int k = j - 1; k > j - n; k--) {
+            if (postorder[k] == preorder[i + 1])
+                break;
+            cnt++;
+        }
+
+        root.left = prePostOrder(preorder, postorder, i + 1, j - 1 - cnt, n - 1 - cnt);
+        root.right = prePostOrder(preorder, postorder, i + n - cnt, j - 1, cnt);
+        return root;
+
+    }
+
     public static Node preInOrder(int[] preorder, int[] inorder, int i, int j, int n) {
         if (n <= 0)
             return null;
@@ -15,7 +33,7 @@ public class Traversal2Tree {
         }
 
         root.left = preInOrder(preorder, inorder, i + 1, j, cnt);
-        root.right = preInOrder(preorder, inorder, i + 1 + cnt, j + 1 + cnt, n-cnt-1);
+        root.right = preInOrder(preorder, inorder, i + 1 + cnt, j + 1 + cnt, n - cnt - 1);
         return root;
     }
 
@@ -31,7 +49,7 @@ public class Traversal2Tree {
         }
 
         root.left = postInOrder(postorder, inorder, i, j, cnt);
-        root.right = postInOrder(postorder, inorder, i + cnt, j + 1 + cnt, n-cnt-1);
+        root.right = postInOrder(postorder, inorder, i + cnt, j + 1 + cnt, n - cnt - 1);
         return root;
     }
 
@@ -49,6 +67,12 @@ public class Traversal2Tree {
         System.out.println(Node.postOrder(rooot));
         System.out.println(Node.inOrder(rooot));
         System.out.println(Node.preOrder(rooot));
+        System.out.println();
+
+        Node roooot = prePostOrder(preorder, postorder, 0, postorder.length - 1, postorder.length);
+        System.out.println(Node.preOrder(roooot));
+        System.out.println(Node.postOrder(roooot));
+        System.out.println(Node.inOrder(roooot));
         System.out.println();
     }
 }
