@@ -2,6 +2,8 @@ package slidingwindow;
 
 import java.util.*;
 
+// return the array of max in each window of size k 
+
 class Pair {
     int ind;
     int num;
