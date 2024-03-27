@@ -10,22 +10,20 @@ public class DSU {
         Arrays.fill(set, -1);
     }
 
-    public int find(int node) {
-        while (set[node] >= 0) {
-            node = set[node];
-        }
-        return node;
+    public int findParent(int node) {
+        if (set[node] < 0)
+            return node;
+        // path compressssion
+        return set[node] = findParent(set[node]);
     }
 
     public void union(int node1, int node2) {
-        while (set[node1] >= 0)
-            node1 = set[node1];
-        while (set[node2] >= 0)
-            node2 = set[node2];
-        if (node1 == node2)
+        node1 = findParent(node1);
+        node2 = findParent(node2);
+        if (node1 == node2) // already connected
             return;
 
-        if (set[node1] < set[node2]) {
+        if (set[node1] <= set[node2]) {
             set[node1] += set[node2];
             set[node2] = node1;
         } else {
