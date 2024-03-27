@@ -26,7 +26,7 @@ public class BFS {
     }
 
     public static void main(String[] args) {
-        List<List<Integer>> list = Graph.adjMatrix(new int[][] {
+        List<List<Integer>> list = Graph.adjList(new int[][] {
                 { 0, 2 }, { 2, 0 }
         }, 3);
         System.out.println(bfs(list));

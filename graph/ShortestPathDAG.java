@@ -5,7 +5,7 @@ import java.util.*;
 public class ShortestPathDAG {
     public static int[] topologicalBFS(int[][] edges, int V, int src) {
 
-        List<List<List<Integer>>> adj = Graph.edgesToWeightAdjList(edges, V);
+        List<List<int[]>> adj = Graph.wgtAdjList(edges, V);
 
         Queue<Integer> q = new LinkedList<>();
         int n = adj.size();
@@ -14,9 +14,9 @@ public class ShortestPathDAG {
         result[src] = 0;
 
         int indegree[] = new int[n];
-        for (List<List<Integer>> to : adj) {
-            for (List<Integer> node : to) {
-                indegree[node.get(0)]++;
+        for (List<int[]> to : adj) {
+            for (int[] node : to) {
+                indegree[node[0]]++;
             }
         }
 
@@ -24,9 +24,9 @@ public class ShortestPathDAG {
 
         while (!q.isEmpty()) {
             int node = q.poll();
-            for (List<Integer> d : adj.get(node)) {
-                int newval = result[node] + d.get(1);
-                int dest = d.get(0);
+            for (int[] d : adj.get(node)) {
+                int newval = result[node] + d[1];
+                int dest = d[0];
 
                 if (newval < result[dest]) {
                     result[dest] = newval;

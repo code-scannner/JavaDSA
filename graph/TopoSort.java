@@ -54,32 +54,34 @@ public class TopoSort {
             }
         }
 
-        if(order.size() != n) System.out.println("Cycle Detected");
+        if (order.size() != n)
+            System.out.println("Cycle Detected");
 
         return order;
     }
 
     public static void main(String[] args) {
-        int adjMat[][] = {
-                {},
-                {},
-                { 3 },
-                { 1 },
-                { 0, 1 },
-                { 0, 2 },
+        int edges[][] = {
+                { 2, 3 },
+                { 3, 1 },
+                { 4, 0 },
+                { 4, 1 },
+                { 5, 0 },
+                { 5, 2 },
         };
-        List<List<Integer>> adjList = Graph.arrayToAdjList(adjMat, 6);
+        List<List<Integer>> adjList = Graph.adjList(edges, 6);
         System.out.println(topoLogicalOrder(adjList));
         System.out.println(bfs(adjList));
-        adjMat = new int[][]{
-            {1},
-            {2},
-            {3},
-            {4,5},
-            {2},
-            {}
+        edges = new int[][] {
+                { 0, 1 },
+                { 1, 2 },
+                { 2, 3 },
+                { 3, 4 },
+                { 3, 5 },
+                { 4, 2 },
         };
-        adjList = Graph.arrayToAdjList(adjMat, 6);
+        adjList = Graph.adjList(edges, 6);
+        System.out.println(topoLogicalOrder(adjList));
         System.out.println(bfs(adjList));
     }
 }

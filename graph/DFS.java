@@ -28,7 +28,7 @@ public class DFS {
     }
 
     public static void main(String[] args) {
-        List<List<Integer>> list = Graph.adjMatrix(new int[][] {
+        List<List<Integer>> list = Graph.adjList(new int[][] {
                 { 1, 2 }
         }, 3);
         System.out.println(dfs(list));
