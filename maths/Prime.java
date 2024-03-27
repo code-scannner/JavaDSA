@@ -19,8 +19,8 @@ public class Prime {
         seive[1] = true;
         for (int i = 2; i <=n; i++) {
             if(!seive[i]){
-                for (int j = i*i; j <= n; j+=i) {
-                    seive[j] = true;
+                for (long j = (long)i*i; j <= n; j+=i) {
+                    seive[(int)j] = true;
                 }
             }            
         }
