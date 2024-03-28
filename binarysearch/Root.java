@@ -18,26 +18,30 @@ public class Root {
     }
 
     public static int modified_pow(int n, int x, int target) {
-        int result = 1;
+        long result = 1;
+        long curr = n;
         while (x > 0) {
-            if (result > target || n > target)
+            if (result > target || curr > target)
                 return Integer.MAX_VALUE;
             if ((x & 1) == 1) {
-                result *= n;
+                result *= curr;
             }
-            n *= n;
+            curr *= curr;
             x >>= 1;
         }
+        if(result > target) return Integer.MAX_VALUE;
 
-        return result;
+        return (int)result;
     }
 
 
-    // returns value of nth root(num)
+    // returns value of nth root(num) if integer
+    // else returns -1
     public static int nthRoot(int num, int n) {
         int low = 1, high = num;
         while (low <= high) {
             int mid = low + (high - low) / 2;
+            System.out.println(mid);
             int pow = modified_pow(mid, n, num);
             if (pow == num)
                 return mid;
@@ -52,7 +56,8 @@ public class Root {
     public static void main(String[] args) {
 
         // System.out.println(sqrt(5000));
-        System.out.println(nthRoot(64,3));
+        System.out.println(nthRoot(67108864,13));
+        // System.out.println(modified_pow(8, 13, 67108864));
 
     }
 }
