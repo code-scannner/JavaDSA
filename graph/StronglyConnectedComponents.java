@@ -2,7 +2,9 @@ package graph;
 
 import java.util.*;
 
-// LOGIC -- 
+// Strongly Connected Components - Those Set of Vertexes whose each vertex can be reached from other verted via some path
+
+// LOGIC -- Kosaraju's Algorithm
 // comp1 --> comp2 --> comp3 --> comp4
 // sort the components by their finish time 
 // the component which is ending at last should be traversed first by dfs
