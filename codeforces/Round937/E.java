@@ -22,8 +22,7 @@ public class E {
         return true;
     }
     
-    public static int sol(String str) {
-        int n = str.length();
+    public static int sol(String str, int n) {
         int f = n/2;
         int min = n;
         for(int i = 1; i <= f; i++){
@@ -43,7 +42,7 @@ public class E {
         for (int i = 0; i < t; i++) {
             int a = sc.nextInt();
             String str = sc.next();
-            System.out.println(sol(str));
+            System.out.println(sol(str,a));
         }
         sc.close();
     }
