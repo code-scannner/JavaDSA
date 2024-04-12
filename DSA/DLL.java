@@ -1,76 +1,137 @@
 package DSA;
 
+import java.util.*;
+
+class DLLNode {
+    int val;
+    DLLNode prev;
+    DLLNode next;
+
+    DLLNode(int v) {
+        val = v;
+        prev = null;
+        next = null;
+    }
+
+    @Override
+    public String toString() {
+        return Integer.toString(val);
+    }
+}
+
 public class DLL {
-    public DLLNode front;
-    public DLLNode rear;
+    DLLNode head = null;
+    DLLNode tail = null;
 
-    public DLL() {
-        front = null;
-        rear = null;
-    }
-
-    public DLLNode removeFront() {
-        DLLNode removed = null;
-        if (front != null) {
-            removed = front;
-            if (front.next != null) {
-                front.next.prev = null;
-                front = front.next;
-            } else {
-                front = null;
-            }
+    @Override
+    public String toString() {
+        List<Integer> result = new ArrayList<>();
+        DLLNode cur = head;
+        while (cur != null) {
+            result.add(cur.val);
+            cur = cur.next;
         }
 
-        removed.next = null;
-        removed.prev = null;
-
-        return removed;
+        return result.toString();
     }
 
-    public DLLNode extractNode(DLLNode node) {
-        if (node != null) {
-            if (node.prev == null) {
-                front = node.next;
-                node.next = null;
-                return node;
-            } else if (node.next == null) {
-                node.prev.next = null;
-                rear = node.prev;
-                return node;
-            } else {
-                node.prev.next = node.next;
-                node.next.prev = node.prev;
-                node.next = null;
-                node.prev = null;
-                return node;
-            }
+    DLLNode offerLast(int val) {
+        if (head == null) {
+            head = new DLLNode(val);
+            tail = head;
+            return head;
+        } else {
+            tail.next = new DLLNode(val);
+            tail.next.prev = tail;
+            tail = tail.next;
+            return tail;
         }
-
-        return null;
     }
 
-    public void insertEnd(DLLNode node) {
-        if (rear == null) {
-            front = node;
-            rear = node;
+    DLLNode offerFirst(int val) {
+        if (head == null) {
+            head = new DLLNode(val);
+            tail = head;
+            return head;
+        } else {
+            DLLNode ret = new DLLNode(val);
+            ret.next = head;
+            head.prev = ret;
+            head = ret;
+            return ret;
+        }
+    }
+
+    DLLNode pollFirst() {
+        if (head == null)
+            return null;
+        DLLNode ret = head;
+        if (head.next == null) {
+            head = null;
+            tail = null;
+        } else {
+            head = head.next;
+            head.prev = null;
+        }
+        return ret;
+    }
+
+    DLLNode pollLast() {
+        if (tail == null)
+            return tail;
+        DLLNode ret = tail;
+        if (tail.prev == null) {
+            tail = null;
+            head = null;
+        } else {
+            tail = tail.prev;
+            tail.next = null;
+        }
+        return ret;
+    }
+
+    void remove(DLLNode n) {
+        if (n == null)
             return;
+        else if (n.prev == null) {
+            head = head.next;
+            if (head != null)
+                head.prev = null;
+            else
+                tail = null;
+        } else if (n.next == null) {
+            tail = tail.prev;
+            tail.next = null;
+        } else {
+            n.prev.next = n.next;
+            n.next.prev = n.prev;
         }
-        rear.next = node;
-        node.prev = rear;
-        rear = node;
+
+        // the removed node should not be having prev and next pointers
+        n.next = null;
+        n.prev = null;
     }
 
-    public void insertEnd(int num) {
-        DLLNode node = new DLLNode(num);
-        insertEnd(node);
+    void addLast(DLLNode n) {
+        if (tail == null) {
+            head = n;
+            tail = n;
+        } else {
+            tail.next = n;
+            n.prev = tail;
+            tail = tail.next;
+        }
     }
 
-    public void print() {
-        DLLNode curr = front;
-        while (curr != null) {
-            System.out.print(curr.val + ",");
-            curr = curr.next;
+    void addFirst(DLLNode n) {
+        if (head == null) {
+            head = n;
+            tail = n;
+        } else {
+            n.next = head;
+            head.prev = n;
+            head = n;
         }
-        System.out.println();
     }
+
 }
