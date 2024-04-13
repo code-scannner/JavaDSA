@@ -8,34 +8,36 @@ public class Mapping {
         map.put(5,2);
         map.put(2,6);
         map.put(1,6);
+        
+        System.out.println(map);
 
         // System.out.println(map.entrySet());
-        PriorityQueue<Map.Entry<Integer, Integer>> pq = new PriorityQueue<>(
-            new Comparator<Map.Entry<Integer, Integer>>() {
-                @Override
-                public int compare(Map.Entry<Integer, Integer> a, Map.Entry<Integer, Integer> b){
-                    if(a.getValue() == b.getValue()){
-                        return a.getKey() - b.getKey();
-                    }
-                    return b.getValue() - a.getValue();
-                }
-            }
-        );
+        // PriorityQueue<Map.Entry<Integer, Integer>> pq = new PriorityQueue<>(
+        //     new Comparator<Map.Entry<Integer, Integer>>() {
+        //         @Override
+        //         public int compare(Map.Entry<Integer, Integer> a, Map.Entry<Integer, Integer> b){
+        //             if(a.getValue() == b.getValue()){
+        //                 return a.getKey() - b.getKey();
+        //             }
+        //             return b.getValue() - a.getValue();
+        //         }
+        //     }
+        // );
 
-        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
-            pq.offer(entry);
-        }
-        pq.clear();
-        map.put(5,7);
-        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
-            pq.offer(entry);
-        }
+        // for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+        //     pq.offer(entry);
+        // }
+        // pq.clear();
+        // map.put(5,7);
+        // for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+        //     pq.offer(entry);
+        // }
 
-        while(!pq.isEmpty()){
-            System.out.println(pq.poll().getKey());
-        }
+        // while(!pq.isEmpty()){
+        //     System.out.println(pq.poll().getKey());
+        // }
 
-        System.out.println(pq);
+        // System.out.println(pq);
 
 
         // putting value
