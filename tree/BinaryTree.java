@@ -21,6 +21,5 @@ public class BinaryTree {
         System.out.println();
 
         System.out.println(Node.verticalTraversal(rooot));
-        System.out.println(Node.verticalUsingPQ(rooot));
     }
 }

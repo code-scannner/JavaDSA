@@ -194,101 +194,29 @@ public class Node {
         }
         return result;
     }
+    public static void traverse(PriorityQueue<int []> pq , Node root , int x, int y){
+        if(root == null) return;
+        pq.offer(new int[]{x,y, root.val});
+        traverse(pq, root.left, x - 1, y + 1);
+        traverse(pq, root.right, x + 1, y + 1);
+    }
 
     public static List<List<Integer>> verticalTraversal(Node root) {
-        List<List<Integer>> ans = new ArrayList<>();
-        if (root == null)
-            return ans;
-        int x = leftIndent(root, 0);
-
-        Queue<Pair<Node, Integer>> q = new LinkedList<>();
-        q.offer(new Pair<>(root, x));
-
-        while (!q.isEmpty()) {
-            Pair<Node, Integer> pair = q.poll();
-            Node node = pair.first;
-            int vertical = pair.second;
-            while (ans.size() <= vertical)
-                ans.add(new ArrayList<>());
-            ans.get(vertical).add(node.val);
-            if (node.left != null)
-                q.offer(new Pair<>(node.left, vertical - 1));
-            if (node.right != null)
-                q.offer(new Pair<>(node.right, vertical + 1));
-        }
-
-        return ans;
-    }
-
-    public static List<List<Integer>> verticalUsingPQ(Node root) {
+        PriorityQueue<int []> pq = new PriorityQueue<>((a,b)->a[0] != b[0] ? a[0] - b[0] : a[1] != b[1] ? a[1] - b[1] : a[2] - b[2]);
+        int prevx = Integer.MIN_VALUE;
         List<List<Integer>> result = new ArrayList<>();
-
-        TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> map = new TreeMap<>();
-        Queue<Triplet> q = new LinkedList<>();
-
-        q.offer(new Triplet(root, 0, 0));
-        while (!q.isEmpty()) {
-            Triplet t = q.poll();
-            Node node = t.node;
-            int x = t.x;
-            int y = t.y;
-            if (!map.containsKey(y)) {
-                map.put(y, new TreeMap<>());
+        traverse(pq, root, 0,0);
+        while(!pq.isEmpty()){
+            int [] node = pq.poll();
+            int x = node[0], val = node[2];
+            if(x != prevx){
+                result.add(new ArrayList<>());
+                prevx = x;
             }
-            if (!map.get(y).containsKey(x)) {
-                map.get(y).put(x, new PriorityQueue<>());
-            }
-
-            map.get(y).get(x).offer(node.val);
-
-            if (node.left != null) {
-                q.offer(new Triplet(node.left, x + 1, y - 1));
-            }
-
-            if (node.right != null) {
-                q.offer(new Triplet(node.right, x + 1, y + 1));
-            }
+            result.get(result.size() - 1).add(val);
         }
 
-        for (TreeMap<Integer, PriorityQueue<Integer>> vmap : map.values()) {
-            List<Integer> list = new ArrayList<>();
-            for (PriorityQueue<Integer> nodes : vmap.values()) {
-                for (Integer nodeval : nodes) {
-                    list.add(nodeval);
-                }
-            }
-            result.add(list);
-        }
         return result;
     }
-
-    // public static void prettyPrintTree(Node node, String prefix, boolean isLeft) {
-    //     if (node == null) {
-    //         System.out.println("Empty tree");
-    //         return;
-    //     }
     
-    //     if (node.right != null) {
-    //         prettyPrintTree(node.right, prefix + (isLeft ? "│   " : "    "), false);
-    //     }
-    
-    //     System.out.println(prefix + (isLeft ? "└── " : "┌── ") + node.val);
-    
-    //     if (node.left != null) {
-    //         prettyPrintTree(node.left, prefix + (isLeft ? "    " : "│   "), true);
-    //     }
-    // }
-    
-    // public static void prettyPrintTree(Node node) {
-    //     prettyPrintTree(node,  "", true);
-    // }
-
-    private static int leftIndent(Node root, int idx) {
-        if (root == null)
-            return idx - 1;
-        int left = leftIndent(root.left, idx + 1);
-        int right = leftIndent(root.right, idx - 1);
-
-        return Math.max(left, right);
-    }
 }

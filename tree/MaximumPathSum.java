@@ -7,8 +7,8 @@ public class MaximumPathSum {
         
         int left = maxPathSum(root.left, d);
         int right = maxPathSum(root.right, d);
-        d[0] = Math.max(d[0], root.val + left + right);
-        return root.val + Math.max(left, right);
+        d[0] = Math.max(d[0], root.val + Math.max(0, left) + Math.max(0, right));
+        return root.val + Math.max(0, Math.max(left, right));
 
     }
 

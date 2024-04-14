@@ -2,13 +2,13 @@ package DSA;
 
 import java.util.*;
 
-class Node {
+class DLLNode {
     int key;
     int val;
-    Node prev;
-    Node next;
+    DLLNode prev;
+    DLLNode next;
 
-    Node(int k, int v) {
+    DLLNode(int k, int v) {
         key = k;
         val = v;
         prev = null;
@@ -17,13 +17,13 @@ class Node {
 }
 
 class DLLQ {
-    Node head = null;
-    Node tail = null;
+    DLLNode head = null;
+    DLLNode tail = null;
 
-    Node pollFirst() {
+    DLLNode pollFirst() {
         if (head == null)
             return null;
-        Node ret = head;
+        DLLNode ret = head;
         if (head.next == null) {
             head = null;
             tail = null;
@@ -34,20 +34,20 @@ class DLLQ {
         return ret;
     }
 
-    Node offerLast(int key, int val) {
+    DLLNode offerLast(int key, int val) {
         if (head == null) {
-            head = new Node(key, val);
+            head = new DLLNode(key, val);
             tail = head;
             return head;
         } else {
-            tail.next = new Node(key, val);
+            tail.next = new DLLNode(key, val);
             tail.next.prev = tail;
             tail = tail.next;
             return tail;
         }
     }
 
-    void addLast(Node n) {
+    void addLast(DLLNode n) {
         if (tail == null) {
             head = n;
             tail = n;
@@ -58,7 +58,7 @@ class DLLQ {
         }
     }
 
-    void remove(Node n) {
+    void remove(DLLNode n) {
         if (n == null)
             return;
         else if (n.prev == null) {
@@ -84,7 +84,7 @@ class LRU {
 
     int cap;
     int size = 0;
-    Map<Integer, Node> map = new HashMap<>();
+    Map<Integer, DLLNode> map = new HashMap<>();
     DLLQ cache = new DLLQ();
 
     public LRU(int capacity) {
@@ -94,7 +94,7 @@ class LRU {
     public int get(int key) {
         if (!map.containsKey(key))
             return -1;
-        Node n = map.get(key);
+        DLLNode n = map.get(key);
         cache.remove(n);
         cache.addLast(n);
         return n.val;
@@ -102,13 +102,13 @@ class LRU {
 
     public void put(int key, int value) {
         if (map.containsKey(key)) {
-            Node n = map.get(key);
+            DLLNode n = map.get(key);
             n.val = value;
             cache.remove(n);
             cache.addLast(n);
         } else {
             if (size == cap) {
-                Node n = cache.pollFirst();
+                DLLNode n = cache.pollFirst();
                 map.remove(n.key);
                 size--;
             }
