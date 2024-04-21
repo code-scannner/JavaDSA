@@ -1,24 +1,20 @@
 package trie;
 
 class Node {
-    Node links[] = new Node[26];
-    int count = 0;
-    int flag = 0;
+    Node children[] = new Node[26];
+    boolean isLeaf = false;
 
     boolean contains(char c) {
-        return links[c - 'a'] != null;
+        return children[c - 'a'] != null;
     }
 
     Node get(char c) {
-        return links[c - 'a'];
+        return children[c - 'a'];
     }
 
-    Node put(char c) {
-        Node node = new Node();
-        links[c - 'a'] = node;
-        return node;
+    void put(char c) {
+        children[c - 'a'] = new Node();
     }
-
 }
 
 public class Trie {
@@ -35,10 +31,8 @@ public class Trie {
                 curr.put(c);
             }
             curr = curr.get(c);
-            curr.count++;
         }
-        curr.flag++;
-
+        curr.isLeaf = true;
     }
 
     public boolean search(String word) {
@@ -48,7 +42,7 @@ public class Trie {
                 return false;
             curr = curr.get(c);
         }
-        return curr.flag > 0;
+        return curr.isLeaf;
     }
 
     public boolean startsWith(String prefix) {
@@ -61,52 +55,17 @@ public class Trie {
         return true;
     }
 
-    public int countWordsEqualTo(String word) {
-        Node curr = root;
-        for (char c : word.toCharArray()) {
-            if (!curr.contains(c))
-                return 0;
-            curr = curr.get(c);
-        }
-        return curr.flag;
-    }
-
-    public int countWordsStartingWith(String prefix) {
-        Node curr = root;
-        for (char c : prefix.toCharArray()) {
-            if (!curr.contains(c))
-                return 0;
-            curr = curr.get(c);
-        }
-        return curr.count;
-    }
-
+    // the erase function can only work with insert 
+    // not with startswith because it erases only the word not its prefixes
+    // for using it with startswith we can use advance trie
     public void erase(String word) {
-        if (!search(word))
-            return;
         Node curr = root;
         for (char c : word.toCharArray()) {
             if (!curr.contains(c))
                 return;
             curr = curr.get(c);
-            curr.count--;
         }
-        curr.flag--;
-    }
-
-    public int countDistinctSubstring(String word){
-        Node curr = root;
-        int cnt = 0;
-        for (char c : word.toCharArray()) {
-            if (!curr.contains(c)) {
-                curr.put(c);
-                cnt++;
-            }
-            curr = curr.get(c);
-            curr.count++;
-        }
-        curr.flag++;
-        return cnt;
+        curr.isLeaf = false;
     }
 
     public static void main(String[] args) {
@@ -120,13 +79,8 @@ public class Trie {
 
         System.out.println(trie.search("aps"));
         System.out.println(trie.startsWith("ap"));
-        System.out.println(trie.countWordsEqualTo("apple"));
-        System.out.println(trie.countWordsStartingWith("ap"));
         trie.erase("apple");
-        System.out.println("After erasing one apple");
-        System.out.println(trie.countWordsEqualTo("apple"));
-        System.out.println(trie.countWordsStartingWith("ap"));
-        System.out.println(trie.countWordsEqualTo("apps"));
+        System.out.println(trie.search("apple"));
 
     }
 }
