@@ -26,14 +26,14 @@ public class DigitDp {
 
     }
 
-    public static long digitSum(int num) {
+    public static long digitSum(long num) {
 
         // let num = 3 2 4 5
         if (num == 0)
             return 0;
         List<Integer> digits = new ArrayList<>();
         while (num != 0) {
-            digits.add(num % 10);
+            digits.add((int)(num % 10));
             num /= 10;
         }
 
@@ -54,8 +54,8 @@ public class DigitDp {
 
         System.out.print("Enter range(1,x) - ");
         Scanner sc = new Scanner(System.in);
-        int a = sc.nextInt();
-        int b = sc.nextInt();
+        long a = sc.nextLong();
+        long b = sc.nextLong();
         System.out.println("Digit Sum = " + (digitSum(b) - digitSum(a - 1)));
 
         sc.close();

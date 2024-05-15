@@ -9,6 +9,7 @@ public class mathlib {
         System.out.println(Math.pow(2, 3));
 
         System.out.println((int)(3.4444455 * 1000000d) / 1000000d);
+        System.out.println(Math.round(5.5 - 0.000001) );
 
         int num = -5, m = 5;
         System.out.println((m + num%m)%m);
