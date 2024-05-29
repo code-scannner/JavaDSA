@@ -9,9 +9,6 @@ public class Prime {
             if(n%i == 0) return false;
         }
         return true;
-
-
-        // return !sieveOfEratosthenes(n)[n];
     }
     public static boolean[] sieveOfEratosthenes(int n) {
         boolean seive[] = new boolean[n + 1];
@@ -26,6 +23,22 @@ public class Prime {
         }
 
         return seive;
+    }
+    public static List<Integer> primes(int n){
+        List<Integer> list = new ArrayList<>();
+        boolean seive[] = new boolean[n + 1];
+        seive[0] = true;
+        seive[1] = true;
+        for (int i = 2; i <=n; i++) {
+            if(!seive[i]){
+                list.add(i);
+                for (long j = (long)i*i; j <= n; j+=i) {
+                    seive[(int)j] = true;
+                }
+            }            
+        }
+
+        return list;
     }
     public static int countPowers(int n) {
         boolean[] seive = sieveOfEratosthenes(n);
@@ -80,12 +93,8 @@ public class Prime {
         // System.out.println(checkPrime(19));
         // System.out.println(checkPrime(1));
         // System.out.println(checkPrime(191));
-        boolean primes[] = sieveOfEratosthenes(10000);
-        for(int i = 0; i<primes.length; i++){
-            if(!primes[i]) System.out.print(i + ",");
-        }
-
         
+        System.out.println(primes(10000).size());
 
     }
 }

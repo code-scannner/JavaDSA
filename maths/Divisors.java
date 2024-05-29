@@ -17,7 +17,7 @@ public class Divisors {
         return result;
     }
     public static void main(String[] args) {
-        System.out.println(divisors(36));
+        System.out.println(divisors(20));
         System.out.println(divisors(91));
         System.out.println(divisors(23));
         System.out.println(divisors(1));
@@ -25,3 +25,5 @@ public class Divisors {
         System.out.println(divisors(1001));
     }
 }
+
+
