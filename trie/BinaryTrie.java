@@ -1,18 +1,19 @@
 package trie;
 
 class BinaryNode {
-    BinaryNode[] children = new BinaryNode[2];
+    BinaryNode one, zero;
 
     boolean contains(int i) {
-        return children[i] != null;
+        return i == 0 && zero != null || i == 1 && one != null;
     }
 
     BinaryNode get(int i) {
-        return children[i];
+        return i == 1 ? one : zero;
     }
 
     void put(int i) {
-        children[i] = new BinaryNode();
+        if(i == 1) one = new BinaryNode();
+        else zero = new BinaryNode();
     }
 }
 
@@ -25,10 +26,11 @@ public class BinaryTrie {
     public static void main(String[] args) {
         int arr1[] = { 3, 10, 5, 25, 2, 8 };
         BinaryTrie trie = new BinaryTrie();
-        for(int num : arr1) trie.insert(num);
+        for (int num : arr1)
+            trie.insert(num);
         System.out.println(trie.maxXor(23));
         System.out.println(trie.maxXor(21));
-        
+
     }
 
     void insert(int num) {
@@ -41,11 +43,13 @@ public class BinaryTrie {
             curr = curr.get(bit);
         }
     }
-    boolean search(int num){
+
+    boolean search(int num) {
         BinaryNode curr = root;
-        for(int i = bits - 1; i>= 0; i--){
-            int bit = (num &(1 << i)) == 0? 0 : 1;
-            if(!curr.contains(bit)) return false;
+        for (int i = bits - 1; i >= 0; i--) {
+            int bit = (num & (1 << i)) == 0 ? 0 : 1;
+            if (!curr.contains(bit))
+                return false;
             curr = curr.get(bit);
         }
         return true;
@@ -64,6 +68,21 @@ public class BinaryTrie {
                 xor |= (1 << i);
             } else {
                 curr = curr.get(bit);
+            }
+        }
+        return xor;
+    }
+
+    int minXor(int num) {
+        BinaryNode curr = root;
+        int xor = 0;
+        for (int i = bits - 1; i >= 0; i--) {
+            int bit = (num & (1 << i)) == 0 ? 0 : 1;
+            if (curr.contains(bit)) {
+                curr = curr.get(bit);
+            } else {
+                curr = curr.get(1 - bit);
+                xor |= (1 << i);
             }
         }
         return xor;
