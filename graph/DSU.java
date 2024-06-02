@@ -31,4 +31,30 @@ public class DSU {
             set[node1] = node2;
         }
     }
+
+    public boolean areConnected(int node1, int node2) {
+        return findParent(node2) == findParent(node2);
+    }
+
+    public int connectedComponents() {
+        int cnt = 0;
+        for (int i = 0; i < set.length; i++) {
+            if (set[i] < 0)
+                cnt++;
+        }
+        return cnt;
+    }
+
+    public int connectedElements(int node) {
+        return -set[findParent(node)];
+    }
+
+    public int largestComponentSize() {
+        int max = 0;
+        for (int i = 0; i < set.length; i++) {
+            if (set[i] < 0)
+                max = Math.max(max, -set[i]);
+        }
+        return max;
+    }
 }
