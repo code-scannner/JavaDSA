@@ -3,6 +3,8 @@ package striverCP.string;
 import java.util.*;
 import java.io.*;
 
+// Good Strings
+
 public class Q1 {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);

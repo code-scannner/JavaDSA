@@ -11,5 +11,7 @@ public class GCD {
         System.out.println(hcf(21, 15));
         System.out.println(hcf(15, 21));
         System.out.println(hcf(1,21));
+        System.out.println(hcf(0,1));
+        System.out.println(hcf(45,0));
     }
 }
