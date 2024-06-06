@@ -1,47 +1,28 @@
-package striverCP.tree;
+package striverCP.implement;
 
 import java.util.*;
 import java.io.*;
 
-public class Q3 {
-    static class Node{
-        List<Integer> list;
-        
+public class Q28 {
+    public static boolean isVowel(char c) {
+        char s = Character.toLowerCase(c);
+        return s == 'a' || s == 'e' || s == 'i' || s == 'o' || s == 'u' || s == 'y';
     }
+
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int n = sc.nextInt();
-        List<List<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i <= n; i++)
-            adj.add(new ArrayList<>());
-        for (int i = 1; i < n; i++) {
-            int x = sc.nextInt(), y = sc.nextInt();
-            adj.get(x).add(y);
-            adj.get(y).add(x);
-        }
-
-        int[] d = new int[1];
-        int res = maxHeight(d, adj, 1, 0);
-        d[0] = Math.max(d[0], res);
-        out.println(3 * Math.max(0, d[0] - 1));
-
-        out.close();
-    }
-
-    public static int maxHeight(int d[], List<List<Integer>> adj, int node, int parent) {
-
-        int max = 0;
-        for (int next : adj.get(node)) {
-            if (next != parent) {
-                int nextHeight = maxHeight(d, adj, next, node);
-                d[0] = Math.max(d[0], max + nextHeight + 1);
-                max = Math.max(max, nextHeight);
+        char[] str = sc.next().toCharArray();
+        StringBuilder res = new StringBuilder();
+        for (char c : str) {
+            if (!isVowel(c)) {
+                res.append('.');
+                res.append(Character.toLowerCase(c));
             }
         }
+        out.print(res);
 
-        return 1 + max;
-
+        out.close();
     }
 
     static class Scanner {

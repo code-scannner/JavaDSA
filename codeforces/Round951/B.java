@@ -1,47 +1,26 @@
-package striverCP.tree;
+package codeforces.Round951;
 
 import java.util.*;
 import java.io.*;
 
-public class Q3 {
-    static class Node{
-        List<Integer> list;
-        
-    }
+public class B {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int n = sc.nextInt();
-        List<List<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i <= n; i++)
-            adj.add(new ArrayList<>());
-        for (int i = 1; i < n; i++) {
+        int t = sc.nextInt();
+        while (t-- > 0) {
             int x = sc.nextInt(), y = sc.nextInt();
-            adj.get(x).add(y);
-            adj.get(y).add(x);
-        }
+            int xor = x ^ y;
+            int ans = 1;
+            while (xor % 2 == 0) {
+                xor >>= 1;
+                ans <<= 1;
+            }
+            out.println(ans);
 
-        int[] d = new int[1];
-        int res = maxHeight(d, adj, 1, 0);
-        d[0] = Math.max(d[0], res);
-        out.println(3 * Math.max(0, d[0] - 1));
+        }
 
         out.close();
-    }
-
-    public static int maxHeight(int d[], List<List<Integer>> adj, int node, int parent) {
-
-        int max = 0;
-        for (int next : adj.get(node)) {
-            if (next != parent) {
-                int nextHeight = maxHeight(d, adj, next, node);
-                d[0] = Math.max(d[0], max + nextHeight + 1);
-                max = Math.max(max, nextHeight);
-            }
-        }
-
-        return 1 + max;
-
     }
 
     static class Scanner {

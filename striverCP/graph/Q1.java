@@ -1,47 +1,43 @@
-package striverCP.tree;
+package striverCP.graph;
 
 import java.util.*;
 import java.io.*;
 
-public class Q3 {
-    static class Node{
-        List<Integer> list;
-        
-    }
+public class Q1 {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int n = sc.nextInt();
-        List<List<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i <= n; i++)
-            adj.add(new ArrayList<>());
-        for (int i = 1; i < n; i++) {
-            int x = sc.nextInt(), y = sc.nextInt();
-            adj.get(x).add(y);
-            adj.get(y).add(x);
-        }
+        int n = sc.nextInt(), m = sc.nextInt();
 
-        int[] d = new int[1];
-        int res = maxHeight(d, adj, 1, 0);
-        d[0] = Math.max(d[0], res);
-        out.println(3 * Math.max(0, d[0] - 1));
+        out.print(cnt(n, m));
 
         out.close();
     }
 
-    public static int maxHeight(int d[], List<List<Integer>> adj, int node, int parent) {
-
-        int max = 0;
-        for (int next : adj.get(node)) {
-            if (next != parent) {
-                int nextHeight = maxHeight(d, adj, next, node);
-                d[0] = Math.max(d[0], max + nextHeight + 1);
-                max = Math.max(max, nextHeight);
+    public static int cnt(int n, int m) {
+        boolean map[] = new boolean[20001];
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(n);
+        map[n] = true;
+        int cnt = 0;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            while (size-- > 0) {
+                int node = q.poll();
+                if (node == m)
+                    return cnt;
+                if (node - 1 > 0 && !map[node - 1]) {
+                    map[node - 1] = true;
+                    q.offer(node - 1);
+                }
+                if (node * 2 <= 20000 && !map[node * 2]) {
+                    map[node * 2] = true;
+                    q.offer(2 * node);
+                }
             }
+            cnt++;
         }
-
-        return 1 + max;
-
+        return -1;
     }
 
     static class Scanner {

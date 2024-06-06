@@ -1,47 +1,24 @@
-package striverCP.tree;
-
+package striverCP.dp;
 import java.util.*;
 import java.io.*;
-
-public class Q3 {
-    static class Node{
-        List<Integer> list;
-        
-    }
+public class Q2 {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int n = sc.nextInt();
-        List<List<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i <= n; i++)
-            adj.add(new ArrayList<>());
-        for (int i = 1; i < n; i++) {
-            int x = sc.nextInt(), y = sc.nextInt();
-            adj.get(x).add(y);
-            adj.get(y).add(x);
-        }
-
-        int[] d = new int[1];
-        int res = maxHeight(d, adj, 1, 0);
-        d[0] = Math.max(d[0], res);
-        out.println(3 * Math.max(0, d[0] - 1));
-
-        out.close();
-    }
-
-    public static int maxHeight(int d[], List<List<Integer>> adj, int node, int parent) {
-
-        int max = 0;
-        for (int next : adj.get(node)) {
-            if (next != parent) {
-                int nextHeight = maxHeight(d, adj, next, node);
-                d[0] = Math.max(d[0], max + nextHeight + 1);
-                max = Math.max(max, nextHeight);
+        char[] str = sc.next().toCharArray();
+        int q = 0, a = 0;
+        long count = 0;
+        for(char c : str){
+            if(c == 'Q'){
+                count += a;
+                q++;
+            }
+            else if(c == 'A'){
+                a += q;
             }
         }
-
-        return 1 + max;
-
+        out.print(count);
+        out.close();
     }
 
     static class Scanner {

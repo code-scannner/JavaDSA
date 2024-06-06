@@ -4,9 +4,12 @@ import java.util.*;
 
 public class DigitDp {
     public static long digitSum(long[][][] dp, int idx, int sum, int tight, List<Integer> digits) {
-        if (idx == -1)
-            return sum;
 
+        // base case reached a solution
+        if (idx == -1)
+            return sum; // we can apply conditions to consider this value
+
+        // memoization
         if (dp[idx][sum][tight] != -1)
             return dp[idx][sum][tight];
 
@@ -28,17 +31,18 @@ public class DigitDp {
 
     public static long digitSum(long num) {
 
-        // let num = 3 2 4 5
+        // base case for num == 0
         if (num == 0)
             return 0;
+
+        // adding digits in form LSB to 0th index
         List<Integer> digits = new ArrayList<>();
         while (num != 0) {
-            digits.add((int)(num % 10));
+            digits.add((int) (num % 10));
             num /= 10;
         }
 
-        // digits = 5 4 2 3
-
+        // dp state [idx][(sum | count | min etc. )][tight]
         long[][][] dp = new long[digits.size()][digits.size() * 9 + 1][2];
         for (int i = 0; i < dp.length; i++) {
             for (int j = 0; j < dp[0].length; j++) {

@@ -4,6 +4,7 @@ import java.util.*;
 import java.io.*;
 
 public class Q6 {
+    
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();

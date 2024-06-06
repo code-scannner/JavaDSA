@@ -1,46 +1,65 @@
-package striverCP.tree;
+package striverCP.dp;
 
 import java.util.*;
 import java.io.*;
 
-public class Q3 {
-    static class Node{
-        List<Integer> list;
-        
-    }
+public class Q1 {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int n = sc.nextInt();
-        List<List<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i <= n; i++)
-            adj.add(new ArrayList<>());
-        for (int i = 1; i < n; i++) {
-            int x = sc.nextInt(), y = sc.nextInt();
-            adj.get(x).add(y);
-            adj.get(y).add(x);
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            long l = sc.nextLong(), r = sc.nextLong();
+            out.println((count(r) - count(l - 1)) + " ");
         }
-
-        int[] d = new int[1];
-        int res = maxHeight(d, adj, 1, 0);
-        d[0] = Math.max(d[0], res);
-        out.println(3 * Math.max(0, d[0] - 1));
 
         out.close();
     }
 
-    public static int maxHeight(int d[], List<List<Integer>> adj, int node, int parent) {
+    public static long count(long[][][] dp, int idx, int cnt, int tight, List<Integer> digits) {
+        if (idx == -1)
+            return 1;
 
-        int max = 0;
-        for (int next : adj.get(node)) {
-            if (next != parent) {
-                int nextHeight = maxHeight(d, adj, next, node);
-                d[0] = Math.max(d[0], max + nextHeight + 1);
-                max = Math.max(max, nextHeight);
+        if (cnt == 3)
+            return 1;
+
+        if (dp[idx][cnt][tight] != -1)
+            return dp[idx][cnt][tight];
+
+        long ret = 0L;
+        int k = tight == 1 ? digits.get(idx) : 9;
+        for (int i = 0; i <= k; i++) {
+            ret += count(dp,
+                    idx - 1,
+                    cnt + (i != 0 ? 1 : 0),
+                    digits.get(idx) == i ? tight : 0,
+                    digits);
+        }
+
+        dp[idx][cnt][tight] = ret;
+
+        return ret;
+
+    }
+
+    public static long count(long num) {
+        
+        if(num == 0) return 1;
+        
+        List<Integer> digits = new ArrayList<>();
+        while (num != 0) {
+            digits.add((int) (num % 10));
+            num /= 10;
+        }
+
+        long[][][] dp = new long[digits.size()][3][2];
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < dp[0].length; j++) {
+                Arrays.fill(dp[i][j], -1L);
             }
         }
 
-        return 1 + max;
+        return count(dp, digits.size() - 1, 0, 1, digits);
 
     }
 

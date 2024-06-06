@@ -1,47 +1,38 @@
-package striverCP.tree;
+package striverCP.dp;
 
 import java.util.*;
 import java.io.*;
 
-public class Q3 {
-    static class Node{
-        List<Integer> list;
-        
-    }
+public class Q4 {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int n = sc.nextInt();
-        List<List<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i <= n; i++)
-            adj.add(new ArrayList<>());
-        for (int i = 1; i < n; i++) {
-            int x = sc.nextInt(), y = sc.nextInt();
-            adj.get(x).add(y);
-            adj.get(y).add(x);
-        }
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            int n = sc.nextInt();
+            int a[] = sc.narr(n);
+            int m = sc.nextInt();
+            int b[] = sc.narr(m);
+            int preSum = 0, max = 0;
+            int res = 0;
+            for (int i = 0; i <= n; i++) {
+                if (i != n)
+                    preSum += a[i];
+                max = Math.max(max, preSum);
+            }
+            res = max;
+            preSum = 0;max = 0;
+            for (int i = 0; i <= m; i++) {
+                if (i != m)
+                    preSum += b[i];
+                max = Math.max(max, preSum);
+            }
+            res += max;
 
-        int[] d = new int[1];
-        int res = maxHeight(d, adj, 1, 0);
-        d[0] = Math.max(d[0], res);
-        out.println(3 * Math.max(0, d[0] - 1));
+            out.println(res);
+        }
 
         out.close();
-    }
-
-    public static int maxHeight(int d[], List<List<Integer>> adj, int node, int parent) {
-
-        int max = 0;
-        for (int next : adj.get(node)) {
-            if (next != parent) {
-                int nextHeight = maxHeight(d, adj, next, node);
-                d[0] = Math.max(d[0], max + nextHeight + 1);
-                max = Math.max(max, nextHeight);
-            }
-        }
-
-        return 1 + max;
-
     }
 
     static class Scanner {
