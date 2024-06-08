@@ -4,41 +4,26 @@ import java.util.*;
 import java.io.*;
 
 public class Q6 {
-    
+
     public static void main(String[] args) throws IOException {
-        PrintWriter out = new PrintWriter(System.out);
+        PrintWriter out = new PrintWriter(new BufferedOutputStream(System.out));
         Scanner sc = new Scanner();
         int n = sc.nextInt(), m = sc.nextInt(), q = sc.nextInt();
         int[] longestPath = new int[n + 1];
         DSU set = new DSU(n + 1);
-        ArrayList<Integer>[] arr = new ArrayList[n + 1];
+        List<List<Integer>> adj = new ArrayList<>();
         for (int i = 0; i <= n; i++)
-            arr[i] = new ArrayList<>();
+            adj.add(new ArrayList<>());
         while (m-- > 0) {
             int a = sc.nextInt(), b = sc.nextInt();
-            arr[a].add(b);
-            arr[b].add(a);
+            adj.get(a).add(b);
+            adj.get(b).add(a);
+            set.union(a, b);
         }
-        boolean visited[] = new boolean[n + 1];
+
         for (int i = 1; i <= n; i++) {
-            if (!visited[i]) {
-                visited[i] = true;
-                Queue<Integer> dq = new LinkedList<>();
-                dq.offer(i);
-                int nodes = 0;
-                while (!dq.isEmpty()) {
-                    int node = dq.poll();
-                    for (int next : arr[node]) {
-                        if (!visited[next]) {
-                            visited[next] = true;
-                            set.union(next, i);
-                            dq.offer(next);
-                        }
-                    }
-                    nodes++;
-                }
-                int parent = set.findParent(i);
-                longestPath[parent] = nodes - 1;
+            if (set.set[i] < 0) {
+                longestPath[i] = diameter(adj, i);
             }
         }
 
@@ -51,7 +36,7 @@ public class Q6 {
                 int x = sc.nextInt(), y = sc.nextInt();
                 int px = set.findParent(x), py = set.findParent(y);
                 if (px != py) {
-                    int path = (longestPath[px] + 1) / 2 + (longestPath[py] + 1) / 2 + 1;
+                    int path = Math.max(Math.max(longestPath[px], longestPath[py]), (longestPath[px] + 1) / 2 + (longestPath[py] + 1) / 2 + 1);
                     set.union(x, y);
                     longestPath[set.findParent(x)] = path;
                 }
@@ -59,6 +44,34 @@ public class Q6 {
         }
 
         out.close();
+    }
+
+    public static int diameter(List<List<Integer>> adj, int node) {
+        int fartest = bfs(adj, node)[1];
+        return bfs(adj, fartest)[0];
+    }
+
+    // 0 - maxNodesInFarthestPath, 1 - FarthestNodeIndex
+    public static int[] bfs(List<List<Integer>> adj, int n) {
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] { n, -1, 0 });
+        int maxIdx = n;
+        int max = 0;
+        while (!q.isEmpty()) {
+            int node[] = q.poll();
+            for (int next : adj.get(node[0])) {
+                if (next != node[1]) {
+                    if (max < node[2] + 1) {
+                        max = node[2] + 1;
+                        maxIdx = next;
+                    }
+                    q.offer(new int[] { next, node[0], node[2] + 1 });
+                }
+            }
+        }
+
+        return new int[] { max, maxIdx };
+
     }
 
     static class DSU {
@@ -89,32 +102,6 @@ public class Q6 {
                 set[node2] += set[node1];
                 set[node1] = node2;
             }
-        }
-
-        public boolean areConnected(int node1, int node2) {
-            return findParent(node2) == findParent(node2);
-        }
-
-        public int connectedComponents() {
-            int cnt = 0;
-            for (int i = 0; i < set.length; i++) {
-                if (set[i] < 0)
-                    cnt++;
-            }
-            return cnt;
-        }
-
-        public int connectedElements(int node) {
-            return -set[findParent(node)];
-        }
-
-        public int largestComponentSize() {
-            int max = 0;
-            for (int i = 0; i < set.length; i++) {
-                if (set[i] < 0)
-                    max = Math.max(max, -set[i]);
-            }
-            return max;
         }
     }
 
