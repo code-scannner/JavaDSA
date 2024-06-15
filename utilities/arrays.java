@@ -1,7 +1,5 @@
 package utilities;
 
-import java.util.Arrays;
-
 public class arrays {
     public static void main(String[] args) {
         // int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8 };
@@ -26,9 +24,27 @@ public class arrays {
         // for (int dim[] : multidim)
         // System.out.println(Arrays.toString(dim));
 
-        int arr[] = { 1, 3, 5, 7, 8, 9 };
-        int index = Arrays.binarySearch(arr, 4);
-        System.out.println(index);
+        // int arr[] = { 1, 3, 5, 7, 8, 9 };
+        // int index = Arrays.binarySearch(arr, 4);
+        // System.out.println(index);
 
+        int val = 1914;
+        for (int i = 100; i <= 999; i++) {
+            int x = i;
+            int y = val - i;
+            if (isLarge(x) && isLarge(y)) {
+                System.out.println(x + "," + y);
+            }
+        }
+
+    }
+
+    public static boolean isLarge(int x) {
+        while (x > 0) {
+            if (x % 10 < 5)
+                return false;
+            x /= 10;
+        }
+        return true;
     }
 }

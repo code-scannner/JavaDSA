@@ -10,6 +10,10 @@ public class DSU {
         Arrays.fill(set, -1);
     }
 
+    public boolean isParent(int node){
+        return set[node] < 0;
+    }
+
     public int findParent(int node) {
         if (set[node] < 0)
             return node;

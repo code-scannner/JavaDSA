@@ -9,11 +9,11 @@ public class Q1 {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        char [] str = sc.next().toCharArray();
+        char[] str = sc.next().toCharArray();
         char[] goodness = sc.next().toCharArray();
         int k = sc.nextInt();
 
-        out.println(usingHashing(str, k, goodness));
+        out.println(usingTrie(str, k, goodness));
 
         out.close();
     }
@@ -25,7 +25,7 @@ public class Q1 {
         // prefix sum of baddness
         for (int i = 1; i < badness.length; i++) {
             badness[i] += badness[i - 1];
-            if (goodness[str[i-1] - 'a'] == '0')
+            if (goodness[str[i - 1] - 'a'] == '0')
                 badness[i]++;
         }
 
@@ -35,25 +35,25 @@ public class Q1 {
             long a = 0;
             for (int j = i; j < n; j++) {
                 a = a * 29 + (str[j] - 'a' + 1);
-                if(badness[j + 1] - badness[i] <= k){
-                    
+                if (badness[j + 1] - badness[i] <= k) {
+
                     // cnt only if not in hash
-                    if(!hash.contains(a)){
+                    if (!hash.contains(a)) {
                         hash.add(a);
                         cnt++;
                     }
-                }
-                else break;
+                } else
+                    break;
             }
         }
 
         return cnt;
     }
 
-    public static int usingTrie(String str, int k, String goodness) {
+    public static int usingTrie(char[] str, int k, char[] goodness) {
         int count = 0;
         Trie trie = new Trie();
-        for (int i = 0; i < str.length(); i++) {
+        for (int i = 0; i < str.length; i++) {
             int res = trie.insert(str, i, goodness, k);
             count += res;
         }
@@ -67,13 +67,13 @@ public class Q1 {
             root = new Node();
         }
 
-        public int insert(String word, int begin, String baddness, int k) {
+        public int insert(char[] word, int begin, char[] baddness, int k) {
             Node curr = root;
             int count = 0;
             int currBaddNess = 0;
-            for (int i = begin; i < word.length(); i++) {
-                char c = word.charAt(i);
-                if (baddness.charAt(c - 'a') == '0')
+            for (int i = begin; i < word.length; i++) {
+                char c = word[i];
+                if (baddness[c - 'a'] == '0')
                     currBaddNess++;
                 if (currBaddNess > k)
                     return count;

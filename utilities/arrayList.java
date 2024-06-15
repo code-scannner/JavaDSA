@@ -4,10 +4,10 @@ import java.util.*;
 public class arrayList {
     public static void main(String[] args) {
         List<Integer> list = new ArrayList<>();
-        LinkedList<Integer> [] adj = new LinkedList[4];
+        // LinkedList<Integer> [] adj = new LinkedList[4];
 
-        list.add(4);
-        list.add(5);
+        // list.add(4);
+        // list.add(5);
         System.out.println(list);
 
         // list to array for premitive data type

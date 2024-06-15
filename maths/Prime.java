@@ -94,7 +94,7 @@ public class Prime {
         // System.out.println(checkPrime(1));
         // System.out.println(checkPrime(191));
         
-        System.out.println(primes(10000).size());
+        System.out.println(primes(100000));
 
     }
 }

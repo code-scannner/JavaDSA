@@ -1,7 +1,5 @@
 package segmenttree;
 
-import java.util.*;
-
 // range sum for array
 
 public class MO {
