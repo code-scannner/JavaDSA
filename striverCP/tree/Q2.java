@@ -8,7 +8,8 @@ public class Q2 {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
         int n = sc.nextInt();
-        List<Integer> adj[] = new LinkedList[n + 1];
+        List<List<Integer>> adj = new ArrayList<>();
+        for(int i = 0; i<=n; i++) adj.add(new ArrayList<>());
         int dp[][] = new int[n + 1][2];
         for (int i = 0; i < dp.length; i++) {
             dp[i][0] = -1;
@@ -16,12 +17,8 @@ public class Q2 {
         }
         for (int i = 1; i < n; i++) {
             int x = sc.nextInt(), y = sc.nextInt();
-            if (adj[x] == null)
-                adj[x] = new LinkedList<>();
-            if (adj[y] == null)
-                adj[y] = new LinkedList<>();
-            adj[x].add(y);
-            adj[y].add(x);
+            adj.get(x).add(y);
+            adj.get(y).add(x);
         }
 
         int cnt = 0;
@@ -34,7 +31,7 @@ public class Q2 {
     }
 
     // using the dp method
-    public static int solve(List<Integer> adj[], int dp[][], int node, int parent, int marked) {
+    public static int solve(List<List<Integer>> adj, int dp[][], int node, int parent, int marked) {
 
         if (dp[node][marked] != -1)
             return dp[node][marked];
@@ -42,7 +39,7 @@ public class Q2 {
         int ans = 0;
 
         int unmarked = 0;
-        for (int next : adj[node]) {
+        for (int next : adj.get(node)) {
             if (next != parent) {
                 unmarked += solve(adj, dp, next, node, 0);
             }
@@ -52,7 +49,7 @@ public class Q2 {
             return unmarked;
         }
 
-        for (Integer next : adj[node]) {
+        for (Integer next : adj.get(node)) {
             if (next != parent) {
                 ans = Math.max(ans, 1 + unmarked - dp[next][0] + solve(adj, dp, next, node, 1));
             }
