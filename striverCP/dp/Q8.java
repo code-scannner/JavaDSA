@@ -1,67 +1,28 @@
-package striverCP.matrixExpo;
-
+package striverCP.dp;
 import java.util.*;
 import java.io.*;
-
-public class Q2 {
-    static int mod = (int) 1e9 + 7;
-
+public class Q8 {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        long n = sc.nextLong();
-        int m = sc.nextInt();
-        if (n < m)
-            out.println(1);
-        else {
-            int matrix[][] = new int[m][m];
-            matrix[0][0] = 1;
-            matrix[0][m - 1] = 1;
-            for (int i = 1; i < m; i++)
-                matrix[i][i - 1] = 1;
-            matrix = matPow(matrix, n - m + 1 , mod);
-            long result = 0;
-            for (int i = 0; i < m; i++) {
-                result = (result + matrix[0][i]) % mod;
-            }
-            out.println(result);
+        int n = sc.nextInt(), k = sc.nextInt();
+        int theorems[] = sc.narr(n);
+        int sleep[] = sc.narr(n);
+        int total [] = new int[n + 1];
+        int sleepSum[] = new int[n + 1];
+        for(int i = 0 ;i<n; i++){
+            total[i + 1] = total[i] + theorems[i];
+            sleepSum[i + 1] += sleepSum[i] + (sleep[i] == 1 ? theorems[i] : 0);
         }
+        int maxLectures = 0;
+        for(int i = 0; i<n; i++){
+            int end = Math.min(n, i + k);
+            int curr = sleepSum[i] + total[end] - total[i] + sleepSum[n] - sleepSum[end];
+            maxLectures = Math.max(maxLectures, curr);
+        }
+        out.println(maxLectures);
 
         out.close();
-    }
-
-    public static int[][] multiply(int[][] mat1, int[][] mat2, int mod) {
-        int n = mat1.length;
-        int res[][] = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                long val = 0;
-                for (int k = 0; k < n; k++) {
-                    val += ((long) mat1[i][k] * mat2[k][j]) % mod;
-                }
-                res[i][j] = (int) (val % mod);
-            }
-        }
-        return res;
-    }
-
-    public static int[][] matPow(int[][] mat, long p, int range) {
-        if (p == 0) {
-            int n = mat.length;
-            int base[][] = new int[n][n];
-            for (int i = 0; i < n; i++) {
-                base[i][i] = 1;
-            }
-            return base;
-        }
-        if (p == 1)
-            return mat;
-        int res[][] = matPow(mat, p / 2, range);
-        int ans[][] = multiply(res, res, range);
-        if (p % 2 == 1) {
-            return multiply(ans, mat, range);
-        }
-        return ans;
     }
 
     static class Scanner {
