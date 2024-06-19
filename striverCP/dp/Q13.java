@@ -1,50 +1,60 @@
-package codechef;
+package striverCP.dp;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
+public class Q13 {
+    static int mod = (int) 1e9 + 7;
 
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int t = sc.nextInt();
-        while (t-- > 0) {
-            int n = sc.nextInt();
-            long c = sc.nextLong();
-            int a[] = sc.narr(n);
-            long strength[] = new long[n];
-            for(int i = 0; i<n; i++){
-                for(int j = 0; j<n; j++){
-                    long s = (long)a[i]*a[j];
-                    strength[i] += s;
-                    strength[j] += s;
-                }
-            }
-            if(strength[0] <= c) out.println(0);
-            boolean visited[] = new boolean[n];
-
-            for(int i = 0; i<n; i++){
-                long currMin = Long.MAX_VALUE;
-                int currCity = -1;
-                for(int j = 0;j<n; j++){
-                    if(!visited[j]){
-                        if(currMin < strength[j]){
-                            currMin = strength[j];
-                            currCity = j;
-                        }
-                    }
-                }
-                visited[currCity] = true;
-                if(currCity != -1){
-                    for(int j = 0; j<n; j++){
-                        if(!visited[j]) strength[j] -= (long)a[currCity]*a[j];
-                    }
-                }
-            }
-
+        int n = sc.nextInt(), k = sc.nextInt();
+        int dp[][] = new int[k + 1][n + 1];
+        for (int arr[] : dp)
+            Arrays.fill(arr, -1);
+        int sum = 0;
+        for (int i = 1; i <= n; i++) {
+            sum = (sum + memo(dp, i, k, n)) % mod;
         }
+        
+        out.println(sum);
+        // out.println(tabu(n, k));
         out.close();
+    }
+
+    public static int tabu(int n, int k){
+        int dp[][] = new int[n + 1][k + 1];
+        for(int i = 0; i<=n; i++) dp[i][1] = 1;
+        for(int i = 0; i<=k; i++) dp[n][i] = 1;
+        for(int i = n - 1; i>0; i--){
+            for(int j = 2; j<=k; j++){
+                for(int l = i;l<=n;l+=i){
+                    dp[i][j] = (dp[i][j] + dp[l][j - 1])%mod;
+                }
+            }
+        }
+
+        int sum = 0;
+        for(int i = 1; i<=n; i++) sum = (sum + dp[i][k])%mod;
+        return sum;
+
+    }
+
+    public static int memo(int[][] dp, int i, int k, int n) {
+        if (i > n)
+            return 0;
+        if (k == 1)
+            return 1;
+        if (dp[k][i] != -1)
+            return dp[k][i];
+        int sum = 0;
+        for (int j = i; j <= n; j += i) {
+            sum = (sum + memo(dp, j, k - 1, n)) % mod;
+        }
+        dp[k][i] = sum;
+
+        return sum;
     }
 
     static class Scanner {

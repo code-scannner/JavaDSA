@@ -1,50 +1,55 @@
-package codechef;
+package striverCP.dp;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+public class Q10 {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int t = sc.nextInt();
-        while (t-- > 0) {
-            int n = sc.nextInt();
-            long c = sc.nextLong();
-            int a[] = sc.narr(n);
-            long strength[] = new long[n];
-            for(int i = 0; i<n; i++){
-                for(int j = 0; j<n; j++){
-                    long s = (long)a[i]*a[j];
-                    strength[i] += s;
-                    strength[j] += s;
-                }
+        int n = sc.nextInt();
+        int cost[] = new int[n];
+        int vitamin[] = new int[n];
+        for (int i = 0; i < n; i++) {
+            cost[i] = sc.nextInt();
+            char[] str = sc.next().toCharArray();
+            int vit = 0;
+            for (int j = 0; j < str.length; j++) {
+                vit |= (1 << (str[j] - 'A'));
             }
-            if(strength[0] <= c) out.println(0);
-            boolean visited[] = new boolean[n];
-
-            for(int i = 0; i<n; i++){
-                long currMin = Long.MAX_VALUE;
-                int currCity = -1;
-                for(int j = 0;j<n; j++){
-                    if(!visited[j]){
-                        if(currMin < strength[j]){
-                            currMin = strength[j];
-                            currCity = j;
-                        }
-                    }
-                }
-                visited[currCity] = true;
-                if(currCity != -1){
-                    for(int j = 0; j<n; j++){
-                        if(!visited[j]) strength[j] -= (long)a[currCity]*a[j];
-                    }
-                }
-            }
-
+            vitamin[i] = vit;
         }
+
+        out.println(tabu(cost, vitamin));
+
         out.close();
+    }
+
+    public static int tabu(int cost[], int vitamin[]) {
+        int n = cost.length;
+        int dp[][] = new int[n + 1][8];
+        Arrays.fill(dp[n], (int)1e9);
+        dp[n][7] = 0;
+        for(int i = n - 1; i>=0; i--){
+            for(int v = 0; v<8; v++){
+                int take = cost[i] + dp[i + 1][v | vitamin[i]];
+                int nottake = dp[i + 1][v];
+                dp[i][v] = Math.min(take, nottake);
+            }
+        }
+
+        return dp[0][0] >= (int)1e9 ? -1 : dp[0][0];
+    }
+
+    public static int memo(int i, int v, int dp[][], int cost[], int vitamin[]) {
+        if (i == dp.length)
+            return v == 7 ? 0 : (int) 1e9;
+        if (dp[i][v] != -1)
+            return dp[i][v];
+        int take = cost[i] + memo(i + 1, v | vitamin[i], dp, cost, vitamin);
+        int nottake = memo(i + 1, v, dp, cost, vitamin);
+        dp[i][v] = Math.min(take, nottake);
+        return dp[i][v];
     }
 
     static class Scanner {

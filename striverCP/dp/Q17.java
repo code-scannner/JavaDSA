@@ -1,51 +1,24 @@
-package codechef;
-
+package striverCP.dp;
 import java.util.*;
 import java.io.*;
-
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+public class Q17 {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int t = sc.nextInt();
+        int t = 1;
         while (t-- > 0) {
-            int n = sc.nextInt();
-            long c = sc.nextLong();
-            int a[] = sc.narr(n);
-            long strength[] = new long[n];
-            for(int i = 0; i<n; i++){
-                for(int j = 0; j<n; j++){
-                    long s = (long)a[i]*a[j];
-                    strength[i] += s;
-                    strength[j] += s;
-                }
+            int n = sc.nextInt(), m =sc.nextInt();
+            // int arr[] = sc.narr(n);
+            if(n > m) out.println("YES");
+            else{
+                // int dp[][] = new int[n][m];
+                // out.println(memo(dp, 0, 0, m) > 1? "YES" : "NO");
             }
-            if(strength[0] <= c) out.println(0);
-            boolean visited[] = new boolean[n];
-
-            for(int i = 0; i<n; i++){
-                long currMin = Long.MAX_VALUE;
-                int currCity = -1;
-                for(int j = 0;j<n; j++){
-                    if(!visited[j]){
-                        if(currMin < strength[j]){
-                            currMin = strength[j];
-                            currCity = j;
-                        }
-                    }
-                }
-                visited[currCity] = true;
-                if(currCity != -1){
-                    for(int j = 0; j<n; j++){
-                        if(!visited[j]) strength[j] -= (long)a[currCity]*a[j];
-                    }
-                }
-            }
-
         }
+
         out.close();
     }
+    
 
     static class Scanner {
         BufferedReader br;

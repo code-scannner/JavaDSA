@@ -1,50 +1,50 @@
-package codechef;
+package striverCP.dp;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+public class Q12 {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
         int t = sc.nextInt();
         while (t-- > 0) {
             int n = sc.nextInt();
-            long c = sc.nextLong();
-            int a[] = sc.narr(n);
-            long strength[] = new long[n];
-            for(int i = 0; i<n; i++){
-                for(int j = 0; j<n; j++){
-                    long s = (long)a[i]*a[j];
-                    strength[i] += s;
-                    strength[j] += s;
-                }
-            }
-            if(strength[0] <= c) out.println(0);
-            boolean visited[] = new boolean[n];
+            sc.nextInt();
+            int arr[] = sc.narr(n);
 
-            for(int i = 0; i<n; i++){
-                long currMin = Long.MAX_VALUE;
-                int currCity = -1;
-                for(int j = 0;j<n; j++){
-                    if(!visited[j]){
-                        if(currMin < strength[j]){
-                            currMin = strength[j];
-                            currCity = j;
-                        }
-                    }
-                }
-                visited[currCity] = true;
-                if(currCity != -1){
-                    for(int j = 0; j<n; j++){
-                        if(!visited[j]) strength[j] -= (long)a[currCity]*a[j];
-                    }
-                }
-            }
-
+            // out.println(usingDp(arr, n));
+            out.println(greedy(arr, n));
         }
+
         out.close();
+    }
+
+    public static long greedy(int arr[], int n) {
+        long ans = 0;
+        boolean plus = true;
+        for (int i = 0; i < n - 1; i++) {
+            if (plus && arr[i] > arr[i + 1]) {
+                ans += arr[i];
+                plus = !plus;
+            } else if (!plus && arr[i] < arr[i + 1]) {
+                ans -= arr[i];
+                plus = !plus;
+            }
+        }
+        if (plus)
+            ans += arr[n - 1];
+        return ans;
+    }
+
+    public static long usingDp(int arr[], int n) {
+        long dp[][] = new long[n + 1][2];
+        // dp[][0] + , dp[][1] -
+        for (int i = n - 1; i >= 0; i--) {
+            dp[i][0] = Math.max(dp[i + 1][0], arr[i] + dp[i + 1][1]);
+            dp[i][1] = Math.max(dp[i + 1][1], -arr[i] + dp[i + 1][0]);
+        }
+        return dp[0][0];
     }
 
     static class Scanner {

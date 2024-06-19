@@ -1,50 +1,49 @@
-package codechef;
+package striverCP.dp;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+public class Q14 {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int t = sc.nextInt();
-        while (t-- > 0) {
-            int n = sc.nextInt();
-            long c = sc.nextLong();
-            int a[] = sc.narr(n);
-            long strength[] = new long[n];
-            for(int i = 0; i<n; i++){
-                for(int j = 0; j<n; j++){
-                    long s = (long)a[i]*a[j];
-                    strength[i] += s;
-                    strength[j] += s;
-                }
-            }
-            if(strength[0] <= c) out.println(0);
-            boolean visited[] = new boolean[n];
+        int n = sc.nextInt();
+        int team1[] = sc.narr(n);
+        int team2[] = sc.narr(n);
+        // long dp[][] = new long[n][2];
+        // for (int i = 0; i < n; i++) {
+        //     dp[i][0] = dp[i][1] = -1;
+        // }
+        
+        // long result = memo(dp, team1, team2, 0, 0, n);
+        // result = Math.max(result, memo(dp, team1, team2, 0, 1, n));
 
-            for(int i = 0; i<n; i++){
-                long currMin = Long.MAX_VALUE;
-                int currCity = -1;
-                for(int j = 0;j<n; j++){
-                    if(!visited[j]){
-                        if(currMin < strength[j]){
-                            currMin = strength[j];
-                            currCity = j;
-                        }
-                    }
-                }
-                visited[currCity] = true;
-                if(currCity != -1){
-                    for(int j = 0; j<n; j++){
-                        if(!visited[j]) strength[j] -= (long)a[currCity]*a[j];
-                    }
-                }
-            }
+        // out.println(result);
+        out.println(optimized(team1, team2, n));
 
-        }
         out.close();
+    }
+
+    public static long optimized(int a[], int b[], int n) {
+        long r1 = a[n - 1], r2 = b[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            long nr1 = Math.max(r1, a[i] + r2);
+            long nr2 = Math.max(r2, b[i] + r1);
+            r1 = nr1;
+            r2 = nr2;
+        }
+        return Math.max(r1, r2);
+    }
+
+    public static long memo(long[][] dp, int[] team1, int[] team2, int i, int prev, int n) {
+        if (i >= n)
+            return 0;
+        if (dp[i][prev] != -1)
+            return dp[i][prev];
+        long res = memo(dp, team1, team2, i + 1, prev, n);
+        res = Math.max(res, (prev == 0 ? team1[i] : team2[i]) + memo(dp, team1, team2, i + 1, 1 - prev, n));
+        dp[i][prev] = res;
+        return res;
     }
 
     static class Scanner {

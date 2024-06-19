@@ -1,50 +1,49 @@
-package codechef;
+package striverCP.dp;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
+// Dp with offset
 
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+public class Q16 {
+    static int max = 30000 + 1;
+
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int t = sc.nextInt();
-        while (t-- > 0) {
-            int n = sc.nextInt();
-            long c = sc.nextLong();
-            int a[] = sc.narr(n);
-            long strength[] = new long[n];
-            for(int i = 0; i<n; i++){
-                for(int j = 0; j<n; j++){
-                    long s = (long)a[i]*a[j];
-                    strength[i] += s;
-                    strength[j] += s;
-                }
-            }
-            if(strength[0] <= c) out.println(0);
-            boolean visited[] = new boolean[n];
-
-            for(int i = 0; i<n; i++){
-                long currMin = Long.MAX_VALUE;
-                int currCity = -1;
-                for(int j = 0;j<n; j++){
-                    if(!visited[j]){
-                        if(currMin < strength[j]){
-                            currMin = strength[j];
-                            currCity = j;
-                        }
-                    }
-                }
-                visited[currCity] = true;
-                if(currCity != -1){
-                    for(int j = 0; j<n; j++){
-                        if(!visited[j]) strength[j] -= (long)a[currCity]*a[j];
-                    }
-                }
-            }
-
+        int n = sc.nextInt(), d = sc.nextInt();
+        int map[] = new int[max];
+        while (n-- > 0) {
+            map[sc.nextInt()]++;
         }
+        int offset = Math.max(0, d - 250);
+        int dp[][] = new int[max][d + 250 - offset];
+
+        for (int arr[] : dp)
+            Arrays.fill(arr, -1);
+        out.println(memo(dp, d, d, map, offset));
+
         out.close();
+    }
+
+    public static int memo(int dp[][], int i, int l, int map[], int offset) {
+        if (i >= max)
+            return 0;
+
+        if (dp[i][l - offset] != -1)
+            return dp[i][l - offset];
+        int res = map[i];
+        int rest2 = Math.max(
+                memo(dp, i + l, l, map, offset),
+                memo(dp, i + l + 1, l + 1, map, offset));
+        if (l != 1)
+            res += Math.max(rest2,
+                    memo(dp, i + l - 1, l - 1, map, offset));
+        else
+            res += rest2;
+
+        dp[i][l - offset] = res;
+        return res;
     }
 
     static class Scanner {

@@ -1,51 +1,40 @@
-package codechef;
-
+package striverCP.dp;
 import java.util.*;
 import java.io.*;
-
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+public class Q18 {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int t = sc.nextInt();
-        while (t-- > 0) {
-            int n = sc.nextInt();
-            long c = sc.nextLong();
-            int a[] = sc.narr(n);
-            long strength[] = new long[n];
-            for(int i = 0; i<n; i++){
-                for(int j = 0; j<n; j++){
-                    long s = (long)a[i]*a[j];
-                    strength[i] += s;
-                    strength[j] += s;
-                }
-            }
-            if(strength[0] <= c) out.println(0);
-            boolean visited[] = new boolean[n];
-
-            for(int i = 0; i<n; i++){
-                long currMin = Long.MAX_VALUE;
-                int currCity = -1;
-                for(int j = 0;j<n; j++){
-                    if(!visited[j]){
-                        if(currMin < strength[j]){
-                            currMin = strength[j];
-                            currCity = j;
-                        }
-                    }
-                }
-                visited[currCity] = true;
-                if(currCity != -1){
-                    for(int j = 0; j<n; j++){
-                        if(!visited[j]) strength[j] -= (long)a[currCity]*a[j];
-                    }
-                }
-            }
-
-        }
+        long l = sc.nextLong();
+        long r = sc.nextLong();
+        out.println(count(Long.toString(r)) - count(Long.toString(l - 1)));
         out.close();
     }
+    public static long count(String n) {
+        int d = n.length();
+        if(d == 1) return n.charAt(0) - '0';
+        int [] num = new int[d];
+        for(int i = 0; i<d;i++) num[i] = n.charAt(i) - '0';
+        long res = (long)Math.pow(10, d - 2) + 8;
+        if(num[0] >= num[d - 1]){
+            res += (long)(num[0] - 1)*(long)Math.pow(10, d - 2);
+        }
+        else {
+            res += (long)(num[0])*(long)Math.pow(10, d - 2);
+        }
+
+        if(num[0] == num[d - 1]){
+            res++;
+            if(d != 2){
+                res += Long.parseLong(n.substring(1, d - 1));
+            }
+        }
+
+        return res;
+
+    }
+
+
 
     static class Scanner {
         BufferedReader br;

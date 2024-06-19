@@ -1,50 +1,35 @@
-package codechef;
+package striverCP.dp;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
+public class Q15 {
+    static int mod = (int) 1e9 + 7;
 
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
         int t = sc.nextInt();
         while (t-- > 0) {
             int n = sc.nextInt();
-            long c = sc.nextLong();
-            int a[] = sc.narr(n);
-            long strength[] = new long[n];
-            for(int i = 0; i<n; i++){
-                for(int j = 0; j<n; j++){
-                    long s = (long)a[i]*a[j];
-                    strength[i] += s;
-                    strength[j] += s;
-                }
-            }
-            if(strength[0] <= c) out.println(0);
-            boolean visited[] = new boolean[n];
-
-            for(int i = 0; i<n; i++){
-                long currMin = Long.MAX_VALUE;
-                int currCity = -1;
-                for(int j = 0;j<n; j++){
-                    if(!visited[j]){
-                        if(currMin < strength[j]){
-                            currMin = strength[j];
-                            currCity = j;
-                        }
-                    }
-                }
-                visited[currCity] = true;
-                if(currCity != -1){
-                    for(int j = 0; j<n; j++){
-                        if(!visited[j]) strength[j] -= (long)a[currCity]*a[j];
-                    }
-                }
-            }
-
+            int sizes[] = sc.narr(n);
+            out.println(tabu(n, sizes));
         }
         out.close();
+    }
+
+    public static long tabu(int n, int sizes[]) {
+        int dp[] = new int[n + 1];
+        Arrays.fill(dp, 1);
+
+        for (int i = n - 1; i > 0; i--) {
+            for (int j = i + i; j <= n; j += i) {
+                if (sizes[i - 1] < sizes[j - 1]) {
+                    dp[i] = Math.max(dp[i], 1 + dp[j]);
+                }
+            }
+        }
+        return Arrays.stream(dp).max().getAsInt();
     }
 
     static class Scanner {
