@@ -1,6 +1,7 @@
 package segmenttree;
 
 public class BinaryIndexedTree {
+    /// 1 indexed tree
     int index[];
 
     BinaryIndexedTree(int arr[]) {
@@ -8,6 +9,9 @@ public class BinaryIndexedTree {
         for (int i = 0; i < arr.length; i++) {
             add(i, arr[i]);
         }
+    }
+    BinaryIndexedTree(int n) {
+        index = new int[n + 1];
     }
 
     public void add(int i, int val) {

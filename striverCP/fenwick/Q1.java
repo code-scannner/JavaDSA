@@ -9,9 +9,91 @@ public class Q1 {
         PrintWriter out = new PrintWriter(System.out);
         int n = sc.nextInt();
         int arr[] = sc.narr(n);
-        long ans = usingMergeSort(n, arr);
-        out.println(ans);
+        // long ans = usingMergeSort(n, arr);
+        // out.println(ans);
+        long ans2 = usingBIT(arr, n);
+        out.println(ans2);
         out.close();
+    }
+
+    public static long usingBIT(int arr[], int n) {
+        // number of strictly greater left * number of strictly smaller right => each
+        int gl[] = greaterLeft(arr);
+        int sr[] = smallerRight(arr);
+        long sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += (long) gl[i] * sr[i];
+        }
+        return sum;
+
+    }
+
+    public static int[] indexedArray(int arr[]) {
+
+        int n = arr.length;
+        int index[][] = new int[n][2];
+        for (int i = 0; i < n; i++)
+            index[i] = new int[] { arr[i], i };
+
+        Arrays.sort(index, (a, b) -> a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
+
+        int res[] = new int[n];
+        for (int i = 0; i < n; i++) {
+            res[index[i][1]] = i + 1;
+        }
+        return res;
+    }
+
+    public static int[] smallerRight(int arr[]) {
+        int n = arr.length;
+        int index[] = indexedArray(arr);
+        BinaryIndexedTree bit = new BinaryIndexedTree(n);
+        int res[] = new int[n];
+        for (int i = n - 1; i >= 0; i--) {
+            bit.add(index[i], 1);
+            res[i] = bit.sum(index[i] - 1);
+        }
+        return res;
+    }
+
+    public static int[] greaterLeft(int arr[]) {
+        int n = arr.length;
+        int index[] = indexedArray(arr);
+        BinaryIndexedTree bit = new BinaryIndexedTree(n);
+        int res[] = new int[n];
+        for (int i = 0; i < n; i++) {
+            bit.add(index[i], 1);
+            res[i] = i - bit.sum(index[i] - 1);
+        }
+        return res;
+    }
+
+    static class BinaryIndexedTree {
+        /// 1 indexed tree
+        int index[];
+
+        BinaryIndexedTree(int n) {
+            index = new int[n + 1];
+        }
+
+        public void add(int i, int val) {
+            i++; // 1 based indexing
+            while (i < index.length) {
+                index[i] += val;
+                i += i & -i; // moving to child
+            }
+        }
+
+        public int sum(int i) {
+            i++; // 1 based indexing
+            int s = 0;
+            while (i > 0) {
+                s += index[i];
+                i -= i & -i; // moving to parent
+            }
+            return s;
+        }
+
     }
 
     public static long usingMergeSort(int n, int arr[]) {
