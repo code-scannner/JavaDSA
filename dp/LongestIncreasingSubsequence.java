@@ -3,6 +3,50 @@ package dp;
 import java.util.*;
 
 public class LongestIncreasingSubsequence {
+
+    public static void main(String[] args) {
+        int[] nums = { 4, 2, 5, 1, 3, 8, 6, 7 };
+        int n = nums.length;
+        System.out.println(recursion(nums, n - 1, n));
+
+        int dp[][] = new int[n + 1][n + 1];
+        for (int d[] : dp)
+            Arrays.fill(d, -1);
+        System.out.println(memoization(nums, dp, n - 1, n));
+
+        System.out.println(tabulation(nums));
+        System.out.println(usingBinarySearch(nums));
+        System.out.println(printLIS(nums));
+        System.out.println(countLIS(nums));
+
+    }
+
+    public static int binarySearch(int arr[], int target, int left, int right) {
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (arr[mid] <= target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return left;
+    }
+
+    // time complexity of O(nlogn)
+    public static int usingBinarySearch(int arr[]) {
+        int n = arr.length;
+        int store[] = new int[n];
+        int k = 0;
+        for (int i = 0; i < n; i++) {
+            int idx = binarySearch(store, arr[i], 0, k - 1);
+            store[idx] = arr[i];
+            k = Math.max(idx + 1, k);
+        }
+        return k;
+    }
+
     public static int recursion(int arr[], int i, int pi) {
         if (i == -1) {
             return 0;
@@ -50,32 +94,6 @@ public class LongestIncreasingSubsequence {
         }
 
         return maxL;
-    }
-
-    public static int binarySearch(int arr[], int target, int left, int right) {
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (arr[mid] <= target) {
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
-        }
-
-        return left;
-    }
-
-    // time complexity of O(nlogn)
-    public static int usingBinarySearch(int arr[]) {
-        int n = arr.length;
-        int store[] = new int[n];
-        int k = 0;
-        for (int i = 0; i < n; i++) {
-            int idx = binarySearch(store, arr[i], 0, k - 1);
-            store[idx] = arr[i];
-            k = Math.max(idx + 1, k);
-        }
-        return k;
     }
 
     public static List<Integer> printLIS(int arr[]) {
@@ -133,27 +151,5 @@ public class LongestIncreasingSubsequence {
         }
 
         return maxCount;
-    }
-
-    public static void main(String[] args) {
-        int[] nums = { 1, 5, 4, 3, 2, 6, 7, 10, 8, 9 };
-        int n = nums.length;
-        System.out.println(recursion(nums, n - 1, n));
-
-        int dp[][] = new int[n + 1][n + 1];
-        for (int d[] : dp)
-            Arrays.fill(d, -1);
-
-        System.out.println(memoization(nums, dp, n - 1, n));
-
-        System.out.println(tabulation(nums));
-
-        System.out.println(usingBinarySearch(nums));
-        
-        System.out.println(printLIS(nums));
-
-        System.out.println(countLIS(nums));
-
-
     }
 }

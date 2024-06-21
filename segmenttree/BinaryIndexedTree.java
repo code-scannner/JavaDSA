@@ -1,33 +1,38 @@
 package segmenttree;
 
+// fenwick tree for Range Query point update
 public class BinaryIndexedTree {
-    /// 1 indexed tree
-    int index[];
+    // 0 indexed tree
+    int bit[];
 
     BinaryIndexedTree(int arr[]) {
-        index = new int[arr.length + 1];
-        for (int i = 0; i < arr.length; i++) {
-            add(i, arr[i]);
+        int n = arr.length;
+        bit = new int[n];
+        // linear construction O(n);
+        for (int i = 0; i < n; i++) {
+            bit[i] += arr[i];
+            int next = i | (i + 1);
+            if (next < n)
+                bit[next] += bit[i];
         }
     }
+
     BinaryIndexedTree(int n) {
-        index = new int[n + 1];
+        bit = new int[n];
     }
 
     public void add(int i, int val) {
-        i++; // 1 based indexing
-        while (i < index.length) {
-            index[i] += val;
-            i += i & -i; // moving to child
+        while (i < bit.length) {
+            bit[i] += val;
+            i |= (i + 1); // moving to next segment
         }
     }
 
     public int sum(int i) {
-        i++; // 1 based indexing
         int s = 0;
         while (i > 0) {
-            s += index[i];
-            i -= i & -i; // moving to parent
+            s += bit[i];
+            i = (i & (i + 1)) - 1; // moving to previous segment
         }
         return s;
     }
