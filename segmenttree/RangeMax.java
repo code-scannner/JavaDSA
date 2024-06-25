@@ -1,6 +1,13 @@
 package segmenttree;
 
 public class RangeMax {
+
+    public static void main(String[] args) {
+        int arr[] = { 1, 3, 2, 0, 4, 5 };
+        // usingSegmentTree(arr); // Time = O(logn) Space O(n)
+        forRangeUpdateMax(arr);
+    }
+
     public static void usingSegmentTree(int arr[]){
         SegmentTree sg = new SegmentTree(arr, Integer.MIN_VALUE) {
             @Override
@@ -38,9 +45,5 @@ public class RangeMax {
 
         
     }
-    public static void main(String[] args) {
-        int arr[] = { 1, 3, 2, 0, 4, 5 };
-        // usingSegmentTree(arr);
-        forRangeUpdateMax(arr);
-    }
+    
 }
