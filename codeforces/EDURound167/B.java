@@ -1,68 +1,42 @@
-package codeforces.Round955;
+package codeforces.EDURound167;
 
 import java.util.*;
 import java.io.*;
 
-public class D {
+public class B {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
         int t = sc.nextInt();
         while (t-- > 0) {
-            int n = sc.nextInt(), m = sc.nextInt(), k = sc.nextInt();
-            int heights[][] = new int[n][m];
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
-                    heights[i][j] = sc.nextInt();
-                }
-            }
-            char[][] type = new char[n][m];
-            for (int i = 0; i < n; i++)
-                type[i] = sc.next().toCharArray();
-
-            int prefixSum[][] = new int[n + 1][m + 1];
-            long type0 = 0, type1 = 0;
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
-
-                    if (type[i][j] == '0')
-                        type0 += heights[i][j];
-                    else
-                        type1 += heights[i][j];
-                    prefixSum[i + 1][j + 1] = type[i][j] - '0';
-                    prefixSum[i + 1][j + 1] += prefixSum[i][j + 1] + prefixSum[i + 1][j] - prefixSum[i][j];
+            String a = sc.next();
+            String b = sc.next();
+            int max = 0;
+            for (int i = 0; i < a.length(); i++) {
+                for (int j = 0; j < b.length(); j++) {
+                    max = Math.max(max, calculate(a, b, i, j));
                 }
             }
 
-            long diff = Math.abs(type0 - type1);
-
-            out.println(isPossible(prefixSum, n, m, k, diff) ? "YES" : "NO");
+            out.println(a.length() + b.length() - max);
 
         }
 
         out.close();
     }
 
-    public static int gcd(int d, int rem) {
-        if (rem == 0)
-            return d;
-        return gcd(rem, d % rem);
-    }
-
-    public static boolean isPossible(int prefix[][], int n, int m, int k, long diff) {
-        if (diff == 0)
-            return true;
-        int hcf = 0;
-        for (int i = k; i <= n; i++) {
-            for (int j = k; j <= m; j++) {
-                int currtype = prefix[i][j] - prefix[i - k][j] - prefix[i][j - k] + prefix[i - k][j - k];
-                int currDiff = Math.abs(2 * currtype - k * k);
-                if (currDiff != 0)
-                    hcf = gcd(hcf, currDiff);
-            }
+    public static int calculate(String a, String b, int i, int j) {
+        int cnt = 0;
+        while (i < a.length() && j < b.length()) {
+            if (a.charAt(i) == b.charAt(j)) {
+                i++;
+                j++;
+                cnt++;
+            } else
+                i++;
         }
 
-        return hcf != 0 && diff % hcf == 0;
+        return cnt;
     }
 
     static class Scanner {

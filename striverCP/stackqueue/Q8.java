@@ -1,18 +1,14 @@
-package codechef;
-
+package striverCP.stackqueue;
 import java.util.*;
 import java.io.*;
-
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+public class Q8 {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int t = sc.nextInt();
-        while (t-- > 0) {
-            char [] str = sc.next().toCharArray();
-            
-        }
+        int n = sc.nextInt();
+        int arr[] = sc.narr(n);
+        
+
         out.close();
     }
 

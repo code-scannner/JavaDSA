@@ -15,13 +15,13 @@ public class Q6 {
         long nextdp[] = new long[n];
         for (int i = 0; i < n; i++) {
             int prev = prevsmaller[i];
-            prevdp[i] = arr[i] * (i - prev);
+            prevdp[i] = (long)arr[i] * (i - prev);
             if (prev != -1)
                 prevdp[i] += prevdp[prev];
         }
         for (int i = n - 1; i >= 0; i--) {
             int next = nextsmaller[i];
-            nextdp[i] = arr[i] * (next - i);
+            nextdp[i] = (long)arr[i] * (next - i);
             if (next != n)
                 nextdp[i] += nextdp[next];
         }

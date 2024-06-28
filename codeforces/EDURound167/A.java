@@ -1,18 +1,22 @@
-package codechef;
+package codeforces.EDURound167;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+public class A {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
         int t = sc.nextInt();
         while (t-- > 0) {
-            char [] str = sc.next().toCharArray();
-            
+            sc.nextInt();
+            int y = sc.nextInt();
+            if (y < -1)
+                out.println("NO");
+            else
+                out.println("YES");
         }
+
         out.close();
     }
 

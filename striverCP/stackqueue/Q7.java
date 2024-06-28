@@ -1,68 +1,52 @@
-package codeforces.Round955;
+package striverCP.stackqueue;
 
 import java.util.*;
 import java.io.*;
 
-public class D {
+public class Q7 {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
         int t = sc.nextInt();
         while (t-- > 0) {
-            int n = sc.nextInt(), m = sc.nextInt(), k = sc.nextInt();
-            int heights[][] = new int[n][m];
+            int n = sc.nextInt(), m = sc.nextInt(), x = sc.nextInt();
+            int heights[][] = new int[n][2];
             for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
-                    heights[i][j] = sc.nextInt();
-                }
-            }
-            char[][] type = new char[n][m];
-            for (int i = 0; i < n; i++)
-                type[i] = sc.next().toCharArray();
-
-            int prefixSum[][] = new int[n + 1][m + 1];
-            long type0 = 0, type1 = 0;
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
-
-                    if (type[i][j] == '0')
-                        type0 += heights[i][j];
-                    else
-                        type1 += heights[i][j];
-                    prefixSum[i + 1][j + 1] = type[i][j] - '0';
-                    prefixSum[i + 1][j + 1] += prefixSum[i][j + 1] + prefixSum[i + 1][j] - prefixSum[i][j];
-                }
+                heights[i] = new int[] { sc.nextInt(), i };
             }
 
-            long diff = Math.abs(type0 - type1);
+            Arrays.sort(heights, (a, b) -> b[0] - a[0]);
+            int result[] = new int[n];
+            PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
 
-            out.println(isPossible(prefixSum, n, m, k, diff) ? "YES" : "NO");
+            for (int i = 0; i < m; i++) {
+                result[heights[i][1]] = i + 1;
+                pq.offer(new int[] { heights[i][0], i + 1 });
+            }
+
+            for (int i = m; i < n; i++) {
+                int node[] = pq.poll();
+                node[0] += heights[i][0];
+                result[heights[i][1]] = node[1];
+                pq.offer(node);
+            }
+            
+            int min = pq.peek()[0];
+            int max = min;
+            while (!pq.isEmpty())
+                max = pq.poll()[0];
+            if (max - min <= x) {
+                out.println("YES");
+                for (int j = 0; j < n; j++) {
+                    out.print(result[j] + " ");
+                }
+                out.println();
+            } else
+                out.println("NO");
 
         }
 
         out.close();
-    }
-
-    public static int gcd(int d, int rem) {
-        if (rem == 0)
-            return d;
-        return gcd(rem, d % rem);
-    }
-
-    public static boolean isPossible(int prefix[][], int n, int m, int k, long diff) {
-        if (diff == 0)
-            return true;
-        int hcf = 0;
-        for (int i = k; i <= n; i++) {
-            for (int j = k; j <= m; j++) {
-                int currtype = prefix[i][j] - prefix[i - k][j] - prefix[i][j - k] + prefix[i - k][j - k];
-                int currDiff = Math.abs(2 * currtype - k * k);
-                if (currDiff != 0)
-                    hcf = gcd(hcf, currDiff);
-            }
-        }
-
-        return hcf != 0 && diff % hcf == 0;
     }
 
     static class Scanner {
