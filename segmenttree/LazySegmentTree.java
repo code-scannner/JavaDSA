@@ -57,6 +57,7 @@ public class LazySegmentTree {
         // complete overlap
         else if (l <= low && high <= r) {
             lazy[idx] += val;
+            // updating here is important as we need the update value in the recursion
             updateLazy(idx, low, high);
             return;
         }
