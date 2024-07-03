@@ -3,43 +3,42 @@ package striverCP.dp;
 import java.util.*;
 import java.io.*;
 
-public class Q17 {
+public class Q21 {
+
+    static int n, m;
+
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int t = 1;
-        while (t-- > 0) {
-            int n = sc.nextInt(), m = sc.nextInt();
-            int arr[] = sc.narr(n);
-            if (n > m)
-                out.println("YES");
-            else {
-                boolean dp[] = new boolean[m];
-                boolean isPossible = false;
-                for (int num : arr) {
-                    int rem = num % m;
-                    boolean next[] = new boolean[m];
-                    for (int i = 0; i < m; i++) {
-                        if (dp[i]) {
-                            next[(rem + i) % m] = true;
-                        }
-                    }
-                    dp[rem] = true;
+        char[] str = sc.next().toCharArray();
+        n = str.length;
+        m = sc.nextInt();
+        long dp[][] = new long[1 << n][m];
+        for (long arr[] : dp)
+            Arrays.fill(arr, -1L);
 
-                    for(int i = 0; i<m; i++){
-                        dp[i] = next[i] | dp[i];
-                    }
-                    if (dp[0]) {
-                        isPossible = true;
-                        break;
-                    }
-                }
+        out.println(memo(dp, str, 0, 0, 0));
 
-                out.println(isPossible ? "YES" : "NO");
+        out.close();
+    }
+
+    public static long memo(long dp[][], char[] str, int i, int rem, int bit) {
+        if (i == n)
+            return rem == 0 ? 1 : 0;
+        if (dp[bit][rem] != -1)
+            return dp[bit][rem];
+        long count = 0;
+        for (int j = 0; j < str.length; j++) {
+            if (((1 << j) & bit) == 0) {
+                if(i == 0 && str[j] == '0') continue;
+                bit = bit | (1 << j);
+                count += memo(dp, str, i + 1, (rem * 10 + (str[j] - '0')) % m, bit);
+                bit = bit ^ (1 << j);
             }
         }
 
-        out.close();
+        dp[bit][rem] = count;
+        return count;
     }
 
     static class Scanner {

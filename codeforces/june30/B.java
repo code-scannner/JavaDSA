@@ -1,42 +1,28 @@
-package striverCP.dp;
-
+package codeforces.june30;
 import java.util.*;
 import java.io.*;
-
-public class Q17 {
+public class B {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int t = 1;
+        int t = sc.nextInt();
         while (t-- > 0) {
-            int n = sc.nextInt(), m = sc.nextInt();
+            int n = sc.nextInt();
             int arr[] = sc.narr(n);
-            if (n > m)
-                out.println("YES");
-            else {
-                boolean dp[] = new boolean[m];
-                boolean isPossible = false;
-                for (int num : arr) {
-                    int rem = num % m;
-                    boolean next[] = new boolean[m];
-                    for (int i = 0; i < m; i++) {
-                        if (dp[i]) {
-                            next[(rem + i) % m] = true;
-                        }
-                    }
-                    dp[rem] = true;
+            int max = Integer.MIN_VALUE;
+            int diffmax = 0;
+            long sum = 0;
+            for(int i = 0; i<n; i++){
 
-                    for(int i = 0; i<m; i++){
-                        dp[i] = next[i] | dp[i];
-                    }
-                    if (dp[0]) {
-                        isPossible = true;
-                        break;
-                    }
+                if(arr[i] < max){
+                    sum += (max - arr[i]);
+                    diffmax = Math.max(diffmax, max - arr[i]);
                 }
 
-                out.println(isPossible ? "YES" : "NO");
+                max = Math.max(max, arr[i]);
             }
+            
+            out.println(sum + diffmax);
         }
 
         out.close();

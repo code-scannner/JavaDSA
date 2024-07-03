@@ -10,10 +10,34 @@ class Codechef {
         Scanner sc = new Scanner();
         int t = sc.nextInt();
         while (t-- > 0) {
-            char [] str = sc.next().toCharArray();
-            
+            int n = sc.nextInt(), k = sc.nextInt(), h = sc.nextInt();
+            long sum = 0;
+
+            for(int b = 1; b<=n; b++){
+                int res = binarySearch(b, k, h, n);
+                sum += res;
+            }
+
+            out.println(sum);
         }
         out.close();
+    }
+
+    public static int binarySearch(int a, int k, int h, int n){
+        if(a >= h) return n;
+        int left = 1;
+        int right = a - 1;
+        while(left <= right){
+            int b = (right + left)>>1;
+            if(k > (int)Math.ceil((double)(h - a)/ (a - b))){
+                left = b + 1;
+            }
+            else{
+                right = b - 1;
+            }
+        }
+
+        return right;
     }
 
     static class Scanner {

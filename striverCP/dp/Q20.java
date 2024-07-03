@@ -3,43 +3,49 @@ package striverCP.dp;
 import java.util.*;
 import java.io.*;
 
-public class Q17 {
+public class Q20 {
+
+    static int mod = (int) 1e9 + 7;
+
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int t = 1;
-        while (t-- > 0) {
-            int n = sc.nextInt(), m = sc.nextInt();
-            int arr[] = sc.narr(n);
-            if (n > m)
-                out.println("YES");
-            else {
-                boolean dp[] = new boolean[m];
-                boolean isPossible = false;
-                for (int num : arr) {
-                    int rem = num % m;
-                    boolean next[] = new boolean[m];
-                    for (int i = 0; i < m; i++) {
-                        if (dp[i]) {
-                            next[(rem + i) % m] = true;
-                        }
-                    }
-                    dp[rem] = true;
+        int n = sc.nextInt(), a = sc.nextInt(), b = sc.nextInt(), k = sc.nextInt();
+        int dp[][] = new int[n + 1][k + 1];
+        for (int arr[] : dp)
+            Arrays.fill(arr, -1);
+        int res = ((memo(dp, a, k, b, n) - memo(dp, a - 1, k, b, n))%mod + mod)%mod;
+        out.println(res);
+        out.close();
+    }
 
-                    for(int i = 0; i<m; i++){
-                        dp[i] = next[i] | dp[i];
-                    }
-                    if (dp[0]) {
-                        isPossible = true;
-                        break;
-                    }
-                }
+    static int memo(int[][] dp, int a, int k, int b, int n) {
+        if (k == 0)
+            return a;
+        if (a == 0)
+            return 0;
+        if (dp[a][k] != -1)
+            return dp[a][k];
 
-                out.println(isPossible ? "YES" : "NO");
-            }
+        long sum = 0;
+        int diff = Math.abs(a - b) - 1;
+        if (a > b) {
+            sum = memo(dp, Math.min(a + diff, n), k - 1, b, n);
+            sum = sum - memo(dp, b, k - 1, b, n);
+        } else {
+            sum = memo(dp, b - 1, k - 1, b, n);
+            sum = sum - memo(dp, Math.max(0, a - diff - 1), k - 1, b, n);
         }
 
-        out.close();
+        sum -= memo(dp, a, k - 1, b, n);
+        sum += memo(dp, a - 1, k - 1, b, n);
+        sum += memo(dp, a - 1, k, b, n);
+
+        int res = (int) (sum % mod + mod) % mod;
+
+        dp[a][k] = res;
+        return res;
+
     }
 
     static class Scanner {

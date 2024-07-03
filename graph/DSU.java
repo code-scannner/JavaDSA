@@ -37,7 +37,7 @@ public class DSU {
     }
 
     public boolean areConnected(int node1, int node2) {
-        return findParent(node2) == findParent(node2);
+        return findParent(node1) == findParent(node2);
     }
 
     public int connectedComponents() {

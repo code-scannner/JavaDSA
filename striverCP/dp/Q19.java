@@ -3,41 +3,24 @@ package striverCP.dp;
 import java.util.*;
 import java.io.*;
 
-public class Q17 {
+public class Q19 {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int t = 1;
-        while (t-- > 0) {
-            int n = sc.nextInt(), m = sc.nextInt();
-            int arr[] = sc.narr(n);
-            if (n > m)
-                out.println("YES");
-            else {
-                boolean dp[] = new boolean[m];
-                boolean isPossible = false;
-                for (int num : arr) {
-                    int rem = num % m;
-                    boolean next[] = new boolean[m];
-                    for (int i = 0; i < m; i++) {
-                        if (dp[i]) {
-                            next[(rem + i) % m] = true;
-                        }
-                    }
-                    dp[rem] = true;
-
-                    for(int i = 0; i<m; i++){
-                        dp[i] = next[i] | dp[i];
-                    }
-                    if (dp[0]) {
-                        isPossible = true;
-                        break;
-                    }
-                }
-
-                out.println(isPossible ? "YES" : "NO");
+        int n = sc.nextInt();
+        int arr[] = sc.narr(n);
+        int dp[] = new int[n + 1];
+        
+        for (int i = n - 1; i >= 0; i--) {
+            int min = 1 + dp[i + 1];
+            int hori_strokes = arr[i];
+            for (int j = i + 1; j < n; j++) {
+                hori_strokes += Math.max(0, arr[j] - arr[j - 1]);
+                min = Math.min(min, hori_strokes + dp[j + 1]);
             }
+            dp[i] = min;
         }
+        out.println(dp[0]);
 
         out.close();
     }
