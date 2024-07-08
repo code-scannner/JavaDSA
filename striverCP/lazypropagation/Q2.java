@@ -3,7 +3,7 @@ package striverCP.lazypropagation;
 import java.util.*;
 import java.io.*;
 
-public class A {
+public class Q2 {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
@@ -12,22 +12,13 @@ public class A {
         SegmentTree sg = new SegmentTree(arr);
         int m = sc.nextInt();
         while (m-- > 0) {
-            String str[] = sc.nextLine().split(" ");
-            int lf = Integer.parseInt(str[0]), rg = Integer.parseInt(str[1]);
-            if (str.length == 3) {
-                int v = Integer.parseInt(str[2]);
-                if (lf <= rg) {
-                    sg.update(lf, rg, v);
-                } else {
-                    sg.update(lf, n - 1, v);
-                    sg.update(0, rg, v);
-                }
+            int type = sc.nextInt();
+            int l = sc.nextInt(), r = sc.nextInt();
+            if (type == 1) {
+                out.println(sg.query(l - 1, r - 1));
             } else {
-                if (lf <= rg) {
-                    out.println(sg.query(lf, rg));
-                } else {
-                    out.println(Math.min(sg.query(lf, n - 1), sg.query(0, rg)));
-                }
+                int x = sc.nextInt();
+                sg.update(l - 1, r - 1, x);
             }
         }
 
@@ -35,23 +26,33 @@ public class A {
     }
 
     static class SegmentTree {
-        long seg[];
-        long lazy[];
-        int no_overlap_val = Integer.MAX_VALUE;
+        int seg[][];
+        boolean lazy[][];
+        int no_overlap_val[] = new int[20];
 
         SegmentTree(int arr[]) {
-            seg = new long[arr.length * 4];
-            lazy = new long[arr.length * 4];
+            seg = new int[arr.length * 4][20];
+            lazy = new boolean[arr.length * 4][20];
             build(arr, 0, 0, arr.length - 1);
         }
 
-        public long eval(long left, long right) {
-            return Math.min(left, right);
+        public int[] eval(int[] left, int[] right) {
+            int res[] = new int[20];
+            for (int i = 0; i < 20; i++) {
+                res[i] = left[i] + right[i];
+            }
+            return res;
+
         }
 
         private void build(int arr[], int idx, int low, int high) {
             if (low == high) {
-                seg[idx] = arr[low];
+                seg[idx] = new int[20];
+                for (int i = 0; i < 20; i++) {
+                    if ((arr[low] & (1 << i)) != 0) {
+                        seg[idx][i] = 1;
+                    }
+                }
                 return;
             }
             int mid = low + (high - low) / 2;
@@ -64,12 +65,19 @@ public class A {
 
         // update the pending values whenever visiting the node
         public void updateLazy(int idx, int l, int r) {
-            seg[idx] += lazy[idx];
-            if (l != r) {
-                lazy[2 * idx + 1] += lazy[idx];
-                lazy[2 * idx + 2] += lazy[idx];
+            int n = r - l + 1;
+            int left = 2 * idx + 1;
+            int right = left + 1;
+            for (int i = 0; i < 20; i++) {
+                if (lazy[idx][i]) {
+                    seg[idx][i] = n - seg[idx][i];
+                    if (l != r) {
+                        lazy[left][i] = !lazy[left][i];
+                        lazy[right][i] = !lazy[right][i];
+                    }
+                    lazy[idx][i] = false;
+                }
             }
-            lazy[idx] = 0;
         }
 
         // update the range from l to r adding with value
@@ -85,12 +93,18 @@ public class A {
             if (low > r || high < l) {
                 return;
             }
+
             // complete overlap
             else if (l <= low && high <= r) {
-                lazy[idx] += val;
+                for (int i = 0; i < 20; i++) {
+                    if ((val & (1 << i)) != 0) {
+                        lazy[idx][i] = !lazy[idx][i];
+                    }
+                }
                 updateLazy(idx, low, high);
                 return;
             }
+
             // partial overlap
             else {
                 int mid = low + (high - low) / 2;
@@ -103,10 +117,15 @@ public class A {
         }
 
         public long query(int left, int right) {
-            return query(0, 0, seg.length / 4 - 1, left, right);
+            int[] res = query(0, 0, seg.length / 4 - 1, left, right);
+            long ans = 0;
+            for (int i = 0; i < 20; i++) {
+                ans += res[i] * (long) Math.pow(2, i);
+            }
+            return ans;
         }
 
-        private long query(int idx, int low, int high, int l, int r) {
+        private int[] query(int idx, int low, int high, int l, int r) {
 
             // visit to low - high updates the node
             updateLazy(idx, low, high);

@@ -3,7 +3,7 @@ package striverCP.lazypropagation;
 import java.util.*;
 import java.io.*;
 
-public class B {
+public class Q3 {
     static PrintWriter out = new PrintWriter(System.out);
 
     public static void main(String[] args) throws IOException {
