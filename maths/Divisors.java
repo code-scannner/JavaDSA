@@ -21,8 +21,8 @@ public class Divisors {
         System.out.println(divisors(91));
         System.out.println(divisors(23));
         System.out.println(divisors(1));
-        System.out.println(divisors(105*105*105*105));
-        System.out.println(divisors(1001));
+        // System.out.println(divisors(105*105*105*105));
+        System.out.println(divisors(100000).size());
     }
 }
 

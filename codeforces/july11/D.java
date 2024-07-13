@@ -1,56 +1,40 @@
-package striverCP.dp;
+package codeforces.july11;
 
 import java.util.*;
 import java.io.*;
 
-public class Q21 {
-
-    static int n, m;
-
+public class D {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        long number = sc.nextLong();
-        m = sc.nextInt();
-        List<Integer> list = new ArrayList<>();
-        int freq[] = new int[10];
-        while(number > 0){
-            int digit = (int)(number%10);
-            list.add(digit);
-            freq[digit]++;
-            number/=10;
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            int MAX = (int)1e9;
+            int n = sc.nextInt(), m = sc.nextInt(), k = sc.nextInt();
+            String str = sc.next();
+            char path[] = ("L" + str).toCharArray();
+            int dp[] = new int[path.length];
+            for (int i = path.length - 1; i >= 0; i--) {
+                if (path[i] == 'C')
+                    dp[i] = MAX;
+                if (path[i] == 'L') {
+                    // then i can jump;
+                    if(i + m >= n + 1) continue;
+                    dp[i] = MAX;
+                    for(int j = i + 1; j<=i + m;j++){
+                        dp[i] = Math.min(dp[i], dp[j]);
+                    }
+
+                } else if (path[i] == 'W') {
+                    if(i + 1 == n + 1) dp[i] = 1;
+                    else dp[i] = 1 + dp[i + 1];
+                }
+            }
+
+            out.println(dp[0] <= k ? "YES" : "NO");
         }
-
-        n = list.size();
-
-        long dp[][] = new long[1 << n][m];
-        for (long arr[] : dp)
-            Arrays.fill(arr, -1L);
-
-        long ans = memo(dp, list, 0, 0, 0);
-
-        out.println(ans);
 
         out.close();
-    }
-
-    public static long memo(long dp[][], List<Integer> list, int i, int rem, int bit) {
-        if (i == n)
-            return rem == 0 ? 1 : 0;
-        if (dp[bit][rem] != -1)
-            return dp[bit][rem];
-        long count = 0;
-        boolean visited[] = new boolean[10];
-        for (int j = 0; j < n; j++) {
-            if(visited[list.get(j)]) continue;
-            if (((1 << j) & bit) == 0) {
-                if(i == 0 && list.get(j) == 0) continue;
-                count += memo(dp, list, i + 1, (rem * 10 + list.get(j)) % m, bit | (1 << j));
-                visited[list.get(j)] = true;
-            }
-        }
-
-        return dp[bit][rem] = count;
     }
 
     static class Scanner {

@@ -1,95 +1,52 @@
+// First Subsequence Google ✅
 package codechef;
 
-import java.util.*;
-import java.io.*;
+import java.util.Scanner;
 
-class Codechef {
+public class Codechef {
 
-    public static void main(String[] args) throws IOException, java.lang.Exception {
-        PrintWriter out = new PrintWriter(System.out);
-        Scanner sc = new Scanner();
-        int t = sc.nextInt();
-        while (t-- > 0) {
-            int n = sc.nextInt(), k = sc.nextInt(), h = sc.nextInt();
-            long sum = 0;
+    public static boolean isSubsequenceWithOneChange(String A, String B, int s) {
+        int m = B.length();
+        int n = A.length();
+        int j = 1; // Start comparing from the second character of B
+        int c = 0; // Track the number of changes made
 
-            for(int b = 1; b<=n; b++){
-                int res = binarySearch(b, k, h, n);
-                sum += res;
+        for (int i = s + 1; i < n && j < m; ++i) {
+            if (A.charAt(i) == B.charAt(j)) {
+                j++;
+            } else if (c == 0) {
+                c++;
+                j++;
             }
-
-            out.println(sum);
         }
-        out.close();
+
+        return j == m || (j == m - 1 && c == 0);
     }
 
-    public static int binarySearch(int a, int k, int h, int n){
-        if(a >= h) return n;
-        int left = 1;
-        int right = a - 1;
-        while(left <= right){
-            int b = (right + left)>>1;
-            if(k > (int)Math.ceil((double)(h - a)/ (a - b))){
-                left = b + 1;
-            }
-            else{
-                right = b - 1;
+    public static int firstOccurrence(String A, String B) {
+        int m = B.length();
+        int n = A.length();
+
+        for (int i = 0; i <= n - m; ++i) {
+            if (A.charAt(i) == B.charAt(0) && isSubsequenceWithOneChange(A, B, i)) {
+                return i + 1;
             }
         }
 
-        return right;
+        return -1;
     }
 
-    static class Scanner {
-        BufferedReader br;
-        StringTokenizer st;
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        sc.nextLine(); // Consume newline
 
-        Scanner() {
-            br = new BufferedReader(new InputStreamReader(System.in));
+        for (int t = 0; t < T; ++t) {
+            String A = sc.nextLine();
+            String B = sc.nextLine();
+            System.out.println(firstOccurrence(A, B));
         }
 
-        Scanner(String fileName) throws FileNotFoundException {
-            br = new BufferedReader(new FileReader(fileName));
-        }
-
-        int[] narr(int n) throws IOException {
-            int result[] = new int[n];
-            for (int i = 0; i < n; i++)
-                result[i] = nextInt();
-            return result;
-        }
-
-        String[] nstr(int n) throws IOException {
-            String result[] = new String[n];
-            for (int i = 0; i < n; i++)
-                result[i] = next();
-            return result;
-        }
-
-        String next() throws IOException {
-            while (st == null || !st.hasMoreTokens())
-                st = new StringTokenizer(br.readLine());
-            return st.nextToken();
-        }
-
-        String nextLine() throws IOException {
-            return br.readLine();
-        }
-
-        int nextInt() throws IOException {
-            return Integer.parseInt(next());
-        }
-
-        long nextLong() throws NumberFormatException, IOException {
-            return Long.parseLong(next());
-        }
-
-        double nextDouble() throws NumberFormatException, IOException {
-            return Double.parseDouble(next());
-        }
-
-        boolean ready() throws IOException {
-            return br.ready();
-        }
+        sc.close();
     }
 }
