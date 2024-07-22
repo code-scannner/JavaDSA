@@ -1,52 +1,76 @@
-// First Subsequence Google ✅
 package codechef;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class Codechef {
+    static int MAX = (int) 1e9 + 7;
 
-    public static boolean isSubsequenceWithOneChange(String A, String B, int s) {
-        int m = B.length();
-        int n = A.length();
-        int j = 1; // Start comparing from the second character of B
-        int c = 0; // Track the number of changes made
-
-        for (int i = s + 1; i < n && j < m; ++i) {
-            if (A.charAt(i) == B.charAt(j)) {
-                j++;
-            } else if (c == 0) {
-                c++;
-                j++;
-            }
+    public static int solve(int a, int b, int c, int d, int e, int f, int n) {
+        int mat[][] = {
+                { a, 0, 0, 0, b, 0 },
+                { 0, c, 0, 0, 0, d },
+                { 1, 0, e, f, 0, 0 },
+                { 1, 0, 0, 0, 0, 0 },
+                { 0, 1, 0, 0, 0, 0 },
+                { 0, 0, 1, 0, 0, 0 }
+        };
+        int pow[][] = matPow(mat, n - 1, MAX);
+        long ans = 0;
+        for (int i = 0; i < 6; i++) {
+            ans = ans + pow[0][i];
         }
 
-        return j == m || (j == m - 1 && c == 0);
+        return (int) (ans % MAX);
+
     }
 
-    public static int firstOccurrence(String A, String B) {
-        int m = B.length();
-        int n = A.length();
+    // printMatrix
+    public static void printMatrix(int[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
 
-        for (int i = 0; i <= n - m; ++i) {
-            if (A.charAt(i) == B.charAt(0) && isSubsequenceWithOneChange(A, B, i)) {
-                return i + 1;
+    // given that both are square matrix of order n
+    // Time Complexity O(n^3)
+    public static int[][] multiply(int[][] mat1, int[][] mat2, int mod) {
+        int n = mat1.length;
+        int res[][] = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                long val = 0;
+                for (int k = 0; k < n; k++) {
+                    val += ((long) mat1[i][k] * mat2[k][j]) % mod;
+                }
+                res[i][j] = (int) (val % mod);
             }
         }
+        return res;
+    }
 
-        return -1;
+    public static int[][] matPow(int[][] mat, long p, int range) {
+        if (p == 0) {
+            int n = mat.length;
+            int base[][] = new int[n][n];
+            for (int i = 0; i < n; i++) {
+                base[i][i] = 1;
+            }
+            return base;
+        }
+        if (p == 1)
+            return mat;
+        int res[][] = matPow(mat, p / 2, range);
+        int ans[][] = multiply(res, res, range);
+        if (p % 2 == 1) {
+            return multiply(ans, mat, range);
+        }
+        return ans;
     }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int T = sc.nextInt();
-        sc.nextLine(); // Consume newline
-
-        for (int t = 0; t < T; ++t) {
-            String A = sc.nextLine();
-            String B = sc.nextLine();
-            System.out.println(firstOccurrence(A, B));
-        }
-
-        sc.close();
+        System.out.println(solve(5, 6, 3, 7, 1, 2, 5));
     }
 }

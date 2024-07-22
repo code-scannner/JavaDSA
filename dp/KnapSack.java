@@ -34,8 +34,8 @@ public class KnapSack {
         if (i == 0) {
             dp[0][bag] = wt[0] <= bag ? val[0] : Integer.MIN_VALUE;
         } else {
-            int keep = memorization(wt, val,dp, i - 1, bag - wt[i]) + val[i];
-            int leave = memorization(wt, val,dp, i - 1, bag);
+            int keep = memorization(wt, val, dp, i - 1, bag - wt[i]) + val[i];
+            int leave = memorization(wt, val, dp, i - 1, bag);
             dp[i][bag] = Math.max(keep, leave);
 
         }
@@ -90,8 +90,9 @@ public class KnapSack {
         for (int[] is : dp) {
             Arrays.fill(is, -1);
         }
-        System.out.println(memorization(wt, val, dp, wt.length - 1, 9));
-        for(int [] is : dp){
+        System.out.println(memorization(wt, val, dp, wt.length - 1, bag));
+
+        for (int[] is : dp) {
             System.out.println(Arrays.toString(is));
         }
 

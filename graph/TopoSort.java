@@ -47,8 +47,7 @@ public class TopoSort {
             int node = q.poll();
             order.add(node);
             for (int i : adj.get(node)) {
-                indegree[i]--;
-                if (indegree[i] == 0) {
+                if (--indegree[i] == 0) {
                     q.offer(i);
                 }
             }

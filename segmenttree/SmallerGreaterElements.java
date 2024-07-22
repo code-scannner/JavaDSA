@@ -5,10 +5,11 @@ import java.util.*;
 public class SmallerGreaterElements {
     /**
      * @param right if searching for right elements set true, else false
-     * @param equal if searching for elements (greater equal/ smaller equal) to itself set true, else false
+     * @param equal if searching for elements (greater equal/ smaller equal) to
+     *              itself set true, else false
      * @return a indexed version of array for searching in binary indexed tree
      */
-    public static int[] indexedArray(int arr[], boolean right, boolean equal) {
+    public static int[] indexSort(int arr[], boolean right, boolean equal) {
 
         // formula for relative Ordering true or not when we deal with duplicate
         // elements
@@ -30,7 +31,7 @@ public class SmallerGreaterElements {
 
     public static int[] smallerRight(int arr[], boolean equal) {
         int n = arr.length;
-        int index[] = indexedArray(arr, true, equal);
+        int index[] = indexSort(arr, true, equal);
         BinaryIndexedTree bit = new BinaryIndexedTree(n + 1);
         int res[] = new int[n];
         for (int i = n - 1; i >= 0; i--) {
@@ -42,7 +43,7 @@ public class SmallerGreaterElements {
 
     public static int[] smallerLeft(int arr[], boolean equal) {
         int n = arr.length;
-        int index[] = indexedArray(arr, false, equal);
+        int index[] = indexSort(arr, false, equal);
         BinaryIndexedTree bit = new BinaryIndexedTree(n + 1);
         int res[] = new int[n];
         for (int i = 0; i < n; i++) {

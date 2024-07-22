@@ -1,7 +1,18 @@
 package utilities;
+import java.util.*;
+import java.util.stream.IntStream;
 
 public class arrays {
     public static void main(String[] args) {
+
+        // Arrays any
+        int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8 };
+       IntStream istrue = Arrays.stream(arr);
+       System.out.println(istrue.allMatch(a->a > 0));
+
+        
+
+
         // int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8 };
         // int copy[] = Arrays.copyOf(arr, arr.length + 1);
         // System.out.println(Arrays.toString(copy));
@@ -28,23 +39,7 @@ public class arrays {
         // int index = Arrays.binarySearch(arr, 4);
         // System.out.println(index);
 
-        int val = 1914;
-        for (int i = 100; i <= 999; i++) {
-            int x = i;
-            int y = val - i;
-            if (isLarge(x) && isLarge(y)) {
-                System.out.println(x + "," + y);
-            }
-        }
 
     }
 
-    public static boolean isLarge(int x) {
-        while (x > 0) {
-            if (x % 10 < 5)
-                return false;
-            x /= 10;
-        }
-        return true;
-    }
 }
