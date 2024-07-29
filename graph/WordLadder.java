@@ -3,176 +3,104 @@ package graph;
 import java.util.*;
 
 public class WordLadder {
+    public static void main(String[] args) {
+        String beginWord = "hit", endWord = "cog";
+        List<String> wordList = Arrays.asList("hot", "dot", "dog", "lot", "log", "cog");
+        Solution sol = new Solution();
+        System.out.println(sol.findLadders(beginWord, endWord, wordList));
+    }
 
-    public static int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        int n = beginWord.length();
+}
 
+class Solution {
+    Set<String> words = new HashSet<>();
+    List<List<String>> result = new ArrayList<>();
+
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+        for (String word : wordList) {
+            words.add(word);
+        }
+        if(!words.contains(endWord)) return result;
+        words.add(beginWord);
+        int length = ladderLength(endWord, beginWord);
+        System.out.println(length);
+        dfs(endWord, beginWord, length);
+        return result;
+
+    }
+
+    public boolean oneDiff(String s1, String s2) {
+        int cnt = 0;
+        for (int i = 0; i < s1.length(); i++) {
+            if (s1.charAt(i) != s2.charAt(i))
+                cnt++;
+            if (cnt > 1)
+                return false;
+        }
+        return cnt == 1;
+    }
+
+    public int ladderLength(String beginWord, String endWord) {
+        class Node {
+            String word;
+            int depth;
+
+            Node(String s, int d) {
+                word = s;
+                depth = d;
+            }
+        }
         Set<String> visited = new HashSet<>();
 
-        Set<String> words = new HashSet<>();
-        for (String word : wordList)
-            words.add(word);
-
-        Queue<String> q = new LinkedList<>();
-        q.offer(beginWord);
+        Queue<Node> q = new LinkedList<>();
+        q.offer(new Node(beginWord, 0));
         visited.add(beginWord);
-        int out = 1;
+
         while (!q.isEmpty()) {
-            int size = q.size();
-            while (size > 0) {
-                String word = q.poll();
-                if (word.equals(endWord))
-                    return out;
-                StringBuilder str = new StringBuilder(word);
-                for (int i = 0; i < n; i++) {
-                    for (char j = 'a'; j <= 'z'; j++) {
-                        str.setCharAt(i, j);
-                        String next = str.toString();
-                        if (words.contains(next) && !visited.contains(next)) {
-                            visited.add(next);
-                            q.offer(next);
-                        }
-                    }
-                    str.setCharAt(i, word.charAt(i));
+            Node node = q.poll();
+            if (node.word.equals(endWord))
+                return node.depth;
+            for (String word : words) {
+                if (oneDiff(word, node.word) && !visited.contains(word)) {
+                    visited.add(word);
+                    q.offer(new Node(word, node.depth + 1));
                 }
-                size--;
             }
-            out++;
         }
 
         return 0;
     }
 
-    public static List<List<String>> findLadder(String beginWord, String endWord, List<String> wordList) {
-
-        List<List<String>> result = new ArrayList<>();
-        int n = beginWord.length();
-
+    public List<List<String>> dfs(String beginWord, String endWord, int n) {
         List<String> ans = new ArrayList<>();
-        ans.add(beginWord);
-        Queue<List<String>> q = new LinkedList<>();
-        q.offer(ans);
-
-        Set<String> words = new HashSet<>();
-        for (String word : wordList)
-            words.add(word);
-
         Set<String> visited = new HashSet<>();
         visited.add(beginWord);
-
-        while (!q.isEmpty()) {
-            int size = q.size();
-            Set<String> nextVisited = new HashSet<>();
-            while (size > 0) {
-                List<String> patt = q.poll();
-                String lastWord = patt.get(patt.size() - 1);
-                if (lastWord.equals(endWord))
-                    result.add(patt);
-                else {
-                    StringBuilder str = new StringBuilder(lastWord);
-                    for (int i = 0; i < n; i++) {
-                        for (char j = 'a'; j <= 'z'; j++) {
-                            str.setCharAt(i, j);
-                            String next = str.toString();
-                            if (words.contains(next) && !visited.contains(next)) {
-                                List<String> nextPatt = new ArrayList<>(patt);
-                                nextPatt.add(str.toString());
-                                q.offer(nextPatt);
-                                nextVisited.add(str.toString());
-                            }
-                        }
-                        str.setCharAt(i, lastWord.charAt(i));
-                    }
-                }
-                size--;
-            }
-            visited.addAll(nextVisited);
-        }
-
+        _dfs(ans, visited, beginWord, endWord, n);
         return result;
     }
 
-    public static List<List<String>> findLadderLessTime(String beginWord, String endWord, List<String> wordList) {
-        int n = beginWord.length();
+    public void _dfs(List<String> ans, Set<String> visited, String beginWord, String endWord, int n) {
 
-        List<List<String>> result = new ArrayList<>();
+        if (n < 0)
+            return;
 
-        Set<String> visited = new HashSet<>();
-
-        Set<String> words = new HashSet<>();
-        for (String word : wordList)
-            words.add(word);
-
-        Queue<String> q = new LinkedList<>();
-        q.offer(beginWord);
-        visited.add(beginWord);
-
-        Map<String, Integer> map = new HashMap<>();
-        map.put(beginWord, 0);
-        int out = 0;
-        while (!q.isEmpty()) {
-            int size = q.size();
-            while (size > 0) {
-                String word = q.poll();
-                if (word.equals(endWord)) {
-                    map.put(word, out);
-                    break;
-                }
-                map.put(word, out);
-
-                StringBuilder str = new StringBuilder(word);
-                for (int i = 0; i < n; i++) {
-                    for (char j = 'a'; j <= 'z'; j++) {
-                        str.setCharAt(i, j);
-                        String next = str.toString();
-                        if (words.contains(next) && !visited.contains(next)) {
-                            visited.add(next);
-                            q.offer(next);
-                        }
-                    }
-                    str.setCharAt(i, word.charAt(i));
-                }
-                size--;
-            }
-            out++;
-        }
-        List<String> ans = new ArrayList<>();
-        dfs(result, ans, out, map, endWord);
-
-        System.out.println(map);
-        return result;
-    }
-
-    public static void dfs(List<List<String>> result, List<String> ans, int i, Map<String, Integer> map, String word) {
-        if (i == 0) {
-            List<String> finalans = new ArrayList<>(ans);
-            Collections.reverse(finalans);
-            result.add(finalans);
+        if (beginWord.equals(endWord)) {
+            ans.add(endWord);
+            List<String> res = new ArrayList<>(ans);
+            Collections.reverse(res);
+            result.add(res);
+            ans.remove(ans.size() - 1);
             return;
         }
+        ans.add(beginWord);
 
-        StringBuilder str = new StringBuilder(word);
-
-        for (int k = 0; k < word.length(); k++) {
-            for (char j = 'a'; j <= 'z'; j++) {
-                str.setCharAt(k, j);
-                if (map.getOrDefault(str.toString(), -2) == i - 1) {
-                    ans.add(str.toString());
-                    dfs(result, ans, i - 1, map, str.toString());
-                    ans.remove(ans.size() - 1);
-                }
+        for (String next : words) {
+            if (oneDiff(next, beginWord) && !visited.contains(next)) {
+                visited.add(next);
+                _dfs(ans, visited, next, endWord, n - 1);
+                visited.remove(next);
             }
-            str.setCharAt(k, word.charAt(k));
         }
-
-    }
-
-    public static void main(String[] args) {
-        String beginWord = "hit", endWord = "cog";
-        List<String> wordList = Arrays.asList("hot", "dot", "dog", "lot", "log", "cog");
-        int result = ladderLength(beginWord, endWord, wordList);
-        System.out.println(result);
-        System.out.println(findLadder(beginWord, endWord, wordList));
-        System.out.println(findLadderLessTime(beginWord, endWord, wordList));
+        ans.remove(ans.size() - 1);
     }
 }

@@ -1,47 +1,45 @@
-package codechef;
+package codeforces.july28;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+public class B {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
         int t = sc.nextInt();
         while (t-- > 0) {
             int n = sc.nextInt();
-            long l = sc.nextLong(), r = sc.nextLong();
-            int result[] = new int[n];
-            for (int i = 0; i < n; i++) {
-                result[i] = i + 1;
+            int b[] = sc.narr(n - 1);
+            int a[] = new int[n];
+            boolean isPossible = true;
+            for (int i = 1; i < n; i++) {
+                int tomake = b[i - 1];
+                for (int j = 0; j < 30; j++) {
+                    int toMakeBit = ((tomake & (1 << j)) == 0) ? 0 : 1;
+                    if (toMakeBit != 0) {
+                        a[i - 1] |= (1 << j);
+                        a[i] |= (1 << j);
+                    }
+                }
             }
-            long sum = 0;
-            for (int i = 0; i < n; i++) {
-                sum += result[i];
-                if (sum >= l) {
-                    reverse(result, i, n - 1);
+
+            for (int i = 1; i < n; i++) {
+                if ((a[i - 1] & a[i]) != b[i - 1]) {
+                    isPossible = false;
                     break;
                 }
             }
 
-            for (int i = 0; i < n; i++) {
-                out.print(result[i] + " ");
-            }
-            out.println();
-
+            if (isPossible) {
+                for (int i = 0; i < n; i++)
+                    out.print(a[i] + " ");
+                out.println();
+            } else
+                out.println(-1);
         }
+
         out.close();
-    }
-
-    public static void reverse(int arr[], int l, int r) {
-        while (l < r) {
-            int temp = arr[l];
-            arr[l] = arr[r];
-            arr[r] = temp;
-            l++;
-            r--;
-        }
     }
 
     static class Scanner {

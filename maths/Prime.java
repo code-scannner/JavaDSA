@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Prime {
     public static boolean checkPrime(int n) {
-        if(n == 1) return false;
+        if(n <= 1) return false;
         int sqrt = (int)Math.sqrt(n);
         for(int i = 2; i<=sqrt; i++){
             if(n%i == 0) return false;
@@ -94,12 +94,7 @@ public class Prime {
         // System.out.println(checkPrime(1));
         // System.out.println(checkPrime(191));
         
-        // System.out.println(primes(100000));
-        int prev = 0;
-        for(int i = (int)1e9 - 1000; i<=(int)1e9; i++){
-            if(checkPrime(i)){ System.out.print(i - prev + " ");prev = i;}
-        }
-        System.out.println();
+        System.out.println(primes(10000).size());
 
     }
 }

@@ -1,47 +1,60 @@
-package codechef;
+package codeforces.july23;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+public class B2 {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
         int t = sc.nextInt();
         while (t-- > 0) {
             int n = sc.nextInt();
-            long l = sc.nextLong(), r = sc.nextLong();
-            int result[] = new int[n];
+            long m = sc.nextLong();
+            int arr[] = sc.narr(n);
+            int c[] = sc.narr(n);
+            List<int[]> flowers = new ArrayList<>();
             for (int i = 0; i < n; i++) {
-                result[i] = i + 1;
+                flowers.add(new int[] { arr[i], c[i] });
             }
-            long sum = 0;
+            flowers.sort((a, b) -> a[0] - b[0]);
+            
+            long max = 0;
             for (int i = 0; i < n; i++) {
-                sum += result[i];
-                if (sum >= l) {
-                    reverse(result, i, n - 1);
+                int cost = flowers.get(i)[0];
+                int freq = flowers.get(i)[1];
+                long canTake = Math.min(m / cost, freq);
+                max = Math.max(max, canTake * cost);
+            }
+
+            for (int i = 0; i < n - 1; i++) {
+                
+                int greater = flowers.get(i)[0];
+                int smaller = flowers.get(i + 1)[0];
+                if(greater - smaller != 1)  continue;
+                int great_freq = flowers.get(i)[1];
+                int smaller_freq = flowers.get(i + 1)[1];
+
+                long can_take = Math.min(m / greater, great_freq);
+                long sum = can_take * greater;
+                long remain = m - sum;
+                
+                can_take = Math.min(remain / smaller, smaller_freq);
+                sum += can_take * smaller;
+                max = Math.max(sum, max);
+
+                // remain = 205;
+                if(remain < smaller && smaller_freq >= smaller - remain){
+                    max = Math.max(max, m);
                     break;
                 }
             }
 
-            for (int i = 0; i < n; i++) {
-                out.print(result[i] + " ");
-            }
-            out.println();
+            out.println(max);
 
         }
+
         out.close();
-    }
-
-    public static void reverse(int arr[], int l, int r) {
-        while (l < r) {
-            int temp = arr[l];
-            arr[l] = arr[r];
-            arr[r] = temp;
-            l++;
-            r--;
-        }
     }
 
     static class Scanner {

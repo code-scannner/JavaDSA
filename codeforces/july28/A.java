@@ -1,47 +1,22 @@
-package codechef;
-
+package codeforces.july28;
 import java.util.*;
 import java.io.*;
-
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+public class A {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
         int t = sc.nextInt();
         while (t-- > 0) {
             int n = sc.nextInt();
-            long l = sc.nextLong(), r = sc.nextLong();
-            int result[] = new int[n];
-            for (int i = 0; i < n; i++) {
-                result[i] = i + 1;
+            int arr[] = sc.narr(n);
+            int max = Integer.MIN_VALUE;
+            for(int i = 0; i<n; i+=2){
+                max = Math.max(max, arr[i]);
             }
-            long sum = 0;
-            for (int i = 0; i < n; i++) {
-                sum += result[i];
-                if (sum >= l) {
-                    reverse(result, i, n - 1);
-                    break;
-                }
-            }
-
-            for (int i = 0; i < n; i++) {
-                out.print(result[i] + " ");
-            }
-            out.println();
-
+            out.println(max);
         }
+
         out.close();
-    }
-
-    public static void reverse(int arr[], int l, int r) {
-        while (l < r) {
-            int temp = arr[l];
-            arr[l] = arr[r];
-            arr[r] = temp;
-            l++;
-            r--;
-        }
     }
 
     static class Scanner {

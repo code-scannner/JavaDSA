@@ -1,47 +1,30 @@
-package codechef;
-
+package codeforces.july26;
 import java.util.*;
 import java.io.*;
-
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+public class B {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
         int t = sc.nextInt();
         while (t-- > 0) {
             int n = sc.nextInt();
-            long l = sc.nextLong(), r = sc.nextLong();
-            int result[] = new int[n];
-            for (int i = 0; i < n; i++) {
-                result[i] = i + 1;
+            int k = sc.nextInt();
+            int size = n/k;
+            String mat[] = new String[n];
+            for(int i = 0; i<n;i++){
+                mat[i] = sc.next();
             }
-            long sum = 0;
-            for (int i = 0; i < n; i++) {
-                sum += result[i];
-                if (sum >= l) {
-                    reverse(result, i, n - 1);
-                    break;
+            for(int i = 0; i<size;i++){
+                for(int j = 0; j < size;j++){
+                    int res = mat[i * k ].charAt(j * k);
+                    out.print((char)(res));
                 }
+                out.println();
             }
-
-            for (int i = 0; i < n; i++) {
-                out.print(result[i] + " ");
-            }
-            out.println();
-
+            
         }
+
         out.close();
-    }
-
-    public static void reverse(int arr[], int l, int r) {
-        while (l < r) {
-            int temp = arr[l];
-            arr[l] = arr[r];
-            arr[r] = temp;
-            l++;
-            r--;
-        }
     }
 
     static class Scanner {

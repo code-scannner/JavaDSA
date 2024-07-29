@@ -1,47 +1,45 @@
-package codechef;
+package codeforces.july28;
 
 import java.util.*;
+
+import maths.Prime;
+
 import java.io.*;
 
-class Codechef {
+public class D {
 
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
         int t = sc.nextInt();
         while (t-- > 0) {
             int n = sc.nextInt();
-            long l = sc.nextLong(), r = sc.nextLong();
-            int result[] = new int[n];
-            for (int i = 0; i < n; i++) {
-                result[i] = i + 1;
-            }
-            long sum = 0;
-            for (int i = 0; i < n; i++) {
-                sum += result[i];
-                if (sum >= l) {
-                    reverse(result, i, n - 1);
-                    break;
+            int colors[] = new int[n + 1];
+            int max = 1;
+            for (int i = 1; i <= n; i++) {
+                boolean currColors[] = new boolean[n + 1];
+                for (int j = 1; j <= n; j++) {
+                    if (Prime.checkPrime(i ^ j)) {
+                        currColors[colors[j]] = true;
+                    }
                 }
+                int k = 1;
+                for (; k <= n; k++) {
+                    if (!currColors[k])
+                        break;
+                }
+                max = Math.max(max, k);
+                colors[i] = k;
             }
-
-            for (int i = 0; i < n; i++) {
-                out.print(result[i] + " ");
+            out.println(max);
+            for (int i = 1; i < colors.length; i++) {
+                out.print(colors[i] + " ");
             }
             out.println();
 
         }
-        out.close();
-    }
 
-    public static void reverse(int arr[], int l, int r) {
-        while (l < r) {
-            int temp = arr[l];
-            arr[l] = arr[r];
-            arr[r] = temp;
-            l++;
-            r--;
-        }
+        out.close();
     }
 
     static class Scanner {

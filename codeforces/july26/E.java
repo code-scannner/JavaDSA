@@ -1,47 +1,40 @@
-package codechef;
+package codeforces.july26;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+public class E {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
         int t = sc.nextInt();
+        int mod = (int) 1e9 + 7;
         while (t-- > 0) {
-            int n = sc.nextInt();
-            long l = sc.nextLong(), r = sc.nextLong();
-            int result[] = new int[n];
+            char[] str = sc.next().toCharArray();
+            int n = str.length;
+            int[] arr = new int[str.length];
             for (int i = 0; i < n; i++) {
-                result[i] = i + 1;
-            }
-            long sum = 0;
-            for (int i = 0; i < n; i++) {
-                sum += result[i];
-                if (sum >= l) {
-                    reverse(result, i, n - 1);
-                    break;
-                }
+                if (str[i] == '0')
+                    arr[i] = -1;
+                else
+                    arr[i] = 1;
             }
 
-            for (int i = 0; i < n; i++) {
-                out.print(result[i] + " ");
+            long ans = 0;
+            int index [] = new int[2*n + 1];
+            int prev = 0;
+            for (int i = 1; i <= n; i++) {
+                int pre = prev + arr[i - 1];
+                index[prev + n] = (int)(((long)index[prev + n] + i)%mod);
+                ans += ((long)index[pre + n]* (n - i + 1))%mod;
+                prev = pre;
             }
-            out.println();
+
+            out.println(ans);
 
         }
+
         out.close();
-    }
-
-    public static void reverse(int arr[], int l, int r) {
-        while (l < r) {
-            int temp = arr[l];
-            arr[l] = arr[r];
-            arr[r] = temp;
-            l++;
-            r--;
-        }
     }
 
     static class Scanner {

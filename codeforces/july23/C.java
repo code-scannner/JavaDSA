@@ -1,47 +1,38 @@
-package codechef;
+package codeforces.july23;
 
 import java.util.*;
 import java.io.*;
+import java.math.BigInteger;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
+public class C {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
         int t = sc.nextInt();
         while (t-- > 0) {
             int n = sc.nextInt();
-            long l = sc.nextLong(), r = sc.nextLong();
-            int result[] = new int[n];
-            for (int i = 0; i < n; i++) {
-                result[i] = i + 1;
-            }
-            long sum = 0;
-            for (int i = 0; i < n; i++) {
-                sum += result[i];
-                if (sum >= l) {
-                    reverse(result, i, n - 1);
+            long arr[] = sc.narr(n);
+            BigInteger max = new BigInteger("1");
+            int i = 0;
+            while (i < n && arr[i] == 1)
+                i++;
+            int op = 0;
+            for (; i < n; i++) {
+                if(arr[i] == 1){
+                    op = -1;
                     break;
                 }
+                BigInteger j = new BigInteger(""+arr[i]);
+                while (j.compareTo(max) == -1) {
+                    j = j.pow(2);
+                    op++;
+                }
+                max = max.max(j);
             }
-
-            for (int i = 0; i < n; i++) {
-                out.print(result[i] + " ");
-            }
-            out.println();
-
+            out.println(op);
         }
+
         out.close();
-    }
-
-    public static void reverse(int arr[], int l, int r) {
-        while (l < r) {
-            int temp = arr[l];
-            arr[l] = arr[r];
-            arr[r] = temp;
-            l++;
-            r--;
-        }
     }
 
     static class Scanner {
@@ -56,10 +47,10 @@ class Codechef {
             br = new BufferedReader(new FileReader(fileName));
         }
 
-        int[] narr(int n) throws IOException {
-            int result[] = new int[n];
+        long[] narr(int n) throws IOException {
+            long result[] = new long[n];
             for (int i = 0; i < n; i++)
-                result[i] = nextInt();
+                result[i] = nextLong();
             return result;
         }
 
