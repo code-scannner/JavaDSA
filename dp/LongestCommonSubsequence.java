@@ -25,7 +25,6 @@ public class LongestCommonSubsequence {
                 } else {
                     curr[j + 1] = Math.max(dp[j + 1], curr[j]);
                 }
-
             }
             dp = curr;
         }
