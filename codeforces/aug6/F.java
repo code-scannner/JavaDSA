@@ -22,6 +22,7 @@ public class F {
             long sum = 0;
             for (int i = (int) Math.ceil(k / 2.0); i <= k; i++) {
                 sum += combination_mod(ones, i, mod) * combination_mod(zeros, k - i, mod) % mod;
+                sum %= mod;
             }
 
             out.println(sum);
