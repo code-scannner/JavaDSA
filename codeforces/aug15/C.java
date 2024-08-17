@@ -1,53 +1,35 @@
-package striverCP.prime;
+package codeforces.aug15;
 
 import java.util.*;
 import java.io.*;
 
-
-public class Q7 {
+public class C {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int n = sc.nextInt(), m = sc.nextInt();
-        int a[] = sc.narr(n);
-        int b[] = sc.narr(m);
-        List<Integer> numer = new ArrayList<>(), denom = new ArrayList<>();
-        int i = 0, j = 0;
-        while(i < a.length && j < b.length){
-            int gcd = hcf(a[i], b[j]);
-            numer.add(a[i++]/ gcd);
-            denom.add(b[j++]/ gcd);
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            int n = sc.nextInt(), k = sc.nextInt();
+            int arr[] = sc.narr(n);
+            sc.sort(arr);
+            for (int i = n - 2; i >= 0 & k > 0; i -= 2) {
+                int toadd = Math.min(k, arr[i + 1] - arr[i]);
+                arr[i] += toadd;
+                k -= toadd;
+            }
+
+            long alice = 0, bob = 0;
+            for (int i = n - 1; i >= 0; i -= 2) {
+                alice += arr[i];
+            }
+            for (int i = n - 2; i >= 0; i -= 2) {
+                bob += arr[i];
+            }
+
+            out.println(alice - bob);
         }
-
-        while(i < a.length){
-            numer.add(a[i++]);
-            denom.add(1);
-        }
-        while(j < b.length){
-            numer.add(1);
-            denom.add(b[j++]);
-        }
-
-        out.println(numer.size() + " " + denom.size());
-
-        for(int k = 0;k <numer.size(); k++){
-            out.print(numer.get(k) + " ");
-        }
-
-        out.println();
-
-        for(int k = 0; k<denom.size(); k++){
-            out.print(denom.get(k) + " ");
-        }
-
-        out.println();
 
         out.close();
-    }
-    public static int hcf(int d, int rem) {
-        if (rem == 0)
-            return d;
-        return hcf(rem, d % rem);
     }
 
     static class Scanner {
@@ -67,6 +49,16 @@ public class Q7 {
             for (int i = 0; i < n; i++)
                 result[i] = nextInt();
             return result;
+        }
+
+        void sort(int arr[]) {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < arr.length; i++)
+                list.add(arr[i]);
+            Collections.sort(list);
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = list.get(i);
+            }
         }
 
         String[] nstr(int n) throws IOException {

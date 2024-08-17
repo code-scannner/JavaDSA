@@ -1,53 +1,41 @@
-package striverCP.prime;
+package codeforces.aug13;
 
 import java.util.*;
 import java.io.*;
 
-
-public class Q7 {
+public class E {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int n = sc.nextInt(), m = sc.nextInt();
-        int a[] = sc.narr(n);
-        int b[] = sc.narr(m);
-        List<Integer> numer = new ArrayList<>(), denom = new ArrayList<>();
-        int i = 0, j = 0;
-        while(i < a.length && j < b.length){
-            int gcd = hcf(a[i], b[j]);
-            numer.add(a[i++]/ gcd);
-            denom.add(b[j++]/ gcd);
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            int n = sc.nextInt(), m = sc.nextInt(), k = sc.nextInt();
+            int w = sc.nextInt();
+            int arr[] = sc.narr(w);
+
+            PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> b - a);
+            PriorityQueue<Long> pq2 = new PriorityQueue<>((a, b) -> b > a ? 1 : -1);
+            for (int num : arr)
+                pq.offer(num);
+
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= m; j++) {
+                    int first = Math.min(n - k + 1, i) - Math.max(1, i - k + 1) + 1;
+                    int second = Math.min(m - k + 1, j) - Math.max(1, j - k + 1) + 1;
+                    pq2.offer((long) first * second);
+                }
+            }
+
+            long score = 0;
+            while (!pq.isEmpty()) {
+                score += pq2.poll() * pq.poll();
+            }
+
+            out.println(score);
+
         }
-
-        while(i < a.length){
-            numer.add(a[i++]);
-            denom.add(1);
-        }
-        while(j < b.length){
-            numer.add(1);
-            denom.add(b[j++]);
-        }
-
-        out.println(numer.size() + " " + denom.size());
-
-        for(int k = 0;k <numer.size(); k++){
-            out.print(numer.get(k) + " ");
-        }
-
-        out.println();
-
-        for(int k = 0; k<denom.size(); k++){
-            out.print(denom.get(k) + " ");
-        }
-
-        out.println();
 
         out.close();
-    }
-    public static int hcf(int d, int rem) {
-        if (rem == 0)
-            return d;
-        return hcf(rem, d % rem);
     }
 
     static class Scanner {

@@ -1,53 +1,40 @@
-package striverCP.prime;
+package codeforces.aug13;
 
 import java.util.*;
 import java.io.*;
 
-
-public class Q7 {
+public class D {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int n = sc.nextInt(), m = sc.nextInt();
-        int a[] = sc.narr(n);
-        int b[] = sc.narr(m);
-        List<Integer> numer = new ArrayList<>(), denom = new ArrayList<>();
-        int i = 0, j = 0;
-        while(i < a.length && j < b.length){
-            int gcd = hcf(a[i], b[j]);
-            numer.add(a[i++]/ gcd);
-            denom.add(b[j++]/ gcd);
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            int n = sc.nextInt();
+            int arr[] = sc.narr(n);
+            char[] str = sc.next().toCharArray();
+            long score = 0;
+            long prefixSum[] = new long[n + 1];
+            for (int i = 1; i <= n; i++) {
+                prefixSum[i] += prefixSum[i - 1] + arr[i - 1];
+            }
+            int i = 0, j = n - 1;
+            while (i <= j) {
+                while (i < n && str[i] != 'L')
+                    i++;
+                while (j >= 0 && str[j] != 'R')
+                    j--;
+                if (i <= j) {
+                    score += prefixSum[j + 1] - prefixSum[i];
+                }
+                i++;
+                j--;
+            }
+
+            out.println(score);
+
         }
-
-        while(i < a.length){
-            numer.add(a[i++]);
-            denom.add(1);
-        }
-        while(j < b.length){
-            numer.add(1);
-            denom.add(b[j++]);
-        }
-
-        out.println(numer.size() + " " + denom.size());
-
-        for(int k = 0;k <numer.size(); k++){
-            out.print(numer.get(k) + " ");
-        }
-
-        out.println();
-
-        for(int k = 0; k<denom.size(); k++){
-            out.print(denom.get(k) + " ");
-        }
-
-        out.println();
 
         out.close();
-    }
-    public static int hcf(int d, int rem) {
-        if (rem == 0)
-            return d;
-        return hcf(rem, d % rem);
     }
 
     static class Scanner {

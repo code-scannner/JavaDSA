@@ -10,80 +10,56 @@ class Codechef {
         Scanner sc = new Scanner();
         int t = sc.nextInt();
         while (t-- > 0) {
-            int n = sc.nextInt();
-            String str = sc.next();
-            int back[] = new int[4];
-            int front[] = new int[5];
+            int n = sc.nextInt(), k = sc.nextInt();
+            int arr[] = sc.narr(n);
+            long ans = solve(arr, n, k);
 
-            for(int i = n - 1; i>=0; i--){
-                if(str.charAt(i) == 'k'){
-                    back[3]++;
-                }
-                if(str.charAt(i) == 'c'){
-                    if(back[3] > 0){
-                        back[3]--;
-                        back[2]++;
-                    }
-                }
-
-                if(str.charAt(i) == 'a'){
-                    if(back[2] > 0){
-                        back[2]--;
-                        back[1]++;
-                    }
-                }
-
-                if(str.charAt(i) == 'b'){
-                    if(back[1] > 0){
-                        back[1]--;
-                        back[0]++;
-                    }
-                }
-            }
-
-            for(int i = 0; i<n; i++){
-                if(str.charAt(i) == 'f'){
-                    front[0]++;
-                }
-                if(str.charAt(i) == 'r'){
-                    if(front[0] > 0){
-                        front[0]--;
-                        front[1]++;
-                    }
-                }
-
-                if(str.charAt(i) == 'o'){
-                    if(front[1] > 0){
-                        front[1]--;
-                        front[2]++;
-                    }
-                }
-
-                if(str.charAt(i) == 'n'){
-                    if(front[2] > 0){
-                        front[2]--;
-                        front[3]++;
-                    }
-                }
-                if(str.charAt(i) == 't'){
-                    if(front[3] > 0){
-                        front[3]--;
-                        front[4]++;
-                    }
-                }
-            }
-            int avail = back[0];
-            
-            
-
-
-
-            out.println();
-
+            out.println(ans);
         }
 
         out.close();
 
+    }
+
+    public static long solve(int arr[], int n, int k) {
+        long res = 0;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        for (int i = 0; i < n; i++) {
+            pq.offer(new int[] { arr[i], i });
+        }
+        while (pq.size() > k)
+            pq.poll();
+
+        int firstIdx = n;
+        int firstNum = 0;
+        int lastIdx = -1;
+        int lastNum = 0;
+
+        while (!pq.isEmpty()) {
+            int num[] = pq.poll();
+            res += 2 * num[0];
+            if (firstIdx > num[1]) {
+                firstIdx = num[1];
+                firstNum = num[0];
+            }
+            if (lastIdx < num[1]) {
+                lastIdx = num[1];
+                lastNum = num[0];
+            }
+        }
+
+        return res - firstNum - lastNum;
+    }
+
+    public static boolean checkPrime(int n) {
+        if (n <= 1)
+            return false;
+        int sqrt = (int) Math.sqrt(n);
+        for (int i = 2; i <= sqrt; i++) {
+            if (n % i == 0)
+                return false;
+        }
+        return true;
     }
 
     static class Scanner {
