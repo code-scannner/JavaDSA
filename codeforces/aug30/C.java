@@ -1,61 +1,35 @@
-package codechef;
+package codeforces.aug30;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
-
+public class C {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-
         int t = sc.nextInt();
         while (t-- > 0) {
-            int N = sc.nextInt(), X = sc.nextInt(), K = sc.nextInt();
-            int H[] = sc.narr(N);
-            int cnt = 0;
-            Set<Integer> set = new HashSet<>();
-            for (int i = 0; i < N; i++) {
-                if (K * X > H[i]) {
-                    if (!set.contains(H[i])) {
-                        cnt++;
-                        set.add(H[i]);
-                    }
-                }
+            int n = sc.nextInt(), a = sc.nextInt(), b = sc.nextInt();
+            int arr[] = sc.narr(n);
+            int g = hcf(a, b);
+            for (int i = 0; i < n; i++)
+                arr[i] %= g;
+            sc.sort(arr);
+            int minrange = arr[n - 1] - arr[0];
+            for (int i = 0; i < n - 1; i++) {
+                minrange = Math.min(minrange, arr[i] + g - arr[i + 1]);
             }
 
-
-            Arrays.sort(H);
-            set.clear();
-            boolean eaten[] = new boolean[N];
-
-            int ate = 0;
-
-            for(int i = N - 1; i>=0; i--){
-                if(H[i] < X){
-                    if(set.contains(H[i])){
-                        X = H[i];
-                        break;
-                    }
-                    eaten[i] = true;
-                    ate++;
-                    set.add(H[i]);
-                }
-            }
-
-            for(int i = 0; i<N; i++){
-                if(!eaten[i] && H[i] < K*X){
-                    ate++;
-                }
-            }
-
-            out.println(Math.max(cnt , ate));
-
+            out.println(minrange);
         }
 
         out.close();
+    }
 
+    public static int hcf(int d, int rem) {
+        if (rem == 0)
+            return d;
+        return hcf(rem, d % rem);
     }
 
     static class Scanner {
@@ -75,6 +49,16 @@ class Codechef {
             for (int i = 0; i < n; i++)
                 result[i] = nextInt();
             return result;
+        }
+
+        void sort(int arr[]) {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < arr.length; i++)
+                list.add(arr[i]);
+            Collections.sort(list);
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = list.get(i);
+            }
         }
 
         String[] nstr(int n) throws IOException {

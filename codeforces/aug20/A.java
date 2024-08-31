@@ -1,60 +1,35 @@
-package codechef;
+package codeforces.aug20;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
-
+public class A {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-
         int t = sc.nextInt();
         while (t-- > 0) {
-            int N = sc.nextInt(), X = sc.nextInt(), K = sc.nextInt();
-            int H[] = sc.narr(N);
-            int cnt = 0;
-            Set<Integer> set = new HashSet<>();
-            for (int i = 0; i < N; i++) {
-                if (K * X > H[i]) {
-                    if (!set.contains(H[i])) {
-                        cnt++;
-                        set.add(H[i]);
-                    }
-                }
-            }
-
-
-            Arrays.sort(H);
-            set.clear();
-            boolean eaten[] = new boolean[N];
-
-            int ate = 0;
-
-            for(int i = N - 1; i>=0; i--){
-                if(H[i] < X){
-                    if(set.contains(H[i])){
-                        X = H[i];
-                        break;
-                    }
-                    eaten[i] = true;
-                    ate++;
-                    set.add(H[i]);
-                }
-            }
-
-            for(int i = 0; i<N; i++){
-                if(!eaten[i] && H[i] < K*X){
-                    ate++;
-                }
-            }
-
-            out.println(Math.max(cnt , ate));
-
+            int n = sc.nextInt();
+            int arr[] = sc.narr(n);
+            out.println(solve(n, arr));
         }
 
         out.close();
+    }
+
+    public static int solve(int n, int arr[]) {
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < n; ++i) {
+            map.merge(arr[i], 1, Integer::sum);
+        }
+        int freq = 0;
+        for (int entry : map.keySet()) {
+            if (map.get(entry) > freq) {
+                freq = map.get(entry);
+            }
+        }
+        return n - freq;
 
     }
 
@@ -75,6 +50,16 @@ class Codechef {
             for (int i = 0; i < n; i++)
                 result[i] = nextInt();
             return result;
+        }
+
+        void sort(int arr[]) {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < arr.length; i++)
+                list.add(arr[i]);
+            Collections.sort(list);
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = list.get(i);
+            }
         }
 
         String[] nstr(int n) throws IOException {

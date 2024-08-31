@@ -1,60 +1,35 @@
-package codechef;
+package codeforces.aug20;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
+public class B {
+    static PrintWriter out = new PrintWriter(System.out);
 
-    public static void main(String[] args) throws IOException, java.lang.Exception {
-
-        PrintWriter out = new PrintWriter(System.out);
+    public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner();
-
         int t = sc.nextInt();
         while (t-- > 0) {
-            int N = sc.nextInt(), X = sc.nextInt(), K = sc.nextInt();
-            int H[] = sc.narr(N);
-            int cnt = 0;
-            Set<Integer> set = new HashSet<>();
-            for (int i = 0; i < N; i++) {
-                if (K * X > H[i]) {
-                    if (!set.contains(H[i])) {
-                        cnt++;
-                        set.add(H[i]);
-                    }
-                }
-            }
-
-
-            Arrays.sort(H);
-            set.clear();
-            boolean eaten[] = new boolean[N];
-
-            int ate = 0;
-
-            for(int i = N - 1; i>=0; i--){
-                if(H[i] < X){
-                    if(set.contains(H[i])){
-                        X = H[i];
-                        break;
-                    }
-                    eaten[i] = true;
-                    ate++;
-                    set.add(H[i]);
-                }
-            }
-
-            for(int i = 0; i<N; i++){
-                if(!eaten[i] && H[i] < K*X){
-                    ate++;
-                }
-            }
-
-            out.println(Math.max(cnt , ate));
-
+            int n = sc.nextInt();
+            solve(n);
         }
 
         out.close();
+    }
+
+    public static void solve(int n) {
+
+        if (n % 2 == 0) {
+            out.println(-1);
+            return;
+        }
+        for (int i = 1; i <= n / 2; i++) {
+            out.print(i + " ");
+        }
+        for (int i = n; i > n / 2; i--) {
+            out.print(i + " ");
+        }
+        out.println();
 
     }
 
@@ -75,6 +50,16 @@ class Codechef {
             for (int i = 0; i < n; i++)
                 result[i] = nextInt();
             return result;
+        }
+
+        void sort(int arr[]) {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < arr.length; i++)
+                list.add(arr[i]);
+            Collections.sort(list);
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = list.get(i);
+            }
         }
 
         String[] nstr(int n) throws IOException {

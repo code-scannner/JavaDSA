@@ -1,61 +1,16 @@
-package codechef;
-
+package striverCP.sqrtdecom;
 import java.util.*;
 import java.io.*;
-
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
-
+public class A {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-
         int t = sc.nextInt();
         while (t-- > 0) {
-            int N = sc.nextInt(), X = sc.nextInt(), K = sc.nextInt();
-            int H[] = sc.narr(N);
-            int cnt = 0;
-            Set<Integer> set = new HashSet<>();
-            for (int i = 0; i < N; i++) {
-                if (K * X > H[i]) {
-                    if (!set.contains(H[i])) {
-                        cnt++;
-                        set.add(H[i]);
-                    }
-                }
-            }
-
-
-            Arrays.sort(H);
-            set.clear();
-            boolean eaten[] = new boolean[N];
-
-            int ate = 0;
-
-            for(int i = N - 1; i>=0; i--){
-                if(H[i] < X){
-                    if(set.contains(H[i])){
-                        X = H[i];
-                        break;
-                    }
-                    eaten[i] = true;
-                    ate++;
-                    set.add(H[i]);
-                }
-            }
-
-            for(int i = 0; i<N; i++){
-                if(!eaten[i] && H[i] < K*X){
-                    ate++;
-                }
-            }
-
-            out.println(Math.max(cnt , ate));
-
+            
         }
 
         out.close();
-
     }
 
     static class Scanner {
@@ -75,6 +30,16 @@ class Codechef {
             for (int i = 0; i < n; i++)
                 result[i] = nextInt();
             return result;
+        }
+
+        void sort(int arr[]) {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < arr.length; i++)
+                list.add(arr[i]);
+            Collections.sort(list);
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = list.get(i);
+            }
         }
 
         String[] nstr(int n) throws IOException {
