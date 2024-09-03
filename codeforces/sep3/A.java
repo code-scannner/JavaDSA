@@ -1,13 +1,18 @@
-package striverCP.stackqueue;
+package codeforces.sep3;
+
 import java.util.*;
 import java.io.*;
-public class Q8 {
+
+public class A {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-        int n = sc.nextInt();
-        int arr[] = sc.narr(n);
-        
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            int a  = sc.nextInt();
+            int b = sc.nextInt();
+            out.println(b - a);
+        }
 
         out.close();
     }
@@ -29,6 +34,16 @@ public class Q8 {
             for (int i = 0; i < n; i++)
                 result[i] = nextInt();
             return result;
+        }
+
+        void sort(int arr[]) {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < arr.length; i++)
+                list.add(arr[i]);
+            Collections.sort(list);
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = list.get(i);
+            }
         }
 
         String[] nstr(int n) throws IOException {
