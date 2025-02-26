@@ -1,49 +1,57 @@
-package codechef;
+package codeforces.jan22;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
-
+public class C {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-
         int t = sc.nextInt();
         while (t-- > 0) {
-            int n = sc.nextInt(), p = sc.nextInt();
-            int arr[] = sc.narr(n);
-
-            int left[] = new int[n];
-            Arrays.fill(left, Integer.MAX_VALUE);
-            int currmax = Integer.MAX_VALUE;
-            for (int i = 0; i < n; i++) {
-                if (arr[i] == 0) {
-                    currmax = 0;
-                } else {
-                    currmax = Math.max(currmax, (arr[i] + p - 1) / p);
-                }
-                left[i] = currmax;
-            }
-            currmax = Integer.MAX_VALUE;
-            for (int i = n - 1; i >= 0; i--) {
-                if (arr[i] == 0) {
-                    currmax = 0;
-                } else {
-                    currmax = Math.max(currmax, (arr[i] + p - 1) / p);
-                }
-                left[i] = Math.min(left[i], currmax);
+            int n = sc.nextInt();
+            List<List<Integer>> adj = new ArrayList<>();
+            for (int i = 0; i <= n; i++)
+                adj.add(new ArrayList<>());
+            for (int i = 1; i < n; i++) {
+                int u = sc.nextInt();
+                int v = sc.nextInt();
+                adj.get(u).add(v);
+                adj.get(v).add(u);
             }
 
-            for (int i = 0; i < n; i++) {
-                out.print(left[i] + " ");
+            int maxCardinality1 = 0;
+            int node1 = 0;
+
+            for (int i = 1; i <= n; i++) {
+                int size = adj.get(i).size();
+                if (maxCardinality1 < size) {
+                    maxCardinality1 = size;
+                    node1 = i;
+                }
             }
-            out.println();
+
+            int ans = maxCardinality1;
+            int maxCardinality2 = 0;
+            for (int i = 1; i <= n; i++) {
+                if (i == node1)
+                    continue;
+                int cnt = 0;
+                for (int node : adj.get(i)) {
+                    if (node != node1)
+                        cnt++;
+                }
+                if (cnt > maxCardinality2) {
+                    maxCardinality2 = cnt;
+                }
+            }
+            ans = ans + maxCardinality2 - 1;
+
+            out.println(ans);
+
         }
 
         out.close();
-
     }
 
     static class Scanner {

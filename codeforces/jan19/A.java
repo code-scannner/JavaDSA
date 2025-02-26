@@ -1,49 +1,34 @@
-package codechef;
+package codeforces.jan19;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
-
+public class A {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-
         int t = sc.nextInt();
         while (t-- > 0) {
-            int n = sc.nextInt(), p = sc.nextInt();
-            int arr[] = sc.narr(n);
-
-            int left[] = new int[n];
-            Arrays.fill(left, Integer.MAX_VALUE);
-            int currmax = Integer.MAX_VALUE;
-            for (int i = 0; i < n; i++) {
-                if (arr[i] == 0) {
-                    currmax = 0;
-                } else {
-                    currmax = Math.max(currmax, (arr[i] + p - 1) / p);
-                }
-                left[i] = currmax;
-            }
-            currmax = Integer.MAX_VALUE;
-            for (int i = n - 1; i >= 0; i--) {
-                if (arr[i] == 0) {
-                    currmax = 0;
-                } else {
-                    currmax = Math.max(currmax, (arr[i] + p - 1) / p);
-                }
-                left[i] = Math.min(left[i], currmax);
-            }
-
-            for (int i = 0; i < n; i++) {
-                out.print(left[i] + " ");
-            }
-            out.println();
+            int[] a = sc.narr(4);
+            int c1 = a[0] + a[1], c2 = a[2] - a[1], c3 = a[3] - a[2];
+            int l1 = fib(a[0], a[1], c1, a[2], a[3]);
+            int l2 = fib(a[0], a[1], c2, a[2], a[3]);
+            int l3 = fib(a[0], a[1], c3, a[2], a[3]);
+            System.out.println(Math.max(Math.max(l1, l2), l3));
         }
 
         out.close();
+    }
 
+    public static int fib(int a, int b, int c, int d, int e) {
+        int t = 0;
+        if (e == c + d)
+            t++;
+        if (d == b + c)
+            t++;
+        if (c == a + b)
+            t++;
+        return t;
     }
 
     static class Scanner {

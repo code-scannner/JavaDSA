@@ -1,48 +1,46 @@
-package codechef;
+package codeforces.jan19;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
-
+public class B {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-
         int t = sc.nextInt();
         while (t-- > 0) {
-            int n = sc.nextInt(), p = sc.nextInt();
-            int arr[] = sc.narr(n);
-
-            int left[] = new int[n];
-            Arrays.fill(left, Integer.MAX_VALUE);
-            int currmax = Integer.MAX_VALUE;
+            int n = sc.nextInt(), m = sc.nextInt();
+            int cows[][] = new int[n][m];
             for (int i = 0; i < n; i++) {
-                if (arr[i] == 0) {
-                    currmax = 0;
-                } else {
-                    currmax = Math.max(currmax, (arr[i] + p - 1) / p);
-                }
-                left[i] = currmax;
+                cows[i] = sc.narr(m);
             }
-            currmax = Integer.MAX_VALUE;
-            for (int i = n - 1; i >= 0; i--) {
-                if (arr[i] == 0) {
-                    currmax = 0;
-                } else {
-                    currmax = Math.max(currmax, (arr[i] + p - 1) / p);
-                }
-                left[i] = Math.min(left[i], currmax);
+            int[] ans = find(cows, n, m);
+            for (int i = 0; i < ans.length; i++) {
+                System.out.print(ans[i] + " ");
             }
-
-            for (int i = 0; i < n; i++) {
-                out.print(left[i] + " ");
-            }
-            out.println();
+            System.out.println();
         }
 
         out.close();
+    }
+
+    public static int[] find(int cows[][], int n, int m) {
+        int[] ans = new int[n];
+        boolean[] filled = new boolean[n];
+        for (int i = 0; i < n; i++) {
+            int cards[] = cows[i];
+            Arrays.sort(cards);
+            if (cards[0] >= n || filled[cards[0]])
+                return new int[] { -1 };
+            for (int j = 1; j < m; j++) {
+                if (cards[j] - cards[j - 1] != n)
+                    return new int[] { -1 };
+            }
+            filled[cards[0]] = true;
+            ans[cards[0]] = i + 1;
+        }
+
+        return ans;
 
     }
 

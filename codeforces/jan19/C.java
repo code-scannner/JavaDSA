@@ -1,49 +1,34 @@
-package codechef;
+package codeforces.jan19;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
-
+public class C {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-
         int t = sc.nextInt();
         while (t-- > 0) {
-            int n = sc.nextInt(), p = sc.nextInt();
+            int n = sc.nextInt(), k = sc.nextInt();
             int arr[] = sc.narr(n);
-
-            int left[] = new int[n];
-            Arrays.fill(left, Integer.MAX_VALUE);
-            int currmax = Integer.MAX_VALUE;
-            for (int i = 0; i < n; i++) {
-                if (arr[i] == 0) {
-                    currmax = 0;
-                } else {
-                    currmax = Math.max(currmax, (arr[i] + p - 1) / p);
-                }
-                left[i] = currmax;
+            Map<Integer, Integer> map = new HashMap<>();
+            int score = 0;
+            for (int num : arr)
+                map.merge(num, 1, Integer::sum);
+            for (int i = 1; i < k / 2; i++) {
+                score += Math.min(map.getOrDefault(i, 0), map.getOrDefault(k - i, 0));
             }
-            currmax = Integer.MAX_VALUE;
-            for (int i = n - 1; i >= 0; i--) {
-                if (arr[i] == 0) {
-                    currmax = 0;
-                } else {
-                    currmax = Math.max(currmax, (arr[i] + p - 1) / p);
-                }
-                left[i] = Math.min(left[i], currmax);
+            if (k % 2 == 0) {
+                score += map.getOrDefault(k / 2, 0) / 2;
+            }
+            else{
+                score += Math.min(map.getOrDefault(k/2, 0), map.getOrDefault(k/2 + 1, 0));
             }
 
-            for (int i = 0; i < n; i++) {
-                out.print(left[i] + " ");
-            }
-            out.println();
+            System.out.println(score);
         }
 
         out.close();
-
     }
 
     static class Scanner {

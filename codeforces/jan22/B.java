@@ -1,49 +1,47 @@
-package codechef;
+package codeforces.jan22;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
-
+public class B {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-
         int t = sc.nextInt();
         while (t-- > 0) {
-            int n = sc.nextInt(), p = sc.nextInt();
+            int n = sc.nextInt();
+            int l = sc.nextInt() - 1;
+            int r = sc.nextInt() - 1;
             int arr[] = sc.narr(n);
+            PriorityQueue<Integer> pq = new PriorityQueue<>();
+            for (int i = 0; i <= r; i++)
+                pq.offer(arr[i]);
+            int size = r - l + 1;
+            long currSum = 0;
+            long ans = Long.MAX_VALUE;
+            while (size > 0) {
+                currSum += pq.poll();
+                size--;
+            }
+            ans = Math.min(ans, currSum);
+            
+            currSum = 0;
+            size = r - l + 1;
+            pq.clear();
+            for (int i = l; i < n; i++) {
+                pq.offer(arr[i]);
+            }
+            while (size > 0) {
+                currSum += pq.poll();
+                size--;
+            }
+            ans = Math.min(ans, currSum);
 
-            int left[] = new int[n];
-            Arrays.fill(left, Integer.MAX_VALUE);
-            int currmax = Integer.MAX_VALUE;
-            for (int i = 0; i < n; i++) {
-                if (arr[i] == 0) {
-                    currmax = 0;
-                } else {
-                    currmax = Math.max(currmax, (arr[i] + p - 1) / p);
-                }
-                left[i] = currmax;
-            }
-            currmax = Integer.MAX_VALUE;
-            for (int i = n - 1; i >= 0; i--) {
-                if (arr[i] == 0) {
-                    currmax = 0;
-                } else {
-                    currmax = Math.max(currmax, (arr[i] + p - 1) / p);
-                }
-                left[i] = Math.min(left[i], currmax);
-            }
+            out.println(ans);
 
-            for (int i = 0; i < n; i++) {
-                out.print(left[i] + " ");
-            }
-            out.println();
         }
 
         out.close();
-
     }
 
     static class Scanner {

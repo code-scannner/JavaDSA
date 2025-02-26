@@ -1,49 +1,47 @@
-package codechef;
+package codeforces.feb9;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
-
-    public static void main(String[] args) throws IOException, java.lang.Exception {
-
+public class C {
+    public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);
         Scanner sc = new Scanner();
-
         int t = sc.nextInt();
         while (t-- > 0) {
-            int n = sc.nextInt(), p = sc.nextInt();
+            int n = sc.nextInt();
+            int m = sc.nextInt();
             int arr[] = sc.narr(n);
-
-            int left[] = new int[n];
-            Arrays.fill(left, Integer.MAX_VALUE);
-            int currmax = Integer.MAX_VALUE;
-            for (int i = 0; i < n; i++) {
-                if (arr[i] == 0) {
-                    currmax = 0;
-                } else {
-                    currmax = Math.max(currmax, (arr[i] + p - 1) / p);
+            m = sc.nextInt();
+            boolean possible = check(arr);
+            for (int i = 1; i < n; i++) {
+                if (arr[i] < arr[i - 1]) {
+                    int elem = arr[i];
+                    arr[i] = m - arr[i];
+                    if (check(arr))
+                        possible = true;
+                    arr[i] = elem;
+                    arr[i - 1] = m - arr[i - 1];
+                    if (check(arr))
+                        possible = true;
+                    break;
                 }
-                left[i] = currmax;
-            }
-            currmax = Integer.MAX_VALUE;
-            for (int i = n - 1; i >= 0; i--) {
-                if (arr[i] == 0) {
-                    currmax = 0;
-                } else {
-                    currmax = Math.max(currmax, (arr[i] + p - 1) / p);
-                }
-                left[i] = Math.min(left[i], currmax);
             }
 
-            for (int i = 0; i < n; i++) {
-                out.print(left[i] + " ");
-            }
-            out.println();
+            out.println(possible ? "YES" : "NO");
+
         }
 
         out.close();
+    }
 
+    public static boolean check(int arr[]) {
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] < arr[i - 1])
+                return false;
+        }
+
+        return true;
     }
 
     static class Scanner {
