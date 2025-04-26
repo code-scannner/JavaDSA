@@ -30,7 +30,7 @@ public class BinaryIndexedTree {
 
     public int sum(int i) {
         int s = 0;
-        while (i > 0) {
+        while (i >= 0) {
             s += bit[i];
             i = (i & (i + 1)) - 1; // moving to previous segment
         }

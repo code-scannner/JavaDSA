@@ -1,9 +1,9 @@
-package codechef;
+package codeforces.april19;
 
 import java.util.*;
 import java.io.*;
 
-class Codechef {
+public class B {
 
     public static void main(String[] args) throws IOException, java.lang.Exception {
 
@@ -12,34 +12,22 @@ class Codechef {
 
         int t = sc.nextInt();
         while (t-- > 0) {
-            int n = sc.nextInt(), p = sc.nextInt();
-            int arr[] = sc.narr(n);
-
-            int left[] = new int[n];
-            Arrays.fill(left, Integer.MAX_VALUE);
-            int currmax = Integer.MAX_VALUE;
+            int n = sc.nextInt();
+            int k = sc.nextInt();
+            int l[] = sc.narr(n);
+            int r[] = sc.narr(n);
+            PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> b - a);
+            long ans = 0;
             for (int i = 0; i < n; i++) {
-                if (arr[i] == 0) {
-                    currmax = 0;
-                } else {
-                    currmax = Math.max(currmax, (arr[i] + p - 1) / p);
-                }
-                left[i] = currmax;
-            }
-            currmax = Integer.MAX_VALUE;
-            for (int i = n - 1; i >= 0; i--) {
-                if (arr[i] == 0) {
-                    currmax = 0;
-                } else {
-                    currmax = Math.max(currmax, (arr[i] + p - 1) / p);
-                }
-                left[i] = Math.min(left[i], currmax);
+                ans += Math.max(l[i], r[i]);
+                pq.offer(Math.min(l[i], r[i]));
             }
 
-            for (int i = 0; i < n; i++) {
-                out.print(left[i] + " ");
+            for (int i = 0; i < k - 1; i++) {
+                ans += pq.poll();
             }
-            out.println();
+
+            out.println(ans + 1);
         }
 
         out.close();
@@ -63,6 +51,16 @@ class Codechef {
             for (int i = 0; i < n; i++)
                 result[i] = nextInt();
             return result;
+        }
+
+        void sort(int arr[]) {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < arr.length; i++)
+                list.add(arr[i]);
+            Collections.sort(list);
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = list.get(i);
+            }
         }
 
         String[] nstr(int n) throws IOException {
