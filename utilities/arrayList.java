@@ -3,12 +3,12 @@ import java.util.*;
 
 public class arrayList {
     public static void main(String[] args) {
-        List<Integer> list = new ArrayList<>();
-        // LinkedList<Integer> [] adj = new LinkedList[4];
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
+        
 
         // list.add(4);
         // list.add(5);
-        System.out.println(list);
+        // System.out.println(list);
 
         // list to array for premitive data type
         // int array[] = list.stream().mapToInt(Integer::intValue).toArray();

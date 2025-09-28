@@ -13,12 +13,13 @@ public class RangeSum {
         System.out.println(sg.query(1, 3));
     }
 
-    public static void usingBinaryIndexedTree(int arr[]){
+    public static void usingBinaryIndexedTree(){
+        int arr[] = { 1, 3, 2, 0, 4, 5 };
         BinaryIndexedTree bitree = new BinaryIndexedTree(arr);
-        System.out.println(bitree.sum(1));
-        bitree.add(0, 5);
-        System.out.println(bitree.sum(2));
-        System.out.println(bitree.sum(1, 2));
+        System.out.println(bitree.sum(1)); // return 4
+        bitree.add(0, 5); 
+        System.out.println(bitree.sum(2)); // return 11
+        System.out.println(bitree.sum(1, 2));// return 5
     }
 
     public static void usingLazySegmentation(int arr[]){
@@ -30,10 +31,10 @@ public class RangeSum {
 
     }
     public static void main(String[] args) {
-        int arr[] = { 1, 3, 2, 0, 4, 5 };
+        // int arr[] = { 1, 3, 2, 0, 4, 5 };
         // usingSegmentTree(arr);
-        // usingBinaryIndexedTree(arr);
-        usingLazySegmentation(arr);
+        usingBinaryIndexedTree();
+        // usingLazySegmentation(arr);
         
     }
 }

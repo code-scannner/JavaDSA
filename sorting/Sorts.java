@@ -34,9 +34,54 @@ public class Sorts {
         }
     }
 
+    public static int quickSelect(int nums[], int l, int r, int k) {
+        if (l <= r) {
+            int pivot = partition(nums, l, r);
+            if (pivot == k)
+                return nums[k];
+            if (pivot > k)
+                return quickSelect(nums, l, pivot - 1, k);
+            else
+                return quickSelect(nums, pivot + 1, r, k);
+        } else
+            return -1;
+    }
+
+    public static void quickSort(int nums[], int l, int r) {
+        if (l < r) {
+            int pivot = partition(nums, l, r);
+            quickSort(nums, l, pivot - 1);
+            quickSort(nums, pivot + 1, r);
+        }
+    }
+
+    public static void swap(int[] nums, int l, int r) {
+        int temp = nums[l];
+        nums[l] = nums[r];
+        nums[r] = temp;
+    }
+
+    public static int partition(int[] nums, int l, int r) {
+        int x = nums[r];
+        int i = l;
+        for (int j = l; j <= r - 1; j++) {
+            if (nums[j] <= x) {
+                swap(nums, j, i);
+                i++;
+            }
+        }
+        swap(nums, i, r);
+        return i;
+    }
+
     public static void main(String[] args) {
         int arr[] = { 8, 4, 6, 2, 4, 3, 7, 8, 5, 4 };
-        mergeSort(arr, 0, arr.length - 1);
+        // mergeSort(arr, 0, arr.length - 1);
+        // quickSort(arr, 0, arr.length - 1);
+        // for(int i = 0; i<arr.length; i++){
+        //     System.out.print(quickSelect(arr, 0, arr.length - 1, i) + " ");
+        // }
+        // System.out.println();
         System.out.println(Arrays.toString(arr));
 
     }

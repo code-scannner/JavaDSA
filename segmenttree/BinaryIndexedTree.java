@@ -1,43 +1,52 @@
 package segmenttree;
 
-// fenwick tree for Range Query point update
+// Fenwick Tree (Binary Indexed Tree) for Range Query + Point Update
 public class BinaryIndexedTree {
-    // 0 indexed tree
-    int bit[];
+    // 1-indexed internal tree
+    int[] bit;
 
-    BinaryIndexedTree(int arr[]) {
+    // Build from array in O(n)
+    public BinaryIndexedTree(int[] arr) {
         int n = arr.length;
-        bit = new int[n];
-        // linear construction O(n);
-        for (int i = 0; i < n; i++) {
-            bit[i] += arr[i];
-            int next = i | (i + 1);
-            if (next < n)
-                bit[next] += bit[i];
+        bit = new int[n + 1];
+
+        for (int i = 1; i <= n; i++) {
+            bit[i] += arr[i - 1];
+            int parent = i + (i & -i); // move to next segment
+            if (parent <= n) {
+                bit[parent] += bit[i];
+            }
         }
     }
 
-    BinaryIndexedTree(int n) {
-        bit = new int[n];
+    // Empty BIT of given size
+    public BinaryIndexedTree(int n) {
+        bit = new int[n + 1];
     }
 
+    // Add 'val' to index i (0-based index)
     public void add(int i, int val) {
+        i++; // convert to 1-based
         while (i < bit.length) {
             bit[i] += val;
-            i |= (i + 1); // moving to next segment
+            i += i & -i; // move to next segment
         }
     }
-
+    
+    // Prefix sum from 0 to i (0-based index)
     public int sum(int i) {
+        i++; // convert to 1-based
         int s = 0;
-        while (i >= 0) {
+        while (i > 0) {
             s += bit[i];
-            i = (i & (i + 1)) - 1; // moving to previous segment
+            i -= i & -i; // move to previous segment
         }
         return s;
     }
 
+    // Range sum from l to r inclusive (0-based indices)
     public int sum(int l, int r) {
-        return sum(r) - sum(l - 1);
+        if (l > r) return 0; // safety
+        return sum(r) - (l > 0 ? sum(l - 1) : 0);
     }
 }

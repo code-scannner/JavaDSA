@@ -133,6 +133,7 @@ public class LongestIncreasingSubsequence {
         int maxL = 1, maxCount = 1;
         for (int i = 1; i < n; i++) {
             dp[i] = 1;
+            count[i] = 1;
             for (int j = i - 1; j >= 0; j--) {
                 if (arr[j] < arr[i]) {
                     if (dp[i] < 1 + dp[j]) {
@@ -147,6 +148,8 @@ public class LongestIncreasingSubsequence {
             if (maxL < dp[i]) {
                 maxL = dp[i];
                 maxCount = count[i];
+            } else if (maxL == dp[i]) {
+                maxCount += count[i];
             }
         }
 
