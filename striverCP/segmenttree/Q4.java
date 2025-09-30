@@ -3,8 +3,6 @@ package striverCP.segmenttree;
 import java.util.*;
 import java.io.*;
 
-// TODO: TIME LIMIT EXCEEDED
-
 public class Q4 {
     public static void main(String[] args) throws IOException {
         PrintWriter out = new PrintWriter(System.out);

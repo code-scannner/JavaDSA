@@ -2,7 +2,61 @@ package graph;
 
 import java.util.*;
 
+class Pair {
+    int node;
+    int weight;
+
+    Pair(int node, int weight) {
+        this.node = node;
+        this.weight = weight;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof Pair))
+            return false;
+        Pair p = (Pair) o;
+        return node == p.node && weight == p.weight;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(node, weight);
+    }
+}
+
 public class Dijkistra {
+
+    public static int[] dijkistraOptimal(List<List<int[]>> adj, int src) {
+        int V = adj.size(), MAX = Integer.MAX_VALUE;
+        int[] dis = new int[V];
+
+        Arrays.fill(dis, MAX);
+        dis[src] = 0;
+        
+        // {node, dis}
+        TreeSet<Pair> set = new TreeSet<>((a, b) -> a.weight != b.weight ? a.weight - b.weight : a.node - b.node);
+        set.add(new Pair(src, 0));
+        while (!set.isEmpty()) {
+            Pair currNode = set.pollFirst();
+            for (int next[] : adj.get(currNode.node)) {
+                int nextEdge = next[0];
+                int nextMin = currNode.weight + next[1];
+                if (nextMin < dis[nextEdge]) {
+                    set.remove(new Pair(nextEdge, dis[nextEdge]));
+                    dis[nextEdge] = nextMin;
+                    set.add(new Pair(nextEdge, nextMin));
+                }
+            }
+        }
+        for (int i = 0; i < dis.length; i++) {
+            if (dis[i] == MAX)
+                dis[i] = -1; // indicating it is impossible to reach at that node
+        }
+        return dis;
+    }
 
     public static int[] dijkistra(List<List<int[]>> adj, int src) {
         int V = adj.size(), MAX = (int) 1e9;
@@ -66,31 +120,29 @@ public class Dijkistra {
         return Arrays.asList(-1);
     }
 
-
     // for larger edge weights we need to use pair class to pass all testcases
     public static int count_ways_to_reach_destination_in_shortest_time(List<List<int[]>> adj, int src, int dest) {
-        long MAX = (long)1e12;
-        int mod = (int)1e9 + 7, n = adj.size();
+        long MAX = (long) 1e12;
+        int mod = (int) 1e9 + 7, n = adj.size();
         long[] dis = new long[n];
-        int [] count =  new int[n];
+        int[] count = new int[n];
         count[src] = 1;
         Arrays.fill(dis, MAX);
         dis[src] = 0;
         // {node, dis}
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) ->a[0]- b[0]);
-        pq.offer(new int[]{src, 0 });
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        pq.offer(new int[] { src, 0 });
         while (!pq.isEmpty()) {
-            int[]  currNode = pq.poll();
+            int[] currNode = pq.poll();
             for (int next[] : adj.get(currNode[0])) {
                 int nextEdge = next[0];
                 int nextMin = currNode[1] + next[1];
                 if (nextMin < dis[nextEdge]) {
                     dis[nextEdge] = nextMin;
                     count[nextEdge] = count[currNode[0]];
-                    pq.offer(new int[]{nextEdge, nextMin});
-                }
-                else if(nextMin == dis[nextEdge]){
-                    count[nextEdge] = (int)(((long)count[nextEdge] + count[currNode[0]])%mod);
+                    pq.offer(new int[] { nextEdge, nextMin });
+                } else if (nextMin == dis[nextEdge]) {
+                    count[nextEdge] = (int) (((long) count[nextEdge] + count[currNode[0]]) % mod);
                 }
             }
         }

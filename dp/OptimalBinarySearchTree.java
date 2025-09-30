@@ -1,7 +1,5 @@
 package dp;
 
-import java.util.*;
-
 public class OptimalBinarySearchTree {
 
     public static void main(String[] args) {
